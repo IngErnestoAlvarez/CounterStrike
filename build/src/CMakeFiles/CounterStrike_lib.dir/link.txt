@@ -1,2 +1,0 @@
-/usr/bin/ar qc libCounterStrike_lib.a  CMakeFiles/CounterStrike_lib.dir/main.cpp.o CMakeFiles/CounterStrike_lib.dir/prueba.cpp.o
-/usr/bin/ranlib libCounterStrike_lib.a

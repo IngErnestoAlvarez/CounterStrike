@@ -1,1 +1,0 @@
-/usr/bin/c++  -g   CMakeFiles/CounterStrike_tst.dir/Prueba-test.cpp.o CMakeFiles/CounterStrike_tst.dir/Prueba2-test.cpp.o CMakeFiles/CounterStrike_tst.dir/main.cpp.o  -o CounterStrike_tst  ../src/libCounterStrike_lib.a ../lib/libgtestd.a -lpthread 

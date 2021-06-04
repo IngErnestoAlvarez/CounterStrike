@@ -1,1 +1,0 @@
-/usr/bin/c++  -g   CMakeFiles/CounterStrike_run.dir/main.cpp.o CMakeFiles/CounterStrike_run.dir/prueba.cpp.o  -o CounterStrike_run 
