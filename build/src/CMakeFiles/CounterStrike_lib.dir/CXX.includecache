@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/oem/Taller/TPfinal/CounterStrike/src/main.cpp
+iostream
+-
+prueba.h
+/home/oem/Taller/TPfinal/CounterStrike/src/prueba.h
+
+/home/oem/Taller/TPfinal/CounterStrike/src/prueba.cpp
+prueba.h
+/home/oem/Taller/TPfinal/CounterStrike/src/prueba.h
+
+/home/oem/Taller/TPfinal/CounterStrike/src/prueba.h
+
