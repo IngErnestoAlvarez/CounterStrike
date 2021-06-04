@@ -34,3 +34,4 @@
 # Tests
 
 lib/googletest
+build/
