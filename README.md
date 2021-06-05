@@ -25,7 +25,14 @@ cd build
 cmake .. -D CMAKE_BUILD_TYPE=Debug -G "Unix Makefiles"
 ```
 
-3. Dentro de la carpeta *build* habrá carpetas *src*, *test*:
+3. Dentro de build correr los Makefiles generados pro cmake:
+```bash
+make all
+make CounterStrike_run
+make CounterStrike_tst
+```
+
+4. Dentro de la carpeta *build* habrá carpetas *src*, *test*:
 
     - En la carpeta *src* para ejecutar el programa:
     ```bash
