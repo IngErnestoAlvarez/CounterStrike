@@ -1,8 +1,14 @@
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_timer.h>
+
 #include <iostream>
 
-#include "prueba.h"
+#include "sdl/SdlWindow.h"
 
 int main(int argc, char const *argv[]) {
-    std::cout << "Hola mundo" << std::endl;
+    SdlWindow window(800, 600);
+    window.fill();
+    window.render();
+    SDL_Delay(3000);
     return 0;
 }
