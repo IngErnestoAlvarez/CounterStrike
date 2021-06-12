@@ -1,8 +1,11 @@
 #include "SdlWindow.h"
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
+
+#include <vector>
 
 SdlWindow::SdlWindow(int width, int height) : width(width), height(height) {
     int code = SDL_Init(SDL_INIT_VIDEO);
@@ -36,4 +39,7 @@ void SdlWindow::fill() { this->fill(0x33, 0x33, 0x33, 0xFF); }
 
 void SdlWindow::render() { SDL_RenderPresent(this->renderer); }
 
-SDL_Renderer *SdlWindow::getRendered() const { return this->renderer; }
+SDL_Renderer *SdlWindow::getRendered() const {
+    if (this->renderer == NULL) throw;
+    return this->renderer;
+}
