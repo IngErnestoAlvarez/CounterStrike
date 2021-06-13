@@ -1,0 +1,12 @@
+port: 8000
+game_settings:
+  player_health: 100
+  weapons:
+    knife:
+      damage: 3
+      range: 1
+      precision: 1
+    glock:
+      damage: 10
+      range: 5
+      precision: 0.7
