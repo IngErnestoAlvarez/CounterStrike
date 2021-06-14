@@ -1,4 +1,4 @@
-#include "../include/cell.h"
+#include "cell.h"
 
 Cell::Cell(bool accesible)
     : accesible(accesible) {}

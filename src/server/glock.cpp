@@ -1,5 +1,5 @@
-#include "../include/glock.h"
-#include "../include/configuration.h"
+#include "glock.h"
+#include "configuration.h"
 
 Glock::Glock(const Configuration& config)
     : Weapon("Glock", config) {

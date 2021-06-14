@@ -1,6 +1,6 @@
-#include "../include/weapon.h"
-#include "../include/player.h"
-#include "../include/configuration.h"
+#include "weapon.h"
+#include "player.h"
+#include "configuration.h"
 
 Weapon::Weapon(const std::string& name,
                const Configuration& config)

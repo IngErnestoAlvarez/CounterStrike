@@ -1,5 +1,5 @@
 #include "yaml-cpp/yaml.h"
-#include "../include/configuration.h"
+#include "configuration.h"
 
 Configuration::Configuration(const std::string& config_filepath) {
     YAML::Node config_object = YAML::LoadFile(config_filepath);

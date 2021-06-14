@@ -1,7 +1,7 @@
 #include <unordered_map>
 #include "yaml-cpp/yaml.h"
-#include "../include/map.h"
-#include "../include/cell.h"
+#include "map.h"
+#include "cell.h"
 typedef std::unordered_map<std::string, std::string> MapObject;
 
 Map::Map(const std::string& map_filepath) {

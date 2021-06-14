@@ -1,7 +1,7 @@
-#include "../include/player.h"
-#include "../include/map.h"
-#include "../include/weapon_factory.h"
-#include "../include/game.h"
+#include "player.h"
+#include "map.h"
+#include "weapon_factory.h"
+#include "game.h"
 
 Player::Player(Game& game, int x, int y) : game(game), x(x), y(y) {}
 

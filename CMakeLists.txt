@@ -16,15 +16,20 @@ find_package(PkgConfig REQUIRED)
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
 
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(yaml_cpp REQUIRED yaml-cpp)
+
 include_directories(${SDL2_INCLUDE_DIRS})
 include_directories(${SDL2_IMAGE_INCLUDE_DIRS})
+include_directories(${YAML_CPP_INCLUDE_DIRS})
 
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-include_directories(src)
+include_directories(include)
 
-add_compile_options(-w -std=c++11 -lSDL2 -lSDL2_image)
+add_compile_options(-w -std=c++11 -lSDL2 -lSDL2_image -lyaml-cpp)
 
 add_subdirectory(src)
 add_subdirectory(test)
+

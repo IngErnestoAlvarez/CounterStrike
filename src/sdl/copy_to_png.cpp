@@ -1,4 +1,4 @@
-#include "copy_to_png.h"
+#include "sdl/copy_to_png.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>

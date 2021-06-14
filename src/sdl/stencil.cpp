@@ -1,4 +1,4 @@
-#include "stencil.h"
+#include "sdl/stencil.h"
 
 Stencil::Stencil(int cone_angle, int circle_radius)
     : cone_angle(cone_angle), circle_radius(circle_radius) {}

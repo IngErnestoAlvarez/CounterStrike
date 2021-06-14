@@ -1,6 +1,6 @@
-#include "../include/game.h"
-#include "../include/map.h"
-#include "../include/player.h"
+#include "game.h"
+#include "map.h"
+#include "player.h"
 
 Game::Game(const std::string& config_filepath, const std::string& map_filepath)
     : config(config_filepath), map(map_filepath) {

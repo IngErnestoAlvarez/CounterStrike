@@ -36,3 +36,6 @@
 
 lib/googletest
 build/
+
+#resources
+resources/
