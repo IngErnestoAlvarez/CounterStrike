@@ -1,4 +1,4 @@
-#include "sdl/SdlWindow.h"
+#include "game_io/sdl/SdlWindow.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>

@@ -1,8 +1,8 @@
-#include "player.h"
+#include "game_logic/player.h"
 
-#include "game.h"
-#include "map.h"
-#include "weapon_factory.h"
+#include "game_logic/game.h"
+#include "game_logic/map.h"
+#include "game_logic/weapons/weapon_factory.h"
 
 Player::Player(Game &game, int x, int y) : x(x), y(y), game(game) {}
 

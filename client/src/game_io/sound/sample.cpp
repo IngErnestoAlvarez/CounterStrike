@@ -1,4 +1,4 @@
-#include "sound/sample.h"
+#include "game_io/sound/sample.h"
 
 #include <iostream>
 

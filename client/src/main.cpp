@@ -4,8 +4,8 @@
 
 #include <iostream>
 
-#include "sdl/SdlWindow.h"
-#include "sound/sample.h"
+#include "game_io/sdl/SdlWindow.h"
+#include "game_io/sound/sample.h"
 
 int main(int argc, char const *argv[]) {
     SDL_Init(SDL_INIT_AUDIO);

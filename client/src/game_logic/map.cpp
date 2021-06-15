@@ -1,10 +1,12 @@
+#include "game_logic/map.h"
+
 #include <unordered_map>
+
+#include "game_logic/cell.h"
 #include "yaml-cpp/yaml.h"
-#include "map.h"
-#include "cell.h"
 typedef std::unordered_map<std::string, std::string> MapObject;
 
-Map::Map(const std::string& map_filepath) {
+Map::Map(const std::string &map_filepath) {
     YAML::Node map_object = YAML::LoadFile(map_filepath);
     std::vector<int> map_grid = map_object["grid"].as<std::vector<int>>();
 
@@ -21,22 +23,12 @@ bool Map::canBeAccesed(int x, int y) {
     return this->getCellAt(x, y)->canBeAccesed();
 }
 
-const std::string& Map::getName() {
-    return this->name;
-}
+const std::string &Map::getName() { return this->name; }
 
-Cell* Map::getCellAt(int x, int y) {
-    return this->grid[this->height * y + x];
-}
+Cell *Map::getCellAt(int x, int y) { return this->grid[this->height * y + x]; }
 
-int Map::getWeaponAt(int x, int y) {
-    return 1;
-}
+int Map::getWeaponAt(int x, int y) { return 1; }
 
-int Map::getWidth() const {
-    return this->width;
-}
+int Map::getWidth() const { return this->width; }
 
-int Map::getHeight() const {
-    return this->height;
-}
+int Map::getHeight() const { return this->height; }

@@ -1,33 +1,21 @@
-#include "game.h"
-#include "map.h"
-#include "player.h"
+#include "game_logic/game.h"
 
-Game::Game(const std::string& config_filepath, const std::string& map_filepath)
-    : config(config_filepath), map(map_filepath) {
-}
+#include "game_logic/map.h"
+#include "game_logic/player.h"
 
-void Game::moveUp(int player_id) {
-    this->players.at(player_id).moveUp();
-}
+Game::Game(const std::string &config_filepath, const std::string &map_filepath)
+    : config(config_filepath), map(map_filepath) {}
 
-void Game::moveDown(int player_id) {
-    this->players.at(player_id).moveDown();
-}
+void Game::moveUp(int player_id) { this->players.at(player_id).moveUp(); }
 
-void Game::moveLeft(int player_id) {
-    this->players.at(player_id).moveLeft();
-}
+void Game::moveDown(int player_id) { this->players.at(player_id).moveDown(); }
 
-void Game::moveRight(int player_id) {
-    this->players.at(player_id).moveRight();
-}
+void Game::moveLeft(int player_id) { this->players.at(player_id).moveLeft(); }
 
-Map& Game::getMap() {
-    return this->map;
-}
+void Game::moveRight(int player_id) { this->players.at(player_id).moveRight(); }
 
-const Configuration& Game::getConfig() {
-    return this->config;
-}
+Map &Game::getMap() { return this->map; }
+
+const Configuration &Game::getConfig() { return this->config; }
 
 Game::~Game() {}
