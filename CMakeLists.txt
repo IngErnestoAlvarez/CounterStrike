@@ -13,10 +13,11 @@ list(FILTER CLIENT_SRCS EXCLUDE REGEX "main.cpp")
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
 find_package(SDL2_mixer REQUIRED)
+find_package(SDL2_ttf REQUIRED)
 find_package(yaml-cpp REQUIRED)
 
 include_directories(
-    ${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS} ${SDL2_MIXER_INCLUDE_DIRS})
+    ${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS} ${SDL2_MIXER_INCLUDE_DIRS} ${SDL2_TTF_INCLUDE_DIRS})
 include_directories(client/include)
 
 include(FetchContent)
@@ -29,7 +30,7 @@ add_library(libclient STATIC ${CLIENT_SRCS})
 
 target_link_libraries(
     libclient 
-    ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${SDL2_MIXER_LIBRARIES} yaml-cpp
+    ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${SDL2_MIXER_LIBRARIES} ${SDL2_TTF_LIBRARIES} yaml-cpp
     )
 
 add_executable(CounterStrike_run "client/src/main.cpp")
