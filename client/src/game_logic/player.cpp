@@ -1,12 +1,13 @@
 #include "player.h"
+
+#include "game.h"
 #include "map.h"
 #include "weapon_factory.h"
-#include "game.h"
 
-Player::Player(Game& game, int x, int y) : game(game), x(x), y(y) {}
+Player::Player(Game &game, int x, int y) : x(x), y(y), game(game) {}
 
 void Player::move(int x_target, int y_target) {
-    Map& map = this->game.getMap();
+    Map &map = this->game.getMap();
     if (!map.canBeAccesed(x_target, y_target)) {
         return;
     }
@@ -21,30 +22,18 @@ void Player::move(int x_target, int y_target) {
     }
 }
 
-void Player::moveUp() {
-    this->move(this->x, this->y - 1);
-}
+void Player::moveUp() { this->move(this->x, this->y - 1); }
 
-void Player::moveDown() {
-    this->move(this->x, this->y + 1);
-}
+void Player::moveDown() { this->move(this->x, this->y + 1); }
 
-void Player::moveLeft() {
-    this->move(this->x - 1, this->y);
-}
+void Player::moveLeft() { this->move(this->x - 1, this->y); }
 
-void Player::moveRight() {
-    this->move(this->x + 1, this->y);
-}
+void Player::moveRight() { this->move(this->x + 1, this->y); }
 
 void Player::addWeaponToInventory(int weapon_id) {
     this->inventory.push_back(WeaponFactory::create(this->game, weapon_id));
 }
 
-int Player::getX() const {
-    return this->x;
-}
+int Player::getX() const { return this->x; }
 
-int Player::getY() const {
-    return this->y;
-}
+int Player::getY() const { return this->y; }
