@@ -1,8 +1,11 @@
 #include "sound/sample.h"
 
+#include <iostream>
+
 Sample::Sample(const std::string &filepath) {
     this->chunk = Mix_LoadWAV(filepath.c_str());
     if (this->chunk == NULL) {
+        std::cout << filepath << std::endl;
         throw 1;
     }
 }
