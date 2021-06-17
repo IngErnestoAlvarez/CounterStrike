@@ -15,6 +15,7 @@ SdlSurface::SdlSurface(int width, int height) {
 SdlSurface &SdlSurface::operator=(SDL_Surface *surface) {
     this->empty();
     this->surface = surface;
+    return *this;
 }
 
 SdlSurface::~SdlSurface() { this->empty(); }
@@ -22,5 +23,6 @@ SdlSurface::~SdlSurface() { this->empty(); }
 void SdlSurface::empty() {
     if (this->surface != nullptr) {
         SDL_FreeSurface(this->surface);
+        this->surface = nullptr;
     }
 }

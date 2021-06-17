@@ -10,7 +10,15 @@ class SdlTexture {
     SDL_Texture *texture;
 
    public:
+    SdlTexture();
     SdlTexture(int width, int height, SdlWindow &renderer);
+
+    SdlTexture &operator=(SDL_Texture *);
+
+    ~SdlTexture();
+
+   private:
+    void empty();
 };
 
 #endif
