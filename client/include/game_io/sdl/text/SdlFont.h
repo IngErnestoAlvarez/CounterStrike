@@ -5,6 +5,8 @@
 
 #include <string>
 
+class SdlText;
+
 class SdlFont {
    private:
     TTF_Font *font;
@@ -13,6 +15,10 @@ class SdlFont {
     SdlFont();
     SdlFont(std::string const &fontname);
     SdlFont(std::string const &fontname, size_t font_size);
+
+    ~SdlFont();
+
+    friend SdlText;
 };
 
 #endif

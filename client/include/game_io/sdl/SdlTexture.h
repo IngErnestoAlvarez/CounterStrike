@@ -3,12 +3,14 @@
 
 #include <SDL2/SDL.h>
 
+#include "game_io/sdl/SdlWindow.h"
+
 class SdlTexture {
    private:
     SDL_Texture *texture;
 
    public:
-    SdlTexture(int width, int height, SdlRenderer renderer);
+    SdlTexture(int width, int height, SdlWindow &renderer);
 };
 
 #endif
