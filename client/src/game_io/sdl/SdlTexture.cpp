@@ -14,8 +14,9 @@ SdlTexture::~SdlTexture() { this->empty(); }
 
 SdlTexture &SdlTexture::operator=(SDL_Texture *texture) {
     this->empty();
-
     this->texture = texture;
+
+    return *this;
 }
 
 void SdlTexture::empty() {

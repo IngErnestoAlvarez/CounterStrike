@@ -8,7 +8,10 @@ set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -O0 -Werror -pedantic")
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ggdb -DDEBUG -fno-inline ")
 
 file(GLOB_RECURSE CLIENT_SRCS ./client/src/*.cpp)
+file(GLOB_RECURSE COMMON_SRCS ./common/src/*.cpp)
+
 list(FILTER CLIENT_SRCS EXCLUDE REGEX "main.cpp")
+list(FILTER COMMON_SRCS EXCLUDE REGEX "main.cpp")
 
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
@@ -19,6 +22,7 @@ find_package(yaml-cpp REQUIRED)
 include_directories(
     ${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS} ${SDL2_MIXER_INCLUDE_DIRS} ${SDL2_TTF_INCLUDE_DIRS})
 include_directories(client/include)
+include_directories(common/include)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -27,19 +31,25 @@ FetchContent_Declare(
 )
 
 add_library(libclient STATIC ${CLIENT_SRCS})
+add_library(libcommon STATIC ${COMMON_SRCS})
 
 target_link_libraries(
     libclient 
     ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${SDL2_MIXER_LIBRARIES} ${SDL2_TTF_LIBRARIES} yaml-cpp
     )
 
+target_link_libraries(
+    libcommon 
+    ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${SDL2_MIXER_LIBRARIES} ${SDL2_TTF_LIBRARIES} yaml-cpp
+    )
+
 add_executable(CounterStrike_run "client/src/main.cpp")
-TARGET_LINK_LIBRARIES(CounterStrike_run libclient)
+TARGET_LINK_LIBRARIES(CounterStrike_run libclient libcommon)
 
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-install(TARGETS ${BINARY} libclient 
+install(TARGETS ${BINARY} libclient libcommon
         ARCHIVE DESTINATION "lib"
         RUNTIME DESTINATION "bin"
         INCLUDES DESTINATION "include")

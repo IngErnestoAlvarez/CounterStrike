@@ -4,19 +4,16 @@
 
 #include <iostream>
 
-#include "game_io/sdl/SdlWindow.h"
-#include "game_io/sound/sample.h"
+#include "game_io/modelo_io.h"
+#include "game_logic/modelo_logic.h"
 
 int main(int argc, char const *argv[]) {
-    SDL_Init(SDL_INIT_AUDIO);
-    Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 1, 4096);
-    Sample sound("../assets/sounds/SHOT.wav");
-    sound.play();
-
-    std::getchar();
-
-    Mix_CloseAudio();
-    Mix_Quit();
-    SDL_Quit();
+    bool jugando = true;
+    ModeloLogic juego;
+    ModeloIO vista(juego);
+    while (jugando) {
+        juego.update();
+        jugando = vista.update();
+    }
     return 0;
 }
