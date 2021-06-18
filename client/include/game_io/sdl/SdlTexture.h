@@ -6,18 +6,24 @@
 #include "game_io/sdl/SdlWindow.h"
 
 class SdlTexture {
-   private:
+   protected:
     SDL_Texture *texture;
+    SdlWindow *window;
+    int width;
+    int height;
 
    public:
-    SdlTexture();
+    SdlTexture(SdlWindow &window);
     SdlTexture(int width, int height, SdlWindow &renderer);
 
     SdlTexture &operator=(SDL_Texture *);
 
-    ~SdlTexture();
+    void render(SdlWindow &renderer, int x, int y, float angle,
+                SDL_Point &center, SDL_Rect *clip = nullptr);
 
-   private:
+    virtual ~SdlTexture();
+
+   protected:
     void empty();
 };
 
