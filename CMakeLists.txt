@@ -38,6 +38,8 @@ target_link_libraries(
     ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${SDL2_MIXER_LIBRARIES} ${SDL2_TTF_LIBRARIES} yaml-cpp
     )
 
+target_link_libraries(libclient -ldl -lBox2D)
+
 target_link_libraries(
     libcommon 
     ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${SDL2_MIXER_LIBRARIES} ${SDL2_TTF_LIBRARIES} yaml-cpp

@@ -9,5 +9,7 @@ for installation:
 
 `sudo apt-get install libyaml-cpp-dev`
 
+`sudo apt-get install libbox2d-dev`
+
 `sudo apt-get install cimg-dev`
 
