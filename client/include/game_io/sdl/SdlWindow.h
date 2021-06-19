@@ -11,7 +11,11 @@ class SdlWindow {
     int height;
 
    public:
+    SdlWindow();
     SdlWindow(int width, int height);
+
+    SdlWindow &operator=(SdlWindow const &) = delete;
+    SdlWindow &operator=(SdlWindow &&);
 
     ~SdlWindow();
 

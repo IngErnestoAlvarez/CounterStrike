@@ -5,17 +5,26 @@
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
 
+#include <stdexcept>
 #include <vector>
 
+SdlWindow::SdlWindow()
+    : window(nullptr), renderer(nullptr), width(0), height(0) {}
+
 SdlWindow::SdlWindow(int width, int height) : width(width), height(height) {
-    int code = SDL_Init(SDL_INIT_VIDEO);
-    if (code) {
-        // SDl exception
+    window = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED,
+                              SDL_WINDOWPOS_UNDEFINED, width, height,
+                              SDL_WINDOW_SHOWN);
+    if (window == NULL) {
+        throw std::runtime_error("Window could not be created!");
     }
-    code = SDL_CreateWindowAndRenderer(width, height, SDL_RENDERER_ACCELERATED,
-                                       &this->window, &this->renderer);
-    if (code) {
-        // SDL exception
+
+    renderer = SDL_CreateRenderer(
+        window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    if (renderer == nullptr) {
+        SDL_DestroyWindow(window);
+        window = nullptr;
+        throw std::runtime_error("Renderer could not be created!");
     }
 }
 
@@ -28,6 +37,19 @@ SdlWindow::~SdlWindow() {
         SDL_DestroyWindow(this->window);
         this->window = nullptr;
     }
+}
+SdlWindow &SdlWindow::operator=(SdlWindow &&other) {
+    if (this == &other) return *this;
+
+    this->window = other.window;
+    other.window = nullptr;
+    this->renderer = other.renderer;
+    other.window = nullptr;
+    this->width = other.width;
+    other.width = 0;
+    this->height = other.height;
+    other.height = 0;
+    return *this;
 }
 
 void SdlWindow::fill(int r, int g, int b, int alpha) {

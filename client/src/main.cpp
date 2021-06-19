@@ -4,16 +4,12 @@
 
 #include <iostream>
 
-#include "game_io/modelo_io.h"
-#include "game_logic/modelo_logic.h"
+#include "game.h"
 
 int main(int argc, char const *argv[]) {
-    bool jugando = true;
-    ModeloLogic juego;
-    ModeloIO vista(juego);
-    while (jugando) {
-        juego.update();
-        jugando = vista.update();
-    }
+    Game game;
+    game.load_media();
+    game.main_loop();
+
     return 0;
 }

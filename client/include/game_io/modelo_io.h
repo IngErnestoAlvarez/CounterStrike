@@ -23,6 +23,8 @@ class ModeloIO {
      */
     bool update();
 
+    SdlWindow &getWindow();
+
    private:
     void check_actions();
 };
