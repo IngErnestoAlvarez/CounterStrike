@@ -3,18 +3,18 @@
 
 #include <string>
 
-class Configuration;
-
 class Weapon {
 private:
     std::string name;
-    float precision;
     float damage;
+    float precision;
     float range;
 
 public:
     Weapon(const std::string& name,
-           const Configuration& config);
+           float damage,
+           float precision,
+           float range);
     virtual void use() = 0;
     ~Weapon();
 };

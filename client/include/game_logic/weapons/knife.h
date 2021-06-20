@@ -2,11 +2,10 @@
 #define KNIFE_H
 
 #include "weapon.h"
-class Configuration;
 
 class Knife : public Weapon {
-   public:
-    Knife(const Configuration &config);
+public:
+    Knife(float damage, float precision, float range);
     void use() override;
 };
 

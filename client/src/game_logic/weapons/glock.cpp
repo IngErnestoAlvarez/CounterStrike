@@ -2,6 +2,7 @@
 
 #include "configuration.h"
 
-Glock::Glock(const Configuration &config) : Weapon("Glock", config) {}
+Glock::Glock(float damage, float precision, float range)
+          : Weapon("Glock", damage, precision, range) {}
 
 void Glock::use() {}

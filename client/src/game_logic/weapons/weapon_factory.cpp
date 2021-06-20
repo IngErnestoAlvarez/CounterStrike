@@ -6,14 +6,18 @@
 #include "game_logic/weapons/knife.h"
 #include "game_logic/weapons/weapon.h"
 
-Weapon *WeaponFactory::create(Game &game, int weapon_id) {
+Weapon* WeaponFactory::create(Game& game, const std::string& weapon_name) {
     const Configuration &config = game.getConfig();
-    switch (weapon_id) {
-        case 1:
-            return new Knife(config);
-        case 2:
-            return new Glock(config);
-        default:
-            throw new std::exception();
+
+    float damage = config.getWeaponConfigValue(weapon_name);
+    float precision = config.getWeaponConfigValue(weapon_name);
+    float range = config.getWeaponConfigValue(weapon_name);
+
+    if (weapon_name == "knife") {
+        return new Knife(damage, precision, range);
+    }
+
+    if (weapon_name == "glock") {
+        return new Glock(damage, precicion, range);
     }
 }

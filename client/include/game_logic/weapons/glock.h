@@ -2,11 +2,10 @@
 #define GLOCK_H
 
 #include "weapon.h"
-class Configuration;
 
 class Glock : public Weapon {
-   public:
-    Glock(const Configuration &config);
+public:
+    Glock(float damage, float precision, float range);
     void use() override;
 };
 
