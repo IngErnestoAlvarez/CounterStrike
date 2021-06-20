@@ -1,6 +1,7 @@
 #ifndef __MODELOIO_H__
 #define __MODELOIO_H__
 
+#include "game_io/sdl/SdlObject.h"
 #include "game_io/sdl/SdlWindow.h"
 #include "game_logic/modelo_logic.h"
 
@@ -9,6 +10,7 @@ class ModeloIO {
     SdlWindow window;
     ModeloLogic *modelo;
     bool active;
+    SdlObject player_view;
 
    public:
     ModeloIO();
@@ -27,6 +29,11 @@ class ModeloIO {
 
    private:
     void check_actions();
+    void check_events();
+    void check_keyboard();
+    void check_mouse();
+
+    void clearRenderer();
 };
 
 #endif  // __MODELOIO_H__

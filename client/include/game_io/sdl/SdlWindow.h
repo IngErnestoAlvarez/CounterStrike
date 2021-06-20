@@ -24,6 +24,8 @@ class SdlWindow {
 
     void render();
 
+    void clear_renderer();
+
     SDL_Renderer *getRendered() const;
 };
 

@@ -7,6 +7,7 @@
 #include <stdexcept>
 
 #include "game_io/sdl/SdlImage.h"
+#include "game_io/sdl/SdlObject.h"
 
 Game::Game() : logic(), view(logic) {}
 
@@ -14,11 +15,10 @@ Game::~Game() {}
 
 void Game::load_media() {
     // ! Terminar esta funcion
-    SdlImage gun(this->view.getWindow(), "assets/sprites/ct2.png");
-    SdlImage terrorist(this->view.getWindow(), "assets/sprites/ak47.png");
 }
 
 void Game::main_loop() {
+    SdlObject gun("assets/sprites/ak47.png", 4, this->view.getWindow());
     bool playing = true;
     while (playing) {
         logic.update();

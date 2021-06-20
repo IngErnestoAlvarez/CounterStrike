@@ -65,3 +65,5 @@ SDL_Renderer *SdlWindow::getRendered() const {
     if (this->renderer == NULL) throw;
     return this->renderer;
 }
+
+void SdlWindow::clear_renderer() { SDL_RenderClear(this->renderer); }

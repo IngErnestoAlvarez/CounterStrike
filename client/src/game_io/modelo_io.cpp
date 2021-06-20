@@ -5,6 +5,7 @@
 
 #include <stdexcept>
 
+#include "game_io/sdl/SdlImage.h"
 #include "game_logic/modelo_logic.h"
 #include "syslog.h"
 
@@ -12,7 +13,10 @@
 #define HEIGHT 600
 
 ModeloIO::ModeloIO(ModeloLogic &logic)
-    : window(), modelo(&logic), active(true) {
+    : window(),
+      modelo(&logic),
+      active(true),
+      player_view("assets/sprites/ct2.png", 4, this->window) {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         throw std::runtime_error("SDL could not initialize!");
     }
@@ -31,7 +35,11 @@ ModeloIO::ModeloIO(ModeloLogic &logic)
     }
 }
 
-ModeloIO::ModeloIO() : window(), modelo(nullptr), active(true) {
+ModeloIO::ModeloIO()
+    : window(),
+      modelo(nullptr),
+      active(true),
+      player_view("assets/sprites/ak47.png", 4, this->window) {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         throw std::runtime_error("SDL could not initialize!");
     }
@@ -56,13 +64,21 @@ ModeloIO::~ModeloIO() {
 }
 
 bool ModeloIO::update() {
+    this->window.clear_renderer();
     this->check_actions();
+    this->player_view.render(window);
     this->window.fill();
     this->window.render();
     return this->active;
 }
 
 void ModeloIO::check_actions() {
+    this->check_events();
+    this->check_keyboard();
+    this->check_mouse();
+}
+
+void ModeloIO::check_events() {
     SDL_Event e;
     while (SDL_PollEvent(&e) != 0) {
         if (e.type == SDL_QUIT) {
@@ -71,4 +87,16 @@ void ModeloIO::check_actions() {
     }
 }
 
+void ModeloIO::check_keyboard() {
+    const Uint8 *state = SDL_GetKeyboardState(NULL);
+    if (state[SDL_SCANCODE_A]) this->player_view.moveLeft();
+    if (state[SDL_SCANCODE_W]) this->player_view.moveUp();
+    if (state[SDL_SCANCODE_D]) this->player_view.moveRight();
+    if (state[SDL_SCANCODE_S]) this->player_view.moveDown();
+}
+
+void ModeloIO::check_mouse() {}
+
 SdlWindow &ModeloIO::getWindow() { return this->window; }
+
+void ModeloIO::clearRenderer() { this->window.clear_renderer(); }
