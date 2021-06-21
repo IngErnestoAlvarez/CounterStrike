@@ -21,8 +21,8 @@ Configuration::Configuration(const std::string &config_filepath) {
     for (const std::string &weapon_type : weapon_types) {
         this->weapons[weapon_type] = std::unordered_map<std::string, float>();
 
-        for (const std::string &weapon_params : weapon_params) {
-            this->weapons[weapon_type] = weapons[weapon_type][weapon_params];
+        for (const std::string &weapon_param : weapon_params) {
+            this->weapons[weapon_type][weapon_param] = weapons[weapon_type][weapon_param].as<float>();
         }
     }
 }

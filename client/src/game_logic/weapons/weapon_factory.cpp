@@ -9,15 +9,19 @@
 Weapon* WeaponFactory::create(Game& game, const std::string& weapon_name) {
     const Configuration &config = game.getConfig();
 
-    float damage = config.getWeaponConfigValue(weapon_name);
-    float precision = config.getWeaponConfigValue(weapon_name);
-    float range = config.getWeaponConfigValue(weapon_name);
+    float damage = config.getWeaponConfigValue(weapon_name, "damage");
+    float precision = config.getWeaponConfigValue(weapon_name, "precision");
+    float range = config.getWeaponConfigValue(weapon_name, "range");
 
     if (weapon_name == "knife") {
         return new Knife(damage, precision, range);
     }
 
     if (weapon_name == "glock") {
-        return new Glock(damage, precicion, range);
+        return new Glock(damage, precision, range);
     }
+
+    // terminar esto
+
+    return nullptr;
 }

@@ -48,6 +48,9 @@ target_link_libraries(
 add_executable(CounterStrike_run "client/src/main.cpp")
 TARGET_LINK_LIBRARIES(CounterStrike_run libclient libcommon)
 
+add_executable(test "client/src/box2d_sdl_test.cpp")
+TARGET_LINK_LIBRARIES(test libclient libcommon)
+
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 

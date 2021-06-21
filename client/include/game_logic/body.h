@@ -17,9 +17,11 @@ public:
     Body(World* world, float x, float y, float velocity);
     ~Body();
     void setAngle(float angle);
-    void startMoving();
+    void startMoving(float x_velocity, float y_velocity);
     void stopMoving();
     void destroy();
+    float getX() const;
+    float getY() const;
 };
 
 #endif

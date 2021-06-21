@@ -16,6 +16,7 @@ private:
 public:
     World();
     ~World();
+    void step();
 };
 
 #endif

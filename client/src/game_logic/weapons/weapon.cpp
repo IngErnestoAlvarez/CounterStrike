@@ -6,8 +6,8 @@ Weapon::Weapon(const std::string& name,
                float precision,
                float range)
              : name(name),
-               precision(precision),
                damage(damage),
+               precision(precision),
                range(range) {}
 
 Weapon::~Weapon() {}

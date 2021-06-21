@@ -13,3 +13,8 @@ World::~World() {
 
     delete this->b2_world;
 }
+
+void World::step() {
+	// revisar estos valores
+	this->b2_world->Step(2000, 8, 3);
+}

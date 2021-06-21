@@ -9,6 +9,7 @@ Body::Body(World* world, float x, float y, float velocity)
     b2_body_def.position.Set(x, y);
     b2_body_def.angle = 0;
     b2_body_def.type = b2_dynamicBody;
+    b2_body_def.allowSleep = false;
     this->b2_body = this->world->b2_world->CreateBody(&b2_body_def);
 
     b2PolygonShape b2_polygon_shape;
@@ -29,10 +30,7 @@ void Body::setAngle(float angle) {
     this->b2_body->SetTransform(this->b2_body->GetPosition(), angle);
 }
 
-void Body::startMoving() {
-    float angle = this->b2_body->GetAngle();
-    float x_velocity = std::cos(angle) * this->velocity;
-    float y_velocity = std::sin(angle) * this->velocity;
+void Body::startMoving(float x_velocity, float y_velocity) {
     this->b2_body->SetLinearVelocity(b2Vec2(x_velocity, y_velocity));
 }
 
@@ -43,4 +41,12 @@ void Body::stopMoving() {
 void Body::destroy() {
     this->world->b2_world->DestroyBody(this->b2_body);
     this->b2_body = nullptr;
+}
+
+float Body::getX() const {
+    return this->b2_body->GetPosition().x;
+}
+
+float Body::getY() const {
+    return this->b2_body->GetPosition().y;
 }
