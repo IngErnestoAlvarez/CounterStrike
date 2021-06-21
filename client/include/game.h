@@ -6,6 +6,7 @@
 
 class Game {
    private:
+    Uint32 next_time;
     ModeloLogic logic;
     ModeloIO view;
 
@@ -17,6 +18,9 @@ class Game {
     void load_media();
 
     void main_loop();
+
+   private:
+    Uint32 time_left();
 };
 
 #endif
