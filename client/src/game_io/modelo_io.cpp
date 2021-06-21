@@ -8,6 +8,7 @@
 #include <utility>
 
 #include "game_io/sdl/SdlImage.h"
+#include "game_io/sdl/text/SdlText.h"
 #include "game_logic/modelo_logic.h"
 #include "math.h"
 #include "syslog.h"
@@ -20,7 +21,9 @@ ModeloIO::ModeloIO(ModeloLogic &logic)
       window(WIDTH, HEIGHT),
       modelo(&logic),
       active(true),
-      player_view("assets/sprites/ct2.png", 4, this->window) {
+      player_view("assets/sprites/ct2.png", 4, this->window),
+      life(this->window, "life 100/100"),
+      ammo(this->window, "ammo 30/30") {
     SDL_SetRenderDrawColor(window.getRendered(), 0xFF, 0xFF, 0xFF, 0xFF);
 }
 
@@ -29,23 +32,10 @@ ModeloIO::ModeloIO()
       window(),
       modelo(nullptr),
       active(true),
-      player_view("assets/sprites/ak47.png", 4, this->window) {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-        throw std::runtime_error("SDL could not initialize!");
-    }
-    if (!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1")) {
-        syslog(LOG_WARNING, "Linear texture filtering not enabled!");
-    }
-
-    window = SdlWindow(WIDTH, HEIGHT);
-
+      player_view("assets/sprites/ak47.png", 4, this->window),
+      life(this->window, "100/100"),
+      ammo(this->window, "100/100") {
     SDL_SetRenderDrawColor(window.getRendered(), 0xFF, 0xFF, 0xFF, 0xFF);
-
-    int imgFlags = IMG_INIT_PNG;
-    if (!(IMG_Init(imgFlags) & imgFlags)) {
-        SDL_Quit();
-        throw std::runtime_error("SDL_image could not initialize!");
-    }
 }
 
 ModeloIO::~ModeloIO() {}
@@ -93,5 +83,12 @@ void ModeloIO::clearRenderer() { this->window.clear_renderer(); }
 
 void ModeloIO::render() {
     this->player_view.render(window);
+    SDL_Rect rect;
+    rect.x = 0;
+    rect.y = 500;
+    this->life.render(window, rect);
+    rect.x = 550;
+    rect.y = 500;
+    this->ammo.render(window, rect);
     this->window.render();
 }

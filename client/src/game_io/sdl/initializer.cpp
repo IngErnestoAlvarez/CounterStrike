@@ -2,6 +2,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <syslog.h>
 
 #include <stdexcept>
@@ -18,6 +19,11 @@ Initializer::Initializer() {
     if (!(IMG_Init(imgFlags) & imgFlags)) {
         SDL_Quit();
         throw std::runtime_error("SDL_image could not initialize!");
+    }
+
+    if (TTF_Init() < 0) {
+        SDL_Quit();
+        throw std::runtime_error("SDL_ttf could not initialize!");
     }
 }
 

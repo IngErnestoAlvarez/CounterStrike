@@ -4,6 +4,7 @@
 #include "game_io/sdl/SdlObject.h"
 #include "game_io/sdl/SdlWindow.h"
 #include "game_io/sdl/initializer.h"
+#include "game_io/sdl/text/SdlText.h"
 #include "game_logic/modelo_logic.h"
 
 class ModeloIO {
@@ -13,6 +14,8 @@ class ModeloIO {
     ModeloLogic *modelo;
     bool active;
     SdlObject player_view;
+    SdlText life;
+    SdlText ammo;
 
    public:
     ModeloIO();

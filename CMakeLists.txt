@@ -20,7 +20,7 @@ find_package(SDL2_ttf REQUIRED)
 find_package(yaml-cpp REQUIRED)
 
 include_directories(
-    ${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS} ${SDL2_MIXER_INCLUDE_DIRS} ${SDL2_TTF_INCLUDE_DIRS})
+    ${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS} ${SDL2_MIXER_INCLUDE_DIRS} ${SDL2TTF_INCLUDE_DIR})
 include_directories(client/include)
 include_directories(common/include)
 
@@ -35,14 +35,14 @@ add_library(libcommon STATIC ${COMMON_SRCS})
 
 target_link_libraries(
     libclient 
-    ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${SDL2_MIXER_LIBRARIES} ${SDL2_TTF_LIBRARIES} yaml-cpp
+    ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${SDL2_MIXER_LIBRARIES} ${SDL2TTF_LIBRARY} yaml-cpp
     )
 
 target_link_libraries(libclient -ldl -lBox2D)
 
 target_link_libraries(
     libcommon 
-    ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${SDL2_MIXER_LIBRARIES} ${SDL2_TTF_LIBRARIES} yaml-cpp
+    ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${SDL2_MIXER_LIBRARIES} ${SDL2TTF_LIBRARY} yaml-cpp
     )
 
 add_executable(CounterStrike_run "client/src/main.cpp")

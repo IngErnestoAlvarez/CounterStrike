@@ -23,7 +23,7 @@ class SdlSurface {
 
     ~SdlSurface();
 
-    SdlTexture transform_to_texture();
+    SdlTexture transform_to_texture(SdlWindow &window);
 
    private:
     void set_rgba_mask(Uint32 &rmask, Uint32 &gmask, Uint32 &bmask,

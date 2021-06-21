@@ -15,11 +15,17 @@ class SdlTexture {
    public:
     SdlTexture(SdlWindow &window);
     SdlTexture(int width, int height, SdlWindow &renderer);
+    SdlTexture(SdlTexture const &) = delete;
+    SdlTexture(SdlTexture &&);
 
+    SdlTexture &operator=(SdlTexture const &) = delete;
+    SdlTexture &operator=(SdlTexture &&);
     SdlTexture &operator=(SDL_Texture *);
 
     void render(SdlWindow &renderer, int x, int y, float angle,
                 SDL_Point &center, SDL_Rect *clip = nullptr);
+
+    void render(SdlWindow &renderer, SDL_Rect &rect);
 
     virtual ~SdlTexture();
 

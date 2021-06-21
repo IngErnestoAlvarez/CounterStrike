@@ -24,6 +24,34 @@ SdlTexture::~SdlTexture() { this->empty(); }
 SdlTexture &SdlTexture::operator=(SDL_Texture *texture) {
     this->empty();
     this->texture = texture;
+    int w, h;
+    SDL_QueryTexture(texture, NULL, NULL, &w, &h);
+    this->width = w;
+    this->height = h;
+
+    return *this;
+}
+SdlTexture::SdlTexture(SdlTexture &&other)
+    : texture(other.texture),
+      window(other.window),
+      width(other.width),
+      height(other.height) {
+    other.texture = nullptr;
+    other.window = nullptr;
+    other.width = 0;
+    other.height = 0;
+}
+
+SdlTexture &SdlTexture::operator=(SdlTexture &&other) {
+    if (this == &other) return *this;
+    this->texture = other.texture;
+    other.texture = nullptr;
+    this->width = other.width;
+    other.width = 0;
+    this->height = other.height;
+    other.height = 0;
+    this->window = other.window;
+    other.window = nullptr;
 
     return *this;
 }
@@ -46,6 +74,19 @@ void SdlTexture::render(SdlWindow &renderer, int x, int y, float angle,
         renderQuad.h = clip->h;
     }
 
-    SDL_RenderCopyEx(renderer.getRendered(), this->texture, clip, &renderQuad,
-                     angle, &center, flip);
+    if (SDL_RenderCopyEx(renderer.getRendered(), this->texture, clip,
+                         &renderQuad, angle, &center, flip)) {
+        throw std::runtime_error("Error RenderCopyEx");
+    }
+}
+
+void SdlTexture::render(SdlWindow &renderer, SDL_Rect &rect) {
+    if (this->texture == nullptr) throw std::logic_error("No hay textura");
+
+    rect.w = this->width;
+    rect.h = this->height;
+    if (SDL_RenderCopy(renderer.getRendered(), this->texture, NULL, &rect)) {
+        std::cout << SDL_GetError() << std::endl;
+        throw std::runtime_error("Error RenderCopy");
+    }
 }
