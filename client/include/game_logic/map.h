@@ -13,13 +13,12 @@ private:
     int height;
     std::string name;
 
-    Cell* getCellAt(int x, int y);
-
 public:
     Map(const std::string& map_filepath);
     bool canBeAccesed(int x, int y);
     int getWeaponAt(int x, int y);
     const std::string& getName();
+    Cell* getCellAt(int x, int y);
 
 
     int getWidth() const;

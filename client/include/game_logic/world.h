@@ -2,6 +2,7 @@
 #define WORLD_H
 
 #include <vector>
+#include <string>
 
 class b2World;
 class Body;
@@ -15,6 +16,8 @@ private:
 
 public:
     World();
+    World(const std::string& map_filepath);
+    std::vector<Body*> getBodies();
     ~World();
     void step();
 };

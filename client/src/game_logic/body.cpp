@@ -8,12 +8,12 @@ Body::Body(World* world, float x, float y, float velocity)
     b2BodyDef b2_body_def;
     b2_body_def.position.Set(x, y);
     b2_body_def.angle = 0;
-    b2_body_def.type = b2_dynamicBody;
+    b2_body_def.type = velocity > 0 ? b2_dynamicBody : b2_staticBody;
     b2_body_def.allowSleep = false;
     this->b2_body = this->world->b2_world->CreateBody(&b2_body_def);
 
     b2PolygonShape b2_polygon_shape;
-    b2_polygon_shape.SetAsBox(5, 10);
+    b2_polygon_shape.SetAsBox(10, 10);
     this->b2_body->CreateFixture(&b2_polygon_shape, 1);
 
     this->world->bodies.push_back(this);
