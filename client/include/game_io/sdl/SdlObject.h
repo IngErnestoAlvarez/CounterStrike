@@ -32,6 +32,8 @@ class SdlObject {
     void moveLeft();
 
     void render(SdlWindow &window);
+
+    void mouse_mov(int x, int y);
 };
 
 #endif

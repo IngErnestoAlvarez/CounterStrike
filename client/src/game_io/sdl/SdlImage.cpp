@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+#include <iostream>
 #include <stdexcept>
 #include <string>
 
@@ -41,6 +42,6 @@ void SdlImage::load_from_file(std::string const &path) {
     }
 
     this->texture = newTexture;
-    if (this->texture != NULL)
+    if (this->texture == NULL)
         throw std::runtime_error("Problemas con la carga de la textura");
 }

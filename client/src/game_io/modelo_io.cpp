@@ -3,40 +3,30 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+#include <iostream>
 #include <stdexcept>
+#include <utility>
 
 #include "game_io/sdl/SdlImage.h"
 #include "game_logic/modelo_logic.h"
+#include "math.h"
 #include "syslog.h"
 
 #define WIDTH 800
 #define HEIGHT 600
 
 ModeloIO::ModeloIO(ModeloLogic &logic)
-    : window(),
+    : init(),
+      window(WIDTH, HEIGHT),
       modelo(&logic),
       active(true),
       player_view("assets/sprites/ct2.png", 4, this->window) {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-        throw std::runtime_error("SDL could not initialize!");
-    }
-    if (!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1")) {
-        syslog(LOG_WARNING, "Linear texture filtering not enabled!");
-    }
-
-    window = SdlWindow(WIDTH, HEIGHT);
-
     SDL_SetRenderDrawColor(window.getRendered(), 0xFF, 0xFF, 0xFF, 0xFF);
-
-    int imgFlags = IMG_INIT_PNG;
-    if (!(IMG_Init(imgFlags) & imgFlags)) {
-        SDL_Quit();
-        throw std::runtime_error("SDL_image could not initialize!");
-    }
 }
 
 ModeloIO::ModeloIO()
-    : window(),
+    : init(),
+      window(),
       modelo(nullptr),
       active(true),
       player_view("assets/sprites/ak47.png", 4, this->window) {
@@ -58,17 +48,13 @@ ModeloIO::ModeloIO()
     }
 }
 
-ModeloIO::~ModeloIO() {
-    IMG_Quit();
-    SDL_Quit();
-}
+ModeloIO::~ModeloIO() {}
 
 bool ModeloIO::update() {
     this->window.clear_renderer();
     this->check_actions();
-    this->player_view.render(window);
     this->window.fill();
-    this->window.render();
+    this->render();
     return this->active;
 }
 
@@ -95,8 +81,17 @@ void ModeloIO::check_keyboard() {
     if (state[SDL_SCANCODE_S]) this->player_view.moveDown();
 }
 
-void ModeloIO::check_mouse() {}
+void ModeloIO::check_mouse() {
+    int mouseX, mouseY;
+    SDL_GetMouseState(&mouseX, &mouseY);
+    this->player_view.mouse_mov(mouseX, mouseY);
+}
 
 SdlWindow &ModeloIO::getWindow() { return this->window; }
 
 void ModeloIO::clearRenderer() { this->window.clear_renderer(); }
+
+void ModeloIO::render() {
+    this->player_view.render(window);
+    this->window.render();
+}

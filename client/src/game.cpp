@@ -4,6 +4,7 @@
 #include <SDL2/SDL_image.h>
 #include <syslog.h>
 
+#include <iostream>
 #include <stdexcept>
 
 #include "game_io/sdl/SdlImage.h"
@@ -18,7 +19,6 @@ void Game::load_media() {
 }
 
 void Game::main_loop() {
-    SdlObject gun("assets/sprites/ak47.png", 4, this->view.getWindow());
     bool playing = true;
     while (playing) {
         logic.update();

@@ -7,7 +7,6 @@
 
 class SdlImage : public SdlTexture {
    private:
-    SDL_Texture *texture;
     int width;
     int height;
 

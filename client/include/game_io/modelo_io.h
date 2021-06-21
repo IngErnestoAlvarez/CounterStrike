@@ -3,10 +3,12 @@
 
 #include "game_io/sdl/SdlObject.h"
 #include "game_io/sdl/SdlWindow.h"
+#include "game_io/sdl/initializer.h"
 #include "game_logic/modelo_logic.h"
 
 class ModeloIO {
    private:
+    Initializer init;
     SdlWindow window;
     ModeloLogic *modelo;
     bool active;
@@ -34,6 +36,8 @@ class ModeloIO {
     void check_mouse();
 
     void clearRenderer();
+
+    void render();
 };
 
 #endif  // __MODELOIO_H__

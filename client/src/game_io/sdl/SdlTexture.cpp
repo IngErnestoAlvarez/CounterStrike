@@ -2,6 +2,7 @@
 
 #include <SDL2/SDL.h>
 
+#include <iostream>
 #include <stdexcept>
 
 #include "game_io/sdl/SdlWindow.h"
@@ -14,6 +15,8 @@ SdlTexture::SdlTexture(int width, int height, SdlWindow &window)
     this->texture =
         SDL_CreateTexture(window.getRendered(), SDL_PIXELFORMAT_ABGR8888,
                           SDL_TEXTUREACCESS_TARGET, width, height);
+    if (this->texture == nullptr)
+        throw std::runtime_error("Error al crear textura");
 }
 
 SdlTexture::~SdlTexture() { this->empty(); }

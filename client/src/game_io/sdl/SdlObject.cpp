@@ -1,5 +1,9 @@
 #include "game_io/sdl/SdlObject.h"
 
+#include <math.h>
+
+#include <iostream>
+
 #include "game_io/sdl/SdlImage.h"
 
 SdlObject::SdlObject(std::string const &path, int animation_frames,
@@ -35,4 +39,13 @@ void SdlObject::moveLeft() { x_pos -= this->sprite_clips->h / 16; }
 
 void SdlObject::render(SdlWindow &window) {
     this->image.render(window, x_pos, y_pos, angle, center, sprite_clips);
+}
+
+void SdlObject::mouse_mov(int x, int y) {
+    this->prevangle = this->angle;
+    this->angle = (atan2(y_pos - y, x_pos - x) * 180.0000 / M_PI) - 90;
+    if (!angle) {
+        this->angle = this->prevangle;
+    }
+    return;
 }
