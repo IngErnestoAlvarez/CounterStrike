@@ -4,7 +4,7 @@
 #include "game_io/modelo_io.h"
 #include "game_logic/modelo_logic.h"
 
-class _Game {
+class Game {
    private:
     Uint32 next_time;
     ModeloLogic logic;
