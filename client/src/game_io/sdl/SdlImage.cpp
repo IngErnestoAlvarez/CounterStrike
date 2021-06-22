@@ -6,6 +6,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <string>
+#include <utility>
 
 #include "game_io/sdl/SdlWindow.h"
 
@@ -14,6 +15,23 @@ SdlImage::SdlImage(SdlWindow &window) : SdlTexture(window) {}
 SdlImage::SdlImage(SdlWindow &window, std::string const &path)
     : SdlTexture(window) {
     this->load_from_file(path);
+}
+
+SdlImage::SdlImage(SdlImage &&other) : SdlTexture(std::move(other)) {
+    width = other.width;
+    other.width = 0;
+    height = other.height;
+    other.height = 0;
+}
+
+SdlImage &SdlImage::operator=(SdlImage &&other) {
+    if (this == &other) return *this;
+    SdlTexture::operator=(std::move(other));
+    width = other.width;
+    other.width = 0;
+    height = other.height;
+    other.height = 0;
+    return *this;
 }
 
 SdlImage::~SdlImage() { this->empty(); }

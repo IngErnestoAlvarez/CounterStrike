@@ -14,6 +14,12 @@ class SdlImage : public SdlTexture {
     SdlImage(SdlWindow &window);
     SdlImage(SdlWindow &window, std::string const &path);
 
+    SdlImage(SdlImage const &) = delete;
+    SdlImage(SdlImage &&);
+
+    SdlImage &operator=(SdlImage const &) = delete;
+    SdlImage &operator=(SdlImage &&);
+
     ~SdlImage() override;
 
     void load_from_file(std::string const &path);
