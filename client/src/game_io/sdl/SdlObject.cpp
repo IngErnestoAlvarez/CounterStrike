@@ -38,7 +38,7 @@ void SdlObject::moveRight() { x_pos += this->sprite_clips->h / 16; }
 void SdlObject::moveLeft() { x_pos -= this->sprite_clips->h / 16; }
 
 void SdlObject::render(SdlWindow &window) {
-    this->image.render(window, x_pos, y_pos, angle, center, sprite_clips);
+    this->image.render(x_pos, y_pos, angle, center, sprite_clips);
 }
 
 void SdlObject::mouse_mov(int x, int y) {

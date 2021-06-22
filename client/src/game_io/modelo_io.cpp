@@ -25,6 +25,8 @@ ModeloIO::ModeloIO(ModeloLogic &logic)
       life(this->window, "life 100/100"),
       ammo(this->window, "ammo 30/30") {
     SDL_SetRenderDrawColor(window.getRendered(), 0xFF, 0xFF, 0xFF, 0xFF);
+    life.set_pos(0, 500);
+    ammo.set_pos(550, 500);
 }
 
 ModeloIO::ModeloIO()
@@ -83,12 +85,7 @@ void ModeloIO::clearRenderer() { this->window.clear_renderer(); }
 
 void ModeloIO::render() {
     this->player_view.render(window);
-    SDL_Rect rect;
-    rect.x = 0;
-    rect.y = 500;
-    this->life.render(window, rect);
-    rect.x = 550;
-    rect.y = 500;
-    this->ammo.render(window, rect);
+    this->life.render();
+    this->ammo.render();
     this->window.render();
 }

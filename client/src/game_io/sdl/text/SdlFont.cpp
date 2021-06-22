@@ -19,6 +19,7 @@ SdlFont &SdlFont::operator=(SdlFont &&other) {
     if (this == &other) return *this;
     this->font = other.font;
     other.font = nullptr;
+    return *this;
 }
 
 SdlFont::~SdlFont() { this->empty(); }

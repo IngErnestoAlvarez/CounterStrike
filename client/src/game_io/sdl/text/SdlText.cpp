@@ -56,6 +56,6 @@ void SdlText::set_pos(int x, int y) {
     this->set_pos(posaux);
 }
 
-void SdlText::render() { this->texture.render(window, pos); }
+void SdlText::render() { this->texture.render(pos); }
 
 SdlText::~SdlText() {}

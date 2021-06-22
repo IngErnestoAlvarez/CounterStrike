@@ -22,10 +22,10 @@ class SdlTexture {
     SdlTexture &operator=(SdlTexture &&);
     SdlTexture &operator=(SDL_Texture *);
 
-    void render(SdlWindow &renderer, int x, int y, float angle,
-                SDL_Point &center, SDL_Rect *clip = nullptr);
+    void render(int x, int y, float angle, SDL_Point &center,
+                SDL_Rect *clip = nullptr);
 
-    void render(SdlWindow &renderer, SDL_Rect &rect);
+    void render(SDL_Point &pos);
 
     virtual ~SdlTexture();
 
