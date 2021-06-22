@@ -1,6 +1,7 @@
+#include "game_logic/player.h"
+
+#include "game_logic/game.h"
 #include "gtest/gtest.h"
-#include "../include/player.h"
-#include "../include/game.h"
 
 TEST(PlayerTests, playerMoves) {
     Game game("../config/config.yaml", "../assets/maps/test_map.yaml");

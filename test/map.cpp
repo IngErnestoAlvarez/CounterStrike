@@ -1,5 +1,7 @@
+#include "game_logic/map.h"
+
+#include "game_logic/world.h"
 #include "gtest/gtest.h"
-#include "../include/map.h"
 
 TEST(MapTests, loadedMapReturnsCorrectName) {
     Map map("../assets/maps/test_map.yaml");
