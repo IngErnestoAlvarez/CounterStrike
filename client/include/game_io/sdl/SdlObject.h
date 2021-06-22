@@ -12,8 +12,7 @@ class SdlObject {
    private:
     SdlImage image;
     SDL_Rect sprite_clips[1];
-    int x_pos;
-    int y_pos;
+    SDL_Point pos;
     SDL_Point center;
     const int animation_frames;
     float angle;
@@ -22,16 +21,23 @@ class SdlObject {
    public:
     SdlObject(std::string const &path, int animation_frames, SdlWindow &window);
 
+    SdlObject(SdlObject const &) = delete;
+    SdlObject(SdlObject &&);
+
+    SdlObject &operator=(SdlObject const &) = delete;
+    SdlObject &operator=(SdlObject &&);
+
     ~SdlObject();
 
     void set_init_pos(int x, int y);
+    void set_init_pos(SDL_Point const &pos);
 
     void moveUp();
     void moveDown();
     void moveRight();
     void moveLeft();
 
-    void render(SdlWindow &window);
+    void render();
 
     void mouse_mov(int x, int y);
 };

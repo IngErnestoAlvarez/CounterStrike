@@ -3,6 +3,7 @@
 #include <math.h>
 
 #include <iostream>
+#include <utility>
 
 #include "game_io/sdl/SdlImage.h"
 
@@ -10,8 +11,7 @@ SdlObject::SdlObject(std::string const &path, int animation_frames,
                      SdlWindow &window)
     : image(window, path),
       sprite_clips(),
-      x_pos(0),
-      y_pos(0),
+      pos({0, 0}),
       center({16, 16}),
       animation_frames(4),
       angle(0),
@@ -22,28 +22,55 @@ SdlObject::SdlObject(std::string const &path, int animation_frames,
     sprite_clips->h = 32;
 }
 
-SdlObject::~SdlObject() {}
-
-void SdlObject::set_init_pos(int x, int y) {
-    this->x_pos = x;
-    this->y_pos = y;
+SdlObject::SdlObject(SdlObject &&other)
+    : image(std::move(other.image)),
+      pos(std::move(other.pos)),
+      center(std::move(other.pos)),
+      animation_frames(other.animation_frames),
+      angle(other.angle),
+      prevangle(other.prevangle) {
+    sprite_clips[0] = std::move(other.sprite_clips[0]);
 }
 
-void SdlObject::moveUp() { y_pos -= this->sprite_clips->h / 16; }
+SdlObject::~SdlObject() {}
 
-void SdlObject::moveDown() { y_pos += this->sprite_clips->h / 16; }
+SdlObject &SdlObject::operator=(SdlObject &&other) {
+    if (this == &other) return *this;
+    using std::move;
+    sprite_clips[0] = other.sprite_clips[0];
+    image = move(other.image);
+    pos = move(other.pos);
+    center = move(other.center);
+    angle = other.angle;
+    prevangle = other.prevangle;
 
-void SdlObject::moveRight() { x_pos += this->sprite_clips->h / 16; }
+    return *this;
+}
 
-void SdlObject::moveLeft() { x_pos -= this->sprite_clips->h / 16; }
+void SdlObject::set_init_pos(int x, int y) {
+    this->pos.x = x;
+    this->pos.y = y;
+}
 
-void SdlObject::render(SdlWindow &window) {
-    this->image.render(x_pos, y_pos, angle, center, sprite_clips);
+void SdlObject::set_init_pos(SDL_Point const &pos) {
+    this->set_init_pos(pos.x, pos.y);
+}
+
+void SdlObject::moveUp() { pos.y -= this->sprite_clips->h / 16; }
+
+void SdlObject::moveDown() { pos.y += this->sprite_clips->h / 16; }
+
+void SdlObject::moveRight() { pos.x += this->sprite_clips->h / 16; }
+
+void SdlObject::moveLeft() { pos.x -= this->sprite_clips->h / 16; }
+
+void SdlObject::render() {
+    this->image.render(pos.x, pos.y, angle, center, sprite_clips);
 }
 
 void SdlObject::mouse_mov(int x, int y) {
     this->prevangle = this->angle;
-    this->angle = (atan2(y_pos - y, x_pos - x) * 180.0000 / M_PI) - 90;
+    this->angle = (atan2(pos.y - y, pos.x - x) * 180.0000 / M_PI) - 90;
     if (!angle) {
         this->angle = this->prevangle;
     }

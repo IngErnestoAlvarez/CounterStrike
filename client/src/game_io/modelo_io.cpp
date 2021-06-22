@@ -84,7 +84,7 @@ SdlWindow &ModeloIO::getWindow() { return this->window; }
 void ModeloIO::clearRenderer() { this->window.clear_renderer(); }
 
 void ModeloIO::render() {
-    this->player_view.render(window);
+    this->player_view.render();
     this->life.render();
     this->ammo.render();
     this->window.render();
