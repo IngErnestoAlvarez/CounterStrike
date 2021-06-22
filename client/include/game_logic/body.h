@@ -10,14 +10,19 @@ private:
     World* world;
     int id;
     float velocity;
+    Body(World* world, float x, float y, float velocity);
+    void move(float x_velocity, float y_velocity);
 
     friend class World;
 
 public:
-    Body(World* world, float x, float y, float velocity);
     ~Body();
     void setAngle(float angle);
-    void startMoving(float x_velocity, float y_velocity);
+    void move();
+    void moveLeft();
+    void moveRight();
+    void moveUp();
+    void moveDown();
     void stopMoving();
     void destroy();
     float getX() const;

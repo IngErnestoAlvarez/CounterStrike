@@ -4,12 +4,12 @@
 
 #include <iostream>
 
-#include "game.h"
+// #include "game.h"
 
 int main(int argc, char const *argv[]) {
-    Game game;
-    game.load_media();
-    game.main_loop();
+    // Game game;
+    // game.load_media();
+    // game.main_loop();
 
     return 0;
 }

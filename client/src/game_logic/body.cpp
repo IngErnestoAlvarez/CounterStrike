@@ -15,8 +15,6 @@ Body::Body(World* world, float x, float y, float velocity)
     b2PolygonShape b2_polygon_shape;
     b2_polygon_shape.SetAsBox(10, 10);
     this->b2_body->CreateFixture(&b2_polygon_shape, 1);
-
-    this->world->bodies.push_back(this);
 }
 
 Body::~Body() {
@@ -30,8 +28,24 @@ void Body::setAngle(float angle) {
     this->b2_body->SetTransform(this->b2_body->GetPosition(), angle);
 }
 
-void Body::startMoving(float x_velocity, float y_velocity) {
+void Body::move(float x_velocity, float y_velocity) {
     this->b2_body->SetLinearVelocity(b2Vec2(x_velocity, y_velocity));
+}
+
+void Body::moveLeft() {
+    this->move(-this->velocity, 0);
+}
+
+void Body::moveRight() {
+    this->move(this->velocity, 0);
+}
+
+void Body::moveUp() {
+    this->move(0, -this->velocity);
+}
+
+void Body::moveDown() {
+    this->move(0, this->velocity);
 }
 
 void Body::stopMoving() {

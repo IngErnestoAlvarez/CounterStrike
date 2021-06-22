@@ -7,13 +7,13 @@
 Player::Player(Game &game, int x, int y) : x(x), y(y), game(game) {}
 
 void Player::move(int x_target, int y_target) {
-    Map &map = this->game.getMap();
-    if (!map.canBeAccesed(x_target, y_target)) {
-        return;
-    }
+    // Map &map = this->game.getMap();
+    // if (!map.canBeAccesed(x_target, y_target)) {
+    //     return;
+    // }
 
-    this->x = x_target;
-    this->y = y_target;
+    // this->x = x_target;
+    // this->y = y_target;
 
     // ver esto despues
     // int weapon_id = map.getWeaponAt(x_target, y_target);
