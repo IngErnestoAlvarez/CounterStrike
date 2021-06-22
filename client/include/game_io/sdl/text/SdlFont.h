@@ -10,15 +10,13 @@ class SdlText;
 
 class SdlFont {
    private:
-    /**
-     * @brief  No puede ser null.
-     */
     TTF_Font *font;
 
    public:
     SdlFont();
     explicit SdlFont(std::string const &fontname);
     SdlFont(std::string const &fontname, size_t font_size);
+
     explicit SdlFont(SdlFont const &) = delete;
     explicit SdlFont(SdlFont &&);
 

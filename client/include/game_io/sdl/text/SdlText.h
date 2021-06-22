@@ -12,6 +12,8 @@ class SdlText {
     SdlFont font;
     SdlTexture texture;
     std::string text;
+    SDL_Point pos;
+    SdlWindow *window;
 
    public:
     SdlText();
@@ -20,7 +22,16 @@ class SdlText {
     SdlText(SdlWindow &, std::string const &text, std::string const &fontname,
             size_t font_size);
 
-    void render(SdlWindow &window, SDL_Rect &);
+    SdlText(SdlText const &) = delete;
+    SdlText(SdlText &&);
+
+    SdlText &operator=(SdlText const &) = delete;
+    SdlText &operator=(SdlText &&);
+
+    void set_pos(int x, int y);
+    void set_pos(SDL_Point const &pos);
+
+    void render();
 
     ~SdlText();
 };

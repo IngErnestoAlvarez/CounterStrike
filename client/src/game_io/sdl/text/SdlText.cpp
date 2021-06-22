@@ -3,12 +3,13 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
+#include <utility>
+
 #include "game_io/sdl/SdlSurface.h"
 
 const SDL_Color WHITE = {255, 255, 255};
 const SDL_Color GREEN = {50, 205, 50};
 
-// ! HACER LA POSICION DEL TEXTO DENTRO DE ESTA CLASE
 SdlText::SdlText(SdlWindow &window, std::string const &text,
                  std::string const &fontname, size_t font_size)
     : font(fontname, font_size), texture(window), text(text) {
@@ -28,8 +29,33 @@ SdlText::SdlText(SdlWindow &window, std::string const &text)
     this->texture = surf.transform_to_texture(window);
 }
 
-void SdlText::render(SdlWindow &window, SDL_Rect &rect) {
-    this->texture.render(window, rect);
+SdlText::SdlText(SdlText &&other)
+    : font(std::move(other.font)),
+      texture(std::move(other.texture)),
+      text(std::move(other.text)),
+      pos(std::move(other.pos)),
+      window(other.window) {
+    other.window = nullptr;
 }
+
+SdlText &SdlText::operator=(SdlText &&other) {
+    if (this == &other) return *this;
+    this->font = std::move(other.font);
+    this->texture = std::move(other.texture);
+    this->text = std::move(other.text);
+    this->pos = std::move(other.pos);
+    this->window = other.window;
+    other.window = nullptr;
+    return *this;
+}
+
+void SdlText::set_pos(SDL_Point const &pos) { this->pos = pos; }
+
+void SdlText::set_pos(int x, int y) {
+    SDL_Point posaux = {x, y};
+    this->set_pos(posaux);
+}
+
+void SdlText::render() { this->texture.render(window, pos); }
 
 SdlText::~SdlText() {}
