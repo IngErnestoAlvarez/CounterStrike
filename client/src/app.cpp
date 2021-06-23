@@ -1,4 +1,4 @@
-#include "game.h"
+#include "app.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -12,15 +12,15 @@
 
 #define RATE 60
 
-Game::Game() : logic(), view(logic) {}
+App::App() : logic(), view(logic) {}
 
-Game::~Game() {}
+App::~App() {}
 
-void Game::load_media() {
+void App::load_media() {
     // ! Terminar esta funcion
 }
 
-void Game::main_loop() {
+void App::main_loop() {
     bool playing = true;
     this->next_time = SDL_GetTicks() + RATE;
     while (playing) {
@@ -31,7 +31,7 @@ void Game::main_loop() {
     }
 }
 
-Uint32 Game::time_left() {
+Uint32 App::time_left() {
     Uint32 now = SDL_GetTicks();
 
     if (next_time <= now)

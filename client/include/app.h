@@ -1,19 +1,19 @@
-#ifndef __GAME_H__
-#define __GAME_H__
+#ifndef __APP_H__
+#define __APP_H__
 
 #include "game_io/modelo_io.h"
 #include "game_logic/modelo_logic.h"
 
-class Game {
+class App {
    private:
     Uint32 next_time;
     ModeloLogic logic;
     ModeloIO view;
 
    public:
-    Game();
+    App();
 
-    ~Game();
+    ~App();
 
     void load_media();
 
