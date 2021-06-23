@@ -3,7 +3,10 @@
 #include "game_io/player.h"
 
 Renderizables::Renderizables(SdlWindow &window)
-    : texts(), objects(), window(&window) {}
+    : texts(), objects(), window(&window) {
+    createTexts();
+    createObjects();
+}
 
 Renderizables::~Renderizables() {}
 
@@ -33,37 +36,37 @@ void Renderizables::renderObjects() {
 }
 
 void Renderizables::renderTexts() {
-    for (size_t i = 0; i < texts.size(); ++i) {
+    for (size_t i = 0; i < texts.size(); i++) {
         texts[i]->render();
     }
 }
 
 void Renderizables::moveUp() {
-    for (size_t i = 0; i < objects.size(); ++i) {
+    for (size_t i = 0; i < objects.size(); i++) {
         objects[i]->moveUp();
     }
 }
 
 void Renderizables::moveDown() {
-    for (size_t i = 0; i < objects.size(); ++i) {
+    for (size_t i = 0; i < objects.size(); i++) {
         objects[i]->moveDown();
     }
 }
 
 void Renderizables::moveLeft() {
-    for (size_t i = 0; i < objects.size(); ++i) {
+    for (size_t i = 0; i < objects.size(); i++) {
         objects[i]->moveLeft();
     }
 }
 
 void Renderizables::moveRight() {
-    for (size_t i = 0; i < objects.size(); ++i) {
+    for (size_t i = 0; i < objects.size(); i++) {
         objects[i]->moveRight();
     }
 }
 
 void Renderizables::mouseMove(int posX, int posY) {
-    for (size_t i = 0; i < objects.size(); ++i) {
+    for (size_t i = 0; i < objects.size(); i++) {
         objects[i]->mouse_mov(posX, posY);
     }
 }
