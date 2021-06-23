@@ -37,7 +37,7 @@ class SdlObject {
     virtual void moveRight();
     virtual void moveLeft();
 
-    void render();
+    virtual void render();
 
     virtual void mouse_mov(int x, int y);
 };
