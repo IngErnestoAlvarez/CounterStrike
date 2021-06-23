@@ -1,5 +1,7 @@
 #include "game_io/renderizables.h"
 
+#include "game_io/player.h"
+
 Renderizables::Renderizables(SdlWindow &window)
     : texts(), objects(), window(&window) {}
 
@@ -21,7 +23,7 @@ void Renderizables::createTexts() {
 void Renderizables::createObjects() {
     using up = std::unique_ptr<SdlObject>;
     this->objects.push_back(
-        up(new SdlObject("assets/sprites/ct2.png", 4, *this->window)));
+        up(new PlayerView("assets/sprites/ct2.png", 4, *this->window)));
 }
 
 void Renderizables::renderObjects() {

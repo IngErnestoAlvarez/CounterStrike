@@ -7,9 +7,13 @@
 #include "app.h"
 
 int main(int argc, char const *argv[]) {
-    App game;
-    game.load_media();
-    game.main_loop();
+    try {
+        App game;
+        game.load_media();
+        game.main_loop();
+    } catch (const std::exception &e) {
+        std::cerr << e.what() << '\n';
+    }
 
     return 0;
 }

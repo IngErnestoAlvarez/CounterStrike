@@ -56,23 +56,16 @@ void SdlObject::set_init_pos(SDL_Point const &pos) {
     this->set_init_pos(pos.x, pos.y);
 }
 
-void SdlObject::moveUp() { pos.y -= this->sprite_clips->h / 16; }
+void SdlObject::moveUp() {}
 
-void SdlObject::moveDown() { pos.y += this->sprite_clips->h / 16; }
+void SdlObject::moveDown() {}
 
-void SdlObject::moveRight() { pos.x += this->sprite_clips->h / 16; }
+void SdlObject::moveRight() {}
 
-void SdlObject::moveLeft() { pos.x -= this->sprite_clips->h / 16; }
+void SdlObject::moveLeft() {}
 
 void SdlObject::render() {
     this->image.render(pos.x, pos.y, angle, center, sprite_clips);
 }
 
-void SdlObject::mouse_mov(int x, int y) {
-    this->prevangle = this->angle;
-    this->angle = (atan2(pos.y - y, pos.x - x) * 180.0000 / M_PI) - 90;
-    if (!angle) {
-        this->angle = this->prevangle;
-    }
-    return;
-}
+void SdlObject::mouse_mov(int x, int y) {}

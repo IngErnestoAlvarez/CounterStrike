@@ -9,7 +9,7 @@
 #include "game_io/sdl/SdlWindow.h"
 
 class SdlObject {
-   private:
+   protected:
     SdlImage image;
     SDL_Rect sprite_clips[1];
     SDL_Point pos;
@@ -27,19 +27,19 @@ class SdlObject {
     SdlObject &operator=(SdlObject const &) = delete;
     SdlObject &operator=(SdlObject &&);
 
-    ~SdlObject();
+    virtual ~SdlObject();
 
     void set_init_pos(int x, int y);
     void set_init_pos(SDL_Point const &pos);
 
-    void moveUp();
-    void moveDown();
-    void moveRight();
-    void moveLeft();
+    virtual void moveUp();
+    virtual void moveDown();
+    virtual void moveRight();
+    virtual void moveLeft();
 
     void render();
 
-    void mouse_mov(int x, int y);
+    virtual void mouse_mov(int x, int y);
 };
 
 #endif
