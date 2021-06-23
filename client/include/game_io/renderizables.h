@@ -1,6 +1,7 @@
 #ifndef __RENDERIZABLES_H__
 #define __RENDERIZABLES_H__
 
+#include <memory>
 #include <vector>
 
 #include "game_io/sdl/SdlObject.h"
@@ -9,9 +10,8 @@
 
 class Renderizables {
    private:
-    std::vector<SdlImage> images;
-    std::vector<SdlText> texts;
-    std::vector<SdlObject> objects;
+    std::vector<std::unique_ptr<SdlText>> texts;
+    std::vector<std::unique_ptr<SdlObject>> objects;
     SdlWindow *window;
 
    public:
@@ -21,14 +21,17 @@ class Renderizables {
 
     void render();
 
-   private:
-    void renderImages();
+    void moveLeft();
+    void moveRight();
+    void moveUp();
+    void moveDown();
 
+    void mouseMove(int posX, int posY);
+
+   private:
     void renderTexts();
 
     void renderObjects();
-
-    void createImages();
 
     void createTexts();
 

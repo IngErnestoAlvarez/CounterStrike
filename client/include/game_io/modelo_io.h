@@ -16,10 +16,7 @@ class ModeloIO {
     SdlWindow window;
     ModeloLogic *modelo;
     bool active;
-
-    SdlObject player_view;
-    SdlText life;
-    SdlText ammo;
+    Renderizables renderizables;
 
    public:
     ModeloIO();

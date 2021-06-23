@@ -21,22 +21,12 @@ ModeloIO::ModeloIO(ModeloLogic &logic)
       window(WIDTH, HEIGHT),
       modelo(&logic),
       active(true),
-      player_view("assets/sprites/ct2.png", 4, this->window),
-      life(this->window, "life 100/100"),
-      ammo(this->window, "ammo 30/30") {
+      renderizables(window) {
     SDL_SetRenderDrawColor(window.getRendered(), 0xFF, 0xFF, 0xFF, 0xFF);
-    life.set_pos(0, 500);
-    ammo.set_pos(550, 500);
 }
 
 ModeloIO::ModeloIO()
-    : init(),
-      window(),
-      modelo(nullptr),
-      active(true),
-      player_view("assets/sprites/ak47.png", 4, this->window),
-      life(this->window, "100/100"),
-      ammo(this->window, "100/100") {
+    : init(), window(), modelo(nullptr), active(true), renderizables(window) {
     SDL_SetRenderDrawColor(window.getRendered(), 0xFF, 0xFF, 0xFF, 0xFF);
 }
 
@@ -67,16 +57,16 @@ void ModeloIO::check_events() {
 
 void ModeloIO::check_keyboard() {
     const Uint8 *state = SDL_GetKeyboardState(NULL);
-    if (state[SDL_SCANCODE_A]) this->player_view.moveLeft();
-    if (state[SDL_SCANCODE_W]) this->player_view.moveUp();
-    if (state[SDL_SCANCODE_D]) this->player_view.moveRight();
-    if (state[SDL_SCANCODE_S]) this->player_view.moveDown();
+    if (state[SDL_SCANCODE_A]) this->renderizables.moveLeft();
+    if (state[SDL_SCANCODE_W]) this->renderizables.moveUp();
+    if (state[SDL_SCANCODE_D]) this->renderizables.moveRight();
+    if (state[SDL_SCANCODE_S]) this->renderizables.moveDown();
 }
 
 void ModeloIO::check_mouse() {
     int mouseX, mouseY;
     SDL_GetMouseState(&mouseX, &mouseY);
-    this->player_view.mouse_mov(mouseX, mouseY);
+    this->renderizables.mouseMove(mouseX, mouseY);
 }
 
 SdlWindow &ModeloIO::getWindow() { return this->window; }
@@ -84,8 +74,6 @@ SdlWindow &ModeloIO::getWindow() { return this->window; }
 void ModeloIO::clearRenderer() { this->window.clear_renderer(); }
 
 void ModeloIO::render() {
-    this->player_view.render();
-    this->life.render();
-    this->ammo.render();
+    this->renderizables.render();
     this->window.render();
 }
