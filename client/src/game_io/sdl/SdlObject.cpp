@@ -12,8 +12,8 @@ SdlObject::SdlObject(std::string const &path, int animation_frames,
     : image(window, path),
       sprite_clips(),
       pos({0, 0}),
-      center({16, 16}),
-      animation_frames(4),
+      center({16, 32}),
+      animation_frames(animation_frames),
       angle(0),
       prevangle(0) {
     sprite_clips->x = 32;

@@ -14,7 +14,7 @@ class ModeloIO {
    private:
     Initializer init;
     SdlWindow window;
-    ModeloLogic& modelo;
+    ModeloLogic &modelo;
     bool active;
     Renderizables renderizables;
 
