@@ -2,11 +2,19 @@
 
 #include "game_io/floor.h"
 #include "game_io/player.h"
+#include "game_logic/player.h"
 
-Renderizables::Renderizables(SdlWindow &window)
-    : texts(), objects(), window(&window) {
-    createTexts();
-    createObjects();
+// Renderizables::Renderizables(SdlWindow &window)
+//     : texts(), objects(), window(&window) {
+//     createTexts();
+//     createObjects();
+// }
+
+Renderizables::Renderizables(SdlWindow &window, std::vector<Body *> bodies,
+                             Player *player)
+    : window(&window) {
+    this->createTexts();
+    this->createObjects(bodies, player);
 }
 
 Renderizables::~Renderizables() {}
@@ -33,6 +41,19 @@ void Renderizables::createObjects() {
     //     up(new PlayerView("assets/sprites/ct2.png", 4, *this->window)));
 }
 
+void Renderizables::createObjects(std::vector<Body *> bodies, Player *player) {
+    using up = std::unique_ptr<SdlObject>;
+    this->objects.push_back(
+        up(new Floor("assets/sprites/office.png", 1, *this->window)));
+    for (size_t i = 0; i < bodies.size(); ++i) {
+        this->objects.push_back(up(new SdlObject("assets/sprites/ct2.png", 4,
+                                                 *this->window, bodies[i])));
+    }
+
+    this->objects.push_back(
+        up(new PlayerView("assets/sprites/ct2.png", 4, *this->window, player)));
+}
+
 void Renderizables::renderObjects() {
     for (size_t i = 0; i < objects.size(); ++i) {
         objects[i]->render();
@@ -45,29 +66,29 @@ void Renderizables::renderTexts() {
     }
 }
 
-void Renderizables::moveUp() {
-    for (size_t i = 0; i < objects.size(); i++) {
-        objects[i]->moveUp();
-    }
-}
+// void Renderizables::moveUp() {
+//     for (size_t i = 0; i < objects.size(); i++) {
+//         objects[i]->moveUp();
+//     }
+// }
 
-void Renderizables::moveDown() {
-    for (size_t i = 0; i < objects.size(); i++) {
-        objects[i]->moveDown();
-    }
-}
+// void Renderizables::moveDown() {
+//     for (size_t i = 0; i < objects.size(); i++) {
+//         objects[i]->moveDown();
+//     }
+// }
 
-void Renderizables::moveLeft() {
-    for (size_t i = 0; i < objects.size(); i++) {
-        objects[i]->moveLeft();
-    }
-}
+// void Renderizables::moveLeft() {
+//     for (size_t i = 0; i < objects.size(); i++) {
+//         objects[i]->moveLeft();
+//     }
+// }
 
-void Renderizables::moveRight() {
-    for (size_t i = 0; i < objects.size(); i++) {
-        objects[i]->moveRight();
-    }
-}
+// void Renderizables::moveRight() {
+//     for (size_t i = 0; i < objects.size(); i++) {
+//         objects[i]->moveRight();
+//     }
+// }
 
 void Renderizables::mouseMove(int posX, int posY) {
     for (size_t i = 0; i < objects.size(); i++) {

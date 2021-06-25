@@ -1,29 +1,31 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <unordered_map>
 #include <string>
-#include "map.h"
+#include <unordered_map>
+
 #include "configuration.h"
+#include "map.h"
 #include "player.h"
 #include "world.h"
 
 class Body;
 
 class Game {
-private:
+   private:
     Configuration config;
     World world;
     Map map;
-    Body* player = nullptr;
+    Body *player = nullptr;
 
-public:
-    Game(const std::string& config_filepath, const std::string& map_filepath);
+   public:
+    Game(const std::string &config_filepath, const std::string &map_filepath);
     ~Game();
-    World& getWorld();
-    Map& getMap();
-    const Configuration& getConfig();
-    Body* createPlayer(float x, float y);
+    World &getWorld();
+    Map &getMap();
+    Player *getPlayer();
+    const Configuration &getConfig();
+    Body *createPlayer(float x, float y);
     void step();
     void moveUp();
     void moveDown();

@@ -7,6 +7,8 @@
 #include "game_io/sdl/SdlObject.h"
 #include "game_io/sdl/SdlWindow.h"
 #include "game_io/sdl/text/SdlText.h"
+#include "game_logic/body.h"
+#include "game_logic/player.h"
 
 class Renderizables {
    private:
@@ -15,16 +17,13 @@ class Renderizables {
     SdlWindow *window;
 
    public:
-    Renderizables(SdlWindow &window);
+    // Renderizables(SdlWindow &window);
+    Renderizables(SdlWindow &window, std::vector<Body *> bodies,
+                  Player *player);
 
     ~Renderizables();
 
     void render();
-
-    void moveLeft();
-    void moveRight();
-    void moveUp();
-    void moveDown();
 
     void mouseMove(int posX, int posY);
 
@@ -36,6 +35,7 @@ class Renderizables {
     void createTexts();
 
     void createObjects();
+    void createObjects(std::vector<Body *> bodies, Player *player);
 };
 
 #endif

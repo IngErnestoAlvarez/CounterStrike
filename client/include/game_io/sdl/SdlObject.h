@@ -7,6 +7,7 @@
 
 #include "game_io/sdl/SdlImage.h"
 #include "game_io/sdl/SdlWindow.h"
+#include "game_logic/body.h"
 
 class SdlObject {
    protected:
@@ -17,9 +18,12 @@ class SdlObject {
     const int animation_frames;
     float angle;
     float prevangle;
+    Body *body;
 
    public:
     SdlObject(std::string const &path, int animation_frames, SdlWindow &window);
+    SdlObject(std::string const &path, int animation_frames, SdlWindow &window,
+              Body *body);
 
     SdlObject(SdlObject const &) = delete;
     SdlObject(SdlObject &&);
