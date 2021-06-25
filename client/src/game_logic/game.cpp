@@ -1,8 +1,10 @@
-#include <iostream>
-#include <cmath>
 #include "game_logic/game.h"
-#include "game_logic/player.h"
+
+#include <cmath>
+#include <iostream>
+
 #include "game_logic/body.h"
+#include "game_logic/player.h"
 
 Game::Game(const std::string &config_filepath, const std::string &map_filepath)
     : config(config_filepath), world(), map(world, map_filepath) {}
@@ -16,24 +18,21 @@ void Game::moveLeft() { this->player->moveLeft(); }
 void Game::moveRight() { this->player->moveRight(); }
 
 void Game::setAim(int x, int y) {
-	this->player->setAngle((atan2(this->player->getY()-y, this->player->getX()-x)*180.0000)/3.1416 + 90);
+    this->player->setAngle(
+        (atan2(this->player->getY() - y, this->player->getX() - x) * 180.0000) /
+            3.1416 +
+        90);
 }
 
-void Game::stopMoving() {
-	this->player->stopMoving();
-}
+void Game::stopMoving() { this->player->stopMoving(); }
 
-int Game::getX() {
-	return int(this->player->getX());
-}
+int Game::getX() { return int(this->player->getX()); }
 
-int Game::getY() {
-	return int(this->player->getY());
-}
+int Game::getY() { return int(this->player->getY()); }
 
-int Game::getAngle() {
-	return int(this->player->getAngle());
-}
+int Game::getAngle() { return int(this->player->getAngle()); }
+
+Player *Game::getPlayer() { return &Player(); }
 
 World &Game::getWorld() { return this->world; }
 
@@ -41,13 +40,14 @@ Map &Game::getMap() { return this->map; }
 
 const Configuration &Game::getConfig() { return this->config; }
 
-Body* Game::createPlayer(float x, float y) {
-	if (this->player != nullptr) {
-		throw std::runtime_error("Se intento crear personaje pero el mismo ya existia");
-	}
+Body *Game::createPlayer(float x, float y) {
+    if (this->player != nullptr) {
+        throw std::runtime_error(
+            "Se intento crear personaje pero el mismo ya existia");
+    }
 
-	this->player = this->world.createBody(x, y, this->config.getPlayerSpeed());
-	return this->player;
+    this->player = this->world.createBody(x, y, this->config.getPlayerSpeed());
+    return this->player;
 }
 
 void Game::step() { this->world.step(); }
