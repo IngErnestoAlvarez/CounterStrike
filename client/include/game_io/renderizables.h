@@ -12,10 +12,10 @@ class Renderizables {
    private:
     std::vector<std::unique_ptr<SdlText>> texts;
     std::vector<std::unique_ptr<SdlObject>> objects;
-    SdlWindow *window;
+    SdlWindow& window;
 
    public:
-    Renderizables(SdlWindow &window);
+    Renderizables(SdlWindow& window);
 
     ~Renderizables();
 

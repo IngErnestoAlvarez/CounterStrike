@@ -27,6 +27,7 @@ public:
     void destroy();
     float getX() const;
     float getY() const;
+    float getAngle() const;
 };
 
 #endif

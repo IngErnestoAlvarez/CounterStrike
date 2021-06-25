@@ -13,6 +13,7 @@ Configuration::Configuration(const std::string &config_filepath) {
 
     YAML::Node game = config["game_settings"];
     this->player_health = game["player_health"].as<float>();
+    this->player_speed = game["player_speed"].as<float>();
 
     YAML::Node weapons = game["weapons"];
     std::vector<std::string> weapon_types = WEAPON_TYPES;
@@ -22,7 +23,8 @@ Configuration::Configuration(const std::string &config_filepath) {
         this->weapons[weapon_type] = std::unordered_map<std::string, float>();
 
         for (const std::string &weapon_param : weapon_params) {
-            this->weapons[weapon_type][weapon_param] = weapons[weapon_type][weapon_param].as<float>();
+            this->weapons[weapon_type][weapon_param] \
+                = weapons[weapon_type][weapon_param].as<float>();
         }
     }
 }
@@ -35,3 +37,5 @@ float Configuration::getWeaponConfigValue(const std::string &weapon_name,
 }
 
 float Configuration::getPlayerHealth() const { return this->player_health; }
+
+float Configuration::getPlayerSpeed() const { return this->player_speed; }

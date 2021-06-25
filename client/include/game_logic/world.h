@@ -16,10 +16,8 @@ private:
 
 public:
     World();
-    World(const std::string& map_filepath);
-    Body* createBody(float x, float y, float velocity);
-    std::vector<Body*> getBodies();
     ~World();
+    Body* createBody(float x, float y, float velocity);
     void step();
 };
 

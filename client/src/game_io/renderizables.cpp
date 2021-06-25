@@ -3,8 +3,8 @@
 #include "game_io/floor.h"
 #include "game_io/player.h"
 
-Renderizables::Renderizables(SdlWindow &window)
-    : texts(), objects(), window(&window) {
+Renderizables::Renderizables(SdlWindow& window)
+    : texts(), objects(), window(window) {
     createTexts();
     createObjects();
 }
@@ -17,20 +17,20 @@ void Renderizables::render() {
 }
 
 void Renderizables::createTexts() {
-    using up = std::unique_ptr<SdlText>;
-    this->texts.push_back(up(new SdlText(*this->window, "life 100/100")));
-    this->texts.back()->set_pos(0, 500);
-    this->texts.push_back(up(new SdlText(*this->window, "ammo 30/30")));
-    this->texts.back()->set_pos(550, 500);
+    // using up = std::unique_ptr<SdlText>;
+    // this->texts.push_back(up(new SdlText(*this->window, "life 100/100")));
+    // this->texts.back()->set_pos(0, 500);
+    // this->texts.push_back(up(new SdlText(*this->window, "ammo 30/30")));
+    // this->texts.back()->set_pos(550, 500);
 }
 
 void Renderizables::createObjects() {
-    using up = std::unique_ptr<SdlObject>;
-    this->objects.push_back(
-        up(new Floor("assets/sprites/office.png", 1, *this->window)));
-    this->objects.back()->set_init_pos(0, 0);
-    this->objects.push_back(
-        up(new PlayerView("assets/sprites/ct2.png", 4, *this->window)));
+    // using up = std::unique_ptr<SdlObject>;
+    // this->objects.push_back(
+    //     up(new Floor("assets/sprites/office.png", 1, *this->window)));
+    // this->objects.back()->set_init_pos(0, 0);
+    // this->objects.push_back(
+    //     up(new PlayerView("assets/sprites/ct2.png", 4, *this->window)));
 }
 
 void Renderizables::renderObjects() {

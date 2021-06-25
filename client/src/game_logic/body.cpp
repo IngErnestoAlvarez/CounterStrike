@@ -64,3 +64,7 @@ float Body::getX() const {
 float Body::getY() const {
     return this->b2_body->GetPosition().y;
 }
+
+float Body::getAngle() const {
+    return this->b2_body->GetAngle();
+}

@@ -11,10 +11,20 @@ class ModeloLogic {
 
    public:
     ModeloLogic();
-
     ~ModeloLogic();
 
     void update();
+
+    void movePlayerUp();
+    void movePlayerDown();
+    void movePlayerLeft();
+    void movePlayerRight();
+    void setPlayerAim(int x, int y);
+    void stopPlayer();
+
+    int getPlayerX();
+    int getPlayerY();
+    int getPlayerAngle();
 
     World &getWorld();
     Map &getMap();
