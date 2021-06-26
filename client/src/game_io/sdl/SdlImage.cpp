@@ -45,7 +45,7 @@ void SdlImage::load_from_file(std::string const &path) {
         throw std::runtime_error("Unable to load image ! SDL_image Error:");
     } else {
         SDL_SetColorKey(loadedSurface, SDL_TRUE,
-                        SDL_MapRGB(loadedSurface->format, 0, 0xFF, 0xFF));
+                        SDL_MapRGB(loadedSurface->format, 0xFF, 0xFF, 0xFF));
 
         newTexture = SDL_CreateTextureFromSurface(this->window->getRendered(),
                                                   loadedSurface);
