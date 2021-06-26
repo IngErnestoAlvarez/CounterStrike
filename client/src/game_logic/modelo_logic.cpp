@@ -6,7 +6,7 @@
 
 ModeloLogic::ModeloLogic()
     : game("config/config.yaml", "assets/maps/map.yaml") {
-    this->game.createPlayer(0, 500);
+    this->game.createPlayer(400, 300);
 }
 
 ModeloLogic::~ModeloLogic() {}

@@ -15,21 +15,13 @@ Floor::Floor(std::string const &path, int animation_frames, SdlWindow &window,
 Floor::~Floor() {}
 
 void Floor::render() {
-    int i = 0;  // 13
-    int j = 0;  // 10
     for (Cell &cell : (*this->map)) {
-        SDL_Point point = {i * 32, j * 32};
         if (cell.canBeAccesed()) {
-            this->image.render(point.x, point.y, angle, center, sprite_clips);
+            this->image.render(cell.getWorldX(), cell.getWorldY(), angle,
+                               center, sprite_clips);
         } else {
-            this->box.render(point.x, point.y, angle, center, sprite_clips);
-        }
-
-        if (j == 18) {
-            i++;
-            j = 0;
-        } else {
-            j++;
+            this->box.render(cell.getWorldX(), cell.getWorldY(), angle, center,
+                             sprite_clips);
         }
     }
 }
