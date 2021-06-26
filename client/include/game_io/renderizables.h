@@ -22,7 +22,6 @@ class Renderizables {
     // Renderizables(SdlWindow &window);
     Renderizables(SdlWindow &window, std::vector<Body *> bodies, Player *player,
                   Map *map);
-    Renderizables(SdlWindow &window, std::vector<Body *> bodies, Map *map);
 
     ~Renderizables();
 

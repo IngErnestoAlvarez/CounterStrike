@@ -41,9 +41,9 @@ SdlObject::SdlObject(std::string const &path, int animation_frames,
 
 SdlObject::SdlObject(SdlObject &&other)
     : image(std::move(other.image)),
+      animation_frames(other.animation_frames),
       pos(std::move(other.pos)),
       center(std::move(other.pos)),
-      animation_frames(other.animation_frames),
       angle(other.angle),
       prevangle(other.prevangle) {
     sprite_clips = other.sprite_clips;

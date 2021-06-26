@@ -13,18 +13,10 @@
 Renderizables::Renderizables(SdlWindow &window, std::vector<Body *> bodies,
                              Player *player, Map *map)
     : window(&window), map(map) {
-    this->createTexts();
+    this->createFloor();
     this->createObjects(bodies, player);
-    this->createFloor();
-}
-Renderizables::Renderizables(SdlWindow &window, std::vector<Body *> bodies,
-                             Map *map)
-    : window(&window), map(map) {
     this->createTexts();
-    this->createObjects(bodies);
-    this->createFloor();
 }
-
 Renderizables::~Renderizables() {}
 
 void Renderizables::render() {
@@ -51,18 +43,15 @@ void Renderizables::createObjects() {
 
 void Renderizables::createObjects(std::vector<Body *> bodies, Player *player) {
     // ! Buscar las casillas que entren en la pantalla
-}
-
-void Renderizables::createObjects(std::vector<Body *> bodies) {
-    // ! Buscar las casillas que entren en la pantalla
+    using up = std::unique_ptr<SdlObject>;
+    this->objects.push_back(
+        up(new PlayerView("assets/sprites/ct2.png", 2, *window, player)));
 }
 
 void Renderizables::createFloor() {
     using up = std::unique_ptr<SdlObject>;
     this->objects.push_back(up(
         new Floor("assets/sprites/office.png", 1, *this->window, this->map)));
-    this->objects.push_back(
-        up(new SdlObject("assets/sprites/ak47.png", 1, *this->window)));
 }
 
 void Renderizables::renderObjects() {

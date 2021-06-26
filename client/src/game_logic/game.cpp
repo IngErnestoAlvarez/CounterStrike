@@ -51,3 +51,5 @@ Body *Game::createPlayer(float x, float y) {
 void Game::step() { this->world.step(); }
 
 Game::~Game() {}
+
+Player *Game::getPlayer() { return (Player *)this->player; }

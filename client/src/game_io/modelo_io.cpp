@@ -22,7 +22,8 @@ ModeloIO::ModeloIO(ModeloLogic &logic)
       window(WIDTH, HEIGHT),
       modelo(logic),
       active(true),
-      renderizables(window, logic.getBodies(), &logic.getMap()) {
+      renderizables(window, logic.getBodies(), logic.getPlayer(),
+                    &logic.getMap()) {
     SDL_SetRenderDrawColor(window.getRendered(), 0xFF, 0xFF, 0xFF, 0xFF);
 }
 

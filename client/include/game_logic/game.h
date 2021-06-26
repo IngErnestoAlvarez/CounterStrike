@@ -23,7 +23,7 @@ class Game {
     ~Game();
     World &getWorld();
     Map &getMap();
-    // Player *getPlayer();
+    Player *getPlayer();
     const Configuration &getConfig();
     Body *createPlayer(float x, float y);
     void step();

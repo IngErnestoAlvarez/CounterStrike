@@ -21,7 +21,7 @@ std::vector<Body *> &ModeloLogic::getBodies() {
     return this->game.getWorld().getBodies();
 }
 
-// Player *ModeloLogic::getPlayer() { return this->game.getPlayer(); }
+Player *ModeloLogic::getPlayer() { return this->game.getPlayer(); }
 
 void ModeloLogic::movePlayerUp() { game.moveUp(); }
 

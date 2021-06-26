@@ -25,6 +25,7 @@ class ModeloLogic {
     int getPlayerX();
     int getPlayerY();
     int getPlayerAngle();
+    Player *getPlayer();
     std::vector<Body *> &getBodies();
     // Player *getPlayer();
 
