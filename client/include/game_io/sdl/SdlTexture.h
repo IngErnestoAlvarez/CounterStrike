@@ -23,7 +23,7 @@ class SdlTexture {
     SdlTexture &operator=(SDL_Texture *);
 
     void render(int x, int y, float angle, SDL_Point &center,
-                SDL_Rect *clip = nullptr);
+                SDL_Rect *clip = nullptr, SDL_Rect *renderQuad = nullptr);
 
     void render(SDL_Point &pos);
 

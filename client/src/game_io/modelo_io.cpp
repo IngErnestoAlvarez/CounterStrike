@@ -96,6 +96,9 @@ SdlWindow &ModeloIO::getWindow() { return this->window; }
 void ModeloIO::clearRenderer() { this->window.clear_renderer(); }
 
 void ModeloIO::render() {
+    this->window.set_camera_pos(modelo.getPlayerX(), modelo.getPlayerY(),
+                                modelo.getMap().getWidth() * 32,
+                                modelo.getMap().getHeight() * 32);
     this->renderizables.render();
     this->window.render();
 

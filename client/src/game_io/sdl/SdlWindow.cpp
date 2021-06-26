@@ -26,6 +26,10 @@ SdlWindow::SdlWindow(int width, int height) : width(width), height(height) {
         window = nullptr;
         throw std::runtime_error("Renderer could not be created!");
     }
+    this->camera.x = 0;
+    this->camera.y = 0;
+    this->camera.w = 300;
+    this->camera.h = 200;
 }
 
 SdlWindow::~SdlWindow() {
@@ -66,4 +70,24 @@ SDL_Renderer *SdlWindow::getRendered() const {
     return this->renderer;
 }
 
+SDL_Rect &SdlWindow::getCamera() { return this->camera; }
+
 void SdlWindow::clear_renderer() { SDL_RenderClear(this->renderer); }
+
+void SdlWindow::set_camera_pos(int x, int y, int widthtotal, int heighttotal) {
+    this->camera.x = (x + 32 / 2) - width / 2;
+    this->camera.y = (y + 32 / 2) - height / 2;
+
+    if (camera.x < 0) {
+        camera.x = 0;
+    }
+    if (camera.y < 0) {
+        camera.y = 0;
+    }
+    if (camera.x > widthtotal - camera.w) {
+        camera.x = widthtotal - camera.w;
+    }
+    if (camera.y > heighttotal - camera.h) {
+        camera.y = heighttotal - camera.h;
+    }
+}
