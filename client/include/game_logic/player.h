@@ -21,7 +21,7 @@ public:
     void moveDown();
     void moveLeft();
     void moveRight();
-    void addWeaponToInventory(int weapon_id);
+    void addWeaponToInventory(const std::string& weapon_name);
 
 
     int getX() const;

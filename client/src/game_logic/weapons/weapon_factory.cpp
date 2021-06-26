@@ -1,25 +1,30 @@
 #include "game_logic/weapons/weapon_factory.h"
-
-#include "configuration.h"
 #include "game_logic/game.h"
-#include "game_logic/weapons/glock.h"
-#include "game_logic/weapons/knife.h"
+#include "game_logic/player.h"
 #include "game_logic/weapons/weapon.h"
+#include "game_logic/weapons/knife.h"
+#include "game_logic/weapons/glock.h"
+#include "game_logic/weapons/ak47.h"
+#include "game_logic/weapons/m3.h"
+#include "game_logic/weapons/awp.h"
 
-Weapon* WeaponFactory::create(Game& game, const std::string& weapon_name) {
-    const Configuration &config = game.getConfig();
+Weapon* WeaponFactory::create(Game& game,
+                              Body& player,
+                              const std::string& weapon_name) {
+    if (weapon_name == "knife")
+        return new Knife(game, player);
 
-    float damage = config.getWeaponConfigValue(weapon_name, "damage");
-    float precision = config.getWeaponConfigValue(weapon_name, "precision");
-    float range = config.getWeaponConfigValue(weapon_name, "range");
+    if (weapon_name == "glock")
+        return new Glock(game, player);
 
-    if (weapon_name == "knife") {
-        return new Knife(damage, precision, range);
-    }
+    if (weapon_name == "ak47")
+        return new AK47(game, player);
 
-    if (weapon_name == "glock") {
-        return new Glock(damage, precision, range);
-    }
+    if (weapon_name == "m3")
+        return new M3(game, player);
+
+    if (weapon_name == "awp")
+        return new AWP(game, player);
 
     // terminar esto
 

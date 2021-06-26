@@ -57,6 +57,8 @@ void Body::destroy() {
     this->b2_body = nullptr;
 }
 
+void Body::handleCollision(Body* other) {}
+
 float Body::getX() const {
     return this->b2_body->GetPosition().x;
 }

@@ -25,6 +25,7 @@ public:
     void moveDown();
     void stopMoving();
     void destroy();
+    void handleCollision(Body* other);
     float getX() const;
     float getY() const;
     float getAngle() const;

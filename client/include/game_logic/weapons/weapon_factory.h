@@ -3,12 +3,15 @@
 
 #include <string>
 
-class Game;
 class Weapon;
+class Game;
+class Body;
 
 class WeaponFactory {
 public:
-    static Weapon* create(Game& game, const std::string& weapon_name);
+    static Weapon* create(Game& game,
+                          Body& player,
+                          const std::string& weapon_name);
 };
 
 #endif

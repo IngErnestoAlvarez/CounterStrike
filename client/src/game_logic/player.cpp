@@ -31,8 +31,8 @@ void Player::moveLeft() { this->move(this->x - 1, this->y); }
 
 void Player::moveRight() { this->move(this->x + 1, this->y); }
 
-void Player::addWeaponToInventory(int weapon_id) {
-    // this->inventory.push_back(WeaponFactory::create(this->game, weapon_id));
+void Player::addWeaponToInventory(const std::string& weapon_name) {
+    // this->inventory.push_back(WeaponFactory::create(this->game, weapon_name));
 }
 
 int Player::getX() const { return this->x; }

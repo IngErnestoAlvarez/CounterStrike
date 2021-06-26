@@ -3,9 +3,12 @@
 
 #include "weapon.h"
 
+class Game;
+class Body;
+
 class Glock : public Weapon {
 public:
-    Glock(float damage, float precision, float range);
+    Glock(Game& game, Body& player);
     void use() override;
 };
 
