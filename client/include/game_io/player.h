@@ -10,6 +10,7 @@
 class PlayerView : public SdlObject {
    private:
     Player *player;
+    size_t animation_pos;
 
    public:
     PlayerView(std::string const &path, int animation_frames,
@@ -24,6 +25,9 @@ class PlayerView : public SdlObject {
     // void moveLeft() override;
     void mouse_mov(int x, int y) override;
     void render() override;
+
+   private:
+    void update_animation();
 };
 
 #endif
