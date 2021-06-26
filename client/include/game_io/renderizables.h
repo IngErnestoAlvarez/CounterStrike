@@ -8,6 +8,7 @@
 #include "game_io/sdl/SdlWindow.h"
 #include "game_io/sdl/text/SdlText.h"
 #include "game_logic/body.h"
+#include "game_logic/map.h"
 #include "game_logic/player.h"
 
 class Renderizables {
@@ -15,11 +16,13 @@ class Renderizables {
     std::vector<std::unique_ptr<SdlText>> texts;
     std::vector<std::unique_ptr<SdlObject>> objects;
     SdlWindow *window;
+    Map *map;
 
    public:
     // Renderizables(SdlWindow &window);
-    Renderizables(SdlWindow &window, std::vector<Body *> bodies,
-                  Player *player);
+    Renderizables(SdlWindow &window, std::vector<Body *> bodies, Player *player,
+                  Map *map);
+    Renderizables(SdlWindow &window, std::vector<Body *> bodies, Map *map);
 
     ~Renderizables();
 
@@ -32,9 +35,14 @@ class Renderizables {
 
     void renderObjects();
 
+    void renderFloor();
+
     void createTexts();
 
+    void createFloor();
+
     void createObjects();
+    void createObjects(std::vector<Body *> bodies);
     void createObjects(std::vector<Body *> bodies, Player *player);
 };
 

@@ -5,7 +5,7 @@
 #include "game_logic/world.h"
 
 ModeloLogic::ModeloLogic()
-    : game("../config/config.yaml", "../assets/maps/map.yaml") {
+    : game("config/config.yaml", "assets/maps/map.yaml") {
     this->game.createPlayer(0, 500);
 }
 
@@ -21,7 +21,7 @@ std::vector<Body *> &ModeloLogic::getBodies() {
     return this->game.getWorld().getBodies();
 }
 
-Player *ModeloLogic::getPlayer() { return this->game.getPlayer(); }
+// Player *ModeloLogic::getPlayer() { return this->game.getPlayer(); }
 
 void ModeloLogic::movePlayerUp() { game.moveUp(); }
 

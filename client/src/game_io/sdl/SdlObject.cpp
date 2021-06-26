@@ -71,13 +71,13 @@ void SdlObject::set_init_pos(SDL_Point const &pos) {
     this->set_init_pos(pos.x, pos.y);
 }
 
-void SdlObject::moveUp() {}
+// void SdlObject::moveUp() {}
 
-void SdlObject::moveDown() {}
+// void SdlObject::moveDown() {}
 
-void SdlObject::moveRight() {}
+// void SdlObject::moveRight() {}
 
-void SdlObject::moveLeft() {}
+// void SdlObject::moveLeft() {}
 
 void SdlObject::render() {
     this->image.render(pos.x, pos.y, angle, center, sprite_clips);

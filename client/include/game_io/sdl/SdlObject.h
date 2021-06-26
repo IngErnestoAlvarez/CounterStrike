@@ -36,10 +36,10 @@ class SdlObject {
     void set_init_pos(int x, int y);
     void set_init_pos(SDL_Point const &pos);
 
-    virtual void moveUp();
-    virtual void moveDown();
-    virtual void moveRight();
-    virtual void moveLeft();
+    // virtual void moveUp();
+    // virtual void moveDown();
+    // virtual void moveRight();
+    // virtual void moveLeft();
 
     virtual void render();
 

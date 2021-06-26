@@ -22,7 +22,7 @@ ModeloIO::ModeloIO(ModeloLogic &logic)
       window(WIDTH, HEIGHT),
       modelo(logic),
       active(true),
-      renderizables(window, logic.getBodies(), logic.getPlayer()) {
+      renderizables(window, logic.getBodies(), &logic.getMap()) {
     SDL_SetRenderDrawColor(window.getRendered(), 0xFF, 0xFF, 0xFF, 0xFF);
 }
 
@@ -95,31 +95,33 @@ SdlWindow &ModeloIO::getWindow() { return this->window; }
 void ModeloIO::clearRenderer() { this->window.clear_renderer(); }
 
 void ModeloIO::render() {
-    // this->renderizables.render();
-    // this->window.render();
+    this->renderizables.render();
+    this->window.render();
 
-    SDL_Renderer *renderer = this->window.getRendered();
-    SDL_Rect dst;
-    SDL_RendererFlip flip =
-        SDL_RendererFlip(SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL);
+    // SDL_Renderer *renderer = this->window.getRendered();
+    // SDL_Rect dst;
+    // SDL_RendererFlip flip =
+    //     SDL_RendererFlip(SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL);
 
-    SDL_Texture *player =
-        IMG_LoadTexture(renderer, "../assets/sprites/player.png");
-    SDL_Texture *wall = IMG_LoadTexture(renderer, "../assets/sprites/wall.png");
-    // SDL_Texture* ground = IMG_LoadTexture(renderer,
-    // "../assets/sprites/office.png");
+    // SDL_Texture *player =
+    //     IMG_LoadTexture(renderer, "../assets/sprites/player.png");
+    // SDL_Texture *wall = IMG_LoadTexture(renderer,
+    // "../assets/sprites/wall.png");
+    // // SDL_Texture* ground = IMG_LoadTexture(renderer,
+    // // "../assets/sprites/office.png");
 
-    for (Cell &cell : modelo.getMap()) {
-        dst = {int(cell.getWorldX()) - 4, int(cell.getWorldY()), 32, 32};
-        if (cell.canBeAccesed()) {
-            // SDL_RenderCopy(renderer, ground, nullptr, &dst);
-        } else {
-            SDL_RenderCopy(renderer, wall, nullptr, &dst);
-        }
-    }
+    // for (Cell &cell : modelo.getMap()) {
+    //     dst = {int(cell.getWorldX()) - 4, int(cell.getWorldY()), 32, 32};
+    //     if (cell.canBeAccesed()) {
+    //         // SDL_RenderCopy(renderer, ground, nullptr, &dst);
+    //     } else {
+    //         SDL_RenderCopy(renderer, wall, nullptr, &dst);
+    //     }
+    // }
 
-    dst = {modelo.getPlayerX(), modelo.getPlayerY(), 32, 32};
-    SDL_RenderCopyEx(renderer, player, nullptr, &dst, modelo.getPlayerAngle(),
-                     nullptr, flip);
-    SDL_RenderPresent(renderer);
+    // dst = {modelo.getPlayerX(), modelo.getPlayerY(), 32, 32};
+    // SDL_RenderCopyEx(renderer, player, nullptr, &dst,
+    // modelo.getPlayerAngle(),
+    //                  nullptr, flip);
+    // SDL_RenderPresent(renderer);
 }

@@ -32,8 +32,6 @@ int Game::getY() { return int(this->player->getY()); }
 
 int Game::getAngle() { return int(this->player->getAngle()); }
 
-Player *Game::getPlayer() { return &Player(); }
-
 World &Game::getWorld() { return this->world; }
 
 Map &Game::getMap() { return this->map; }
