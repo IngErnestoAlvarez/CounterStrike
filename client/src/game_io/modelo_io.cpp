@@ -88,7 +88,8 @@ void ModeloIO::check_keyboard() {
 void ModeloIO::check_mouse() {
     int mouseX, mouseY;
     SDL_GetMouseState(&mouseX, &mouseY);
-    this->modelo.setPlayerAim(mouseX, mouseY);
+    this->modelo.setPlayerAim(mouseX + window.getCamera().x,
+                              mouseY + window.getCamera().y);
 }
 
 SdlWindow &ModeloIO::getWindow() { return this->window; }
