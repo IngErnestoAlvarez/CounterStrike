@@ -36,7 +36,7 @@ class SdlObject {
     void set_init_pos(int x, int y);
     void set_init_pos(SDL_Point const &pos);
 
-    void blend(SDL_BlendMode mode);
+    void blend();
 
     void set_alpha(Uint8 alpha);
 

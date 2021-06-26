@@ -15,7 +15,8 @@ SdlObject::SdlObject(std::string const &path, int animation_frames,
       center({16, 32}),
       animation_frames(animation_frames),
       angle(0),
-      prevangle(0) {
+      prevangle(0),
+      body(nullptr) {
     sprite_clips->x = 32;
     sprite_clips->y = 32;
     sprite_clips->w = 32;
@@ -30,7 +31,8 @@ SdlObject::SdlObject(std::string const &path, int animation_frames,
       center({16, 32}),
       animation_frames(animation_frames),
       angle(0),
-      prevangle(0) {
+      prevangle(0),
+      body(body) {
     sprite_clips->x = 32;
     sprite_clips->y = 32;
     sprite_clips->w = 32;
@@ -87,4 +89,4 @@ void SdlObject::mouse_mov(int x, int y) {}
 
 void SdlObject::set_alpha(Uint8 a) { this->image.set_alpha(a); }
 
-void SdlObject::blend(SDL_BlendMode mode) { this->image.set_blendMode(mode); }
+void SdlObject::blend() { this->image.set_blendMode(SDL_BLENDMODE_BLEND); }
