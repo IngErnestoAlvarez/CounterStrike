@@ -10,13 +10,13 @@
 SdlObject::SdlObject(std::string const &path, int animation_frames,
                      SdlWindow &window)
     : image(window, path),
-      sprite_clips(),
+      animation_frames(animation_frames),
       pos({0, 0}),
       center({16, 32}),
-      animation_frames(animation_frames),
       angle(0),
       prevangle(0),
       body(nullptr) {
+    sprite_clips = new SDL_Rect[animation_frames];
     sprite_clips->x = 32;
     sprite_clips->y = 32;
     sprite_clips->w = 32;
@@ -26,17 +26,17 @@ SdlObject::SdlObject(std::string const &path, int animation_frames,
 SdlObject::SdlObject(std::string const &path, int animation_frames,
                      SdlWindow &window, Body *body)
     : image(window, path),
-      sprite_clips(),
-      pos({0, 0}),
-      center({16, 32}),
       animation_frames(animation_frames),
+      pos({0, 0}),
+      center({16, 16}),
       angle(0),
       prevangle(0),
       body(body) {
-    sprite_clips->x = 32;
-    sprite_clips->y = 32;
-    sprite_clips->w = 32;
-    sprite_clips->h = 32;
+    sprite_clips = new SDL_Rect[animation_frames];
+    sprite_clips[0].x = 0;
+    sprite_clips[0].y = 0;
+    sprite_clips[0].w = 32;
+    sprite_clips[0].h = 32;
 }
 
 SdlObject::SdlObject(SdlObject &&other)
@@ -46,15 +46,17 @@ SdlObject::SdlObject(SdlObject &&other)
       animation_frames(other.animation_frames),
       angle(other.angle),
       prevangle(other.prevangle) {
-    sprite_clips[0] = std::move(other.sprite_clips[0]);
+    sprite_clips = other.sprite_clips;
+    other.sprite_clips = nullptr;
 }
 
-SdlObject::~SdlObject() {}
+SdlObject::~SdlObject() { delete sprite_clips; }
 
 SdlObject &SdlObject::operator=(SdlObject &&other) {
     if (this == &other) return *this;
     using std::move;
-    sprite_clips[0] = other.sprite_clips[0];
+    sprite_clips = other.sprite_clips;
+    other.sprite_clips = nullptr;
     image = move(other.image);
     pos = move(other.pos);
     center = move(other.center);

@@ -12,10 +12,10 @@
 class SdlObject {
    protected:
     SdlImage image;
-    SDL_Rect sprite_clips[1];
+    const int animation_frames;
+    SDL_Rect *sprite_clips;
     SDL_Point pos;
     SDL_Point center;
-    const int animation_frames;
     float angle;
     float prevangle;
     Body *body;

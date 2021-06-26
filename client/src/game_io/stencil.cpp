@@ -2,6 +2,7 @@
 
 Stencil::Stencil(SdlWindow &window)
     : SdlObject("assets/sprites/stencil.png", 1, window) {
+    this->pos = {0, 0};
     this->blend();
     this->set_alpha(100);
     this->center = {400, 300};
@@ -12,3 +13,11 @@ Stencil::Stencil(SdlWindow &window)
 }
 
 Stencil::~Stencil() {}
+
+void Stencil::mouse_mov(int x, int y) {
+    this->prevangle = this->angle;
+    this->angle = (atan2(center.y - y, center.x - x) * 180.0000 / M_PI) - 90;
+    if (!angle) {
+        this->angle = this->prevangle;
+    }
+}
