@@ -9,7 +9,7 @@
 #include "game_logic/weapons/awp.h"
 
 Weapon* WeaponFactory::create(Game& game,
-                              Body& player,
+                              Player& player,
                               const std::string& weapon_name) {
     if (weapon_name == "knife")
         return new Knife(game, player);

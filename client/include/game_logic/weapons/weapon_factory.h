@@ -5,12 +5,12 @@
 
 class Weapon;
 class Game;
-class Body;
+class Player;
 
 class WeaponFactory {
 public:
     static Weapon* create(Game& game,
-                          Body& player,
+                          Player& player,
                           const std::string& weapon_name);
 };
 

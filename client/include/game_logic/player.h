@@ -3,29 +3,19 @@
 
 #include <string>
 #include <vector>
+#include "body.h"
 
 class Weapon;
 class Game;
+class Configuration;
 
-class Player {
+class Player : public Body {
 private:
-    int x;
-    int y;
-    Game& game;
     std::vector<Weapon*> inventory;
-    void move(int x_target, int y_target);
 
 public:
-    Player(Game& game, int x, int y);
-    void moveUp();
-    void moveDown();
-    void moveLeft();
-    void moveRight();
-    void addWeaponToInventory(const std::string& weapon_name);
-
-
-    int getX() const;
-    int getY() const;
+    Player(World& world, Configuration& config, float x, float y);
+    void addWeaponToInventory(Weapon* weapon);
 };
 
 #endif

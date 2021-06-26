@@ -6,6 +6,6 @@
 class ContactListener : public b2ContactListener {
 public:
 	virtual void BeginContact(b2Contact* contact) override;
-}
+};
 
 #endif

@@ -2,24 +2,28 @@
 #define WEAPON_H
 
 #include <string>
+#include <vector>
 
+class Game;
+class Player;
+class Bullet;
 class World;
-class Body;
-class Configuration;
 
 class Weapon {
-private:
+protected:
     std::string name;
+    Game& game;
     World& world;
-    Body& player;
+    Player& player;
     float damage;
     float precision;
     float range;
+    std::vector<Bullet*> active_bullets;
 
 public:
     Weapon(const std::string& name,
-           Configuration& config,
-           Body& player);
+           Game& game,
+           Player& player);
     virtual void use() = 0;
     ~Weapon();
 };

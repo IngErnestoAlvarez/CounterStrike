@@ -7,15 +7,15 @@ class World;
 class Body {
 private:
     b2Body* b2_body;
-    World* world;
+    World& world;
     int id;
     float velocity;
-    Body(World* world, float x, float y, float velocity);
     void move(float x_velocity, float y_velocity);
 
     friend class World;
 
 public:
+    Body(World& world, float x, float y, float velocity);
     ~Body();
     void setAngle(float angle);
     void move();

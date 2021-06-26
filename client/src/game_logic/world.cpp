@@ -8,7 +8,7 @@
 #define CELL_SIZE 30
 
 World::World()
-    : b2_world(new b2World(b2Vec2(0, 0)))
+    : b2_world(new b2World(b2Vec2(0, 0))),
       contact_listener(new ContactListener()) {
     this->b2_world->SetContactListener(this->contact_listener);
 }
@@ -16,7 +16,7 @@ World::World()
 World::~World() {
     for (Body *body : this->bodies) {
         if (body != nullptr) {
-            delete body;
+            // delete body;
         }
     }
 
@@ -25,7 +25,7 @@ World::~World() {
 }
 
 Body *World::createBody(float x, float y, float velocity) {
-    Body *body = new Body(this, x, y, velocity);
+    Body *body = new Body(*this, x, y, velocity);
     this->bodies.push_back(body);
     return body;
 }

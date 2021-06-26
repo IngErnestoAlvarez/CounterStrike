@@ -3,14 +3,15 @@
 #include "game_logic/body.h"
 #include "game_logic/world.h"
 
-Body::Body(World* world, float x, float y, float velocity)
-    : world(world), id(world->bodies.size()), velocity(velocity) {
+Body::Body(World& world, float x, float y, float velocity)
+    : world(world), id(world.bodies.size()), velocity(velocity) {
     b2BodyDef b2_body_def;
     b2_body_def.position.Set(x, y);
     b2_body_def.angle = 0;
     b2_body_def.type = velocity > 0 ? b2_dynamicBody : b2_staticBody;
     b2_body_def.allowSleep = false;
-    this->b2_body = this->world->b2_world->CreateBody(&b2_body_def);
+    b2_body_def.userData = this;
+    this->b2_body = this->world.b2_world->CreateBody(&b2_body_def);
 
     b2PolygonShape b2_polygon_shape;
     b2_polygon_shape.SetAsBox(10, 10);
@@ -19,7 +20,7 @@ Body::Body(World* world, float x, float y, float velocity)
 
 Body::~Body() {
     if (this->b2_body != nullptr) {
-        this->world->bodies[this->id] = nullptr;
+        this->world.bodies[this->id] = nullptr;
         this->destroy();
     }
 }
@@ -53,7 +54,7 @@ void Body::stopMoving() {
 }
 
 void Body::destroy() {
-    this->world->b2_world->DestroyBody(this->b2_body);
+    this->world.b2_world->DestroyBody(this->b2_body);
     this->b2_body = nullptr;
 }
 

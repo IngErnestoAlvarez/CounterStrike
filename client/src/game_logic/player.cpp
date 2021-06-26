@@ -2,39 +2,10 @@
 
 #include "game_logic/game.h"
 #include "game_logic/map.h"
-#include "game_logic/weapons/weapon_factory.h"
 
-Player::Player(Game &game, int x, int y) : x(x), y(y), game(game) {}
+Player::Player(World& world, Configuration& config, float x, float y)
+    : Body(world, x, y, config.getPlayerSpeed()) {}
 
-void Player::move(int x_target, int y_target) {
-    // Map &map = this->game.getMap();
-    // if (!map.canBeAccesed(x_target, y_target)) {
-    //     return;
-    // }
-
-    // this->x = x_target;
-    // this->y = y_target;
-
-    // ver esto despues
-    // int weapon_id = map.getWeaponAt(x_target, y_target);
-
-    // if (weapon_id > 0) {
-    //     this->addWeaponToInventory(weapon_id);
-    // }
+void Player::addWeaponToInventory(Weapon* weapon) {
+    this->inventory.push_back(weapon);
 }
-
-void Player::moveUp() { this->move(this->x, this->y - 1); }
-
-void Player::moveDown() { this->move(this->x, this->y + 1); }
-
-void Player::moveLeft() { this->move(this->x - 1, this->y); }
-
-void Player::moveRight() { this->move(this->x + 1, this->y); }
-
-void Player::addWeaponToInventory(const std::string& weapon_name) {
-    // this->inventory.push_back(WeaponFactory::create(this->game, weapon_name));
-}
-
-int Player::getX() const { return this->x; }
-
-int Player::getY() const { return this->y; }

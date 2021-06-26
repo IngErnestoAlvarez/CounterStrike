@@ -1,6 +1,6 @@
 #include "game_logic/weapons/awp.h"
 
-AWP::AWP(Game& game, Body& player)
+AWP::AWP(Game& game, Player& player)
            : Weapon("awp", game, player) {}
 
 void AWP::use() {}

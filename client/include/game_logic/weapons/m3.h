@@ -4,11 +4,11 @@
 #include "weapon.h"
 
 class Game;
-class Body;
+class Player;
 
 class M3 : public Weapon {
 public:
-    M3(Game& game, Body& player);
+    M3(Game& game, Player& player);
     void use() override;
 };
 
