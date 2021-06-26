@@ -27,6 +27,18 @@ class SdlTexture {
 
     void render(SDL_Point &pos);
 
+    /**
+     * @brief Usar antes del render
+     *
+     */
+    void set_alpha(Uint8 alpha);
+
+    /**
+     * @brief Hacerlo despues de crear la textura
+     *
+     */
+    void set_blendMode(SDL_BlendMode mode);
+
     virtual ~SdlTexture();
 
    protected:

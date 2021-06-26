@@ -84,3 +84,7 @@ void SdlObject::render() {
 }
 
 void SdlObject::mouse_mov(int x, int y) {}
+
+void SdlObject::set_alpha(Uint8 a) { this->image.set_alpha(a); }
+
+void SdlObject::blend(SDL_BlendMode mode) { this->image.set_blendMode(mode); }

@@ -94,3 +94,11 @@ void SdlTexture::render(SDL_Point &pos) {
         throw std::runtime_error("Error RenderCopy");
     }
 }
+
+void SdlTexture::set_blendMode(SDL_BlendMode mode) {
+    SDL_SetTextureBlendMode(this->texture, mode);
+}
+
+void SdlTexture::set_alpha(Uint8 alpha) {
+    SDL_SetTextureAlphaMod(this->texture, alpha);
+}
