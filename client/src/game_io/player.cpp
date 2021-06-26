@@ -45,3 +45,5 @@ void PlayerView::mouse_mov(int x, int y) {
 void PlayerView::update_animation() {
     this->animation_pos = 1 - this->animation_pos;
 }
+
+float PlayerView::get_angle() { return this->angle; }

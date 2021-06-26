@@ -26,6 +26,8 @@ class PlayerView : public SdlObject {
     void mouse_mov(int x, int y) override;
     void render() override;
 
+    float get_angle();
+
    private:
     void update_animation();
 };
