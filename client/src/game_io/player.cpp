@@ -1,14 +1,17 @@
 #include "game_io/player.h"
 
+#include <iostream>
+
 PlayerView::PlayerView(std::string const &path, int animation_frames,
                        SdlWindow &window)
-    : SdlObject(path, animation_frames, window) {}
+    : SdlObject(path, animation_frames, window), stencil(window) {}
 
 PlayerView::PlayerView(std::string const &path, int animation_frames,
                        SdlWindow &window, Player *player)
     : SdlObject(path, animation_frames, window),
       player(player),
-      animation_pos(0) {
+      animation_pos(0),
+      stencil(window) {
     this->center = {16, 16};
     this->sprite_clips[0].x = 0;
     this->sprite_clips[0].y = 0;
@@ -32,6 +35,7 @@ void PlayerView::render() {
     this->image.render(player->getX(), player->getY(),
                        180.0 + player->getAngle(), center,
                        &sprite_clips[animation_pos]);
+    this->stencil.render(player->getX(), player->getY(), player->getAngle());
 }
 
 // void PlayerView::moveUp() { pos.y -= this->sprite_clips->h / 16; }

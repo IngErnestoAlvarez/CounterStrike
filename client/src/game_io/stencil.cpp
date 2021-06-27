@@ -5,19 +5,15 @@ Stencil::Stencil(SdlWindow &window)
     this->pos = {0, 0};
     this->blend();
     this->set_alpha(100);
-    this->center = {400, 300};
-    this->sprite_clips->h = 600;
-    this->sprite_clips->w = 800;
+    this->center = {800, 600};
+    this->sprite_clips->h = 1200;
+    this->sprite_clips->w = 1600;
     this->sprite_clips->x = 0;
     this->sprite_clips->y = 0;
 }
 
 Stencil::~Stencil() {}
 
-void Stencil::mouse_mov(int x, int y) {
-    this->prevangle = this->angle;
-    this->angle = (atan2(center.y - y, center.x - x) * 180.0000 / M_PI) - 90;
-    if (!angle) {
-        this->angle = this->prevangle;
-    }
+void Stencil::render(int x, int y, float angle) {
+    this->image.render(x - 784, y - 584, angle + 90, center, sprite_clips);
 }

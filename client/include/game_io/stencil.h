@@ -1,7 +1,6 @@
 #ifndef __STENCIL_H__
 #define __STENCIL_H__
 
-#include "game_io/player.h"
 #include "sdl/SdlObject.h"
 
 class Stencil : public SdlObject {
@@ -10,7 +9,7 @@ class Stencil : public SdlObject {
     Stencil(SdlWindow &window);
     ~Stencil();
 
-    void mouse_mov(int x, int y) override;
+    void render(int x, int y, float angle);
 };
 
 #endif  // __STENCIL_H__

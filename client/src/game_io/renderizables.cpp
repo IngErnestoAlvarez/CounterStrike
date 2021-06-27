@@ -2,6 +2,7 @@
 
 #include "game_io/floor.h"
 #include "game_io/player.h"
+#include "game_io/stencil.h"
 #include "game_logic/player.h"
 
 // Renderizables::Renderizables(SdlWindow &window)

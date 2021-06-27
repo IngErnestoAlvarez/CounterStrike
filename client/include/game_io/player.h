@@ -3,14 +3,17 @@
 
 #include <string>
 
+#include "game_io/player.h"
 #include "game_io/sdl/SdlObject.h"
 #include "game_io/sdl/SdlWindow.h"
+#include "game_io/stencil.h"
 #include "game_logic/player.h"
 
 class PlayerView : public SdlObject {
    private:
     Player *player;
     size_t animation_pos;
+    Stencil stencil;
 
    public:
     PlayerView(std::string const &path, int animation_frames,
