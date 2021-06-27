@@ -7,6 +7,7 @@
 #include <string.h>
 
 #include <iostream>
+#include <string>
 
 // Sockets
 #include <netdb.h>
@@ -116,21 +117,21 @@ int socket_t::send(char const *buffer, size_t n) {
     return 0;
 }
 
-int socket_t::receive(char *buffer, size_t n, size_t &received) {
+void socket_t::receive(char *buffer, size_t n, size_t &received) {
     received = 0;
 
     while (received < n) {
         int estado = ::recv(this->fd, &(buffer[received]), n - received, 0);
         if (estado == 0) {
-            return 1;
+            throw SocketClosed("Se cerró el socket.");
         } else if (estado == -1) {
-            fprintf(stderr, "Error al recibir: %s\n", strerror(errno));
-            return -1;
+            throw std::runtime_error("Error al recibir: " +
+                                     std::string(strerror(errno)));
+            ;
         } else {
             received += estado;
         }
     }
-    return 0;
 }
 
 int socket_t::socket_servidor(const char *nombre_host, const char *servicio) {
@@ -231,4 +232,11 @@ socket_t &socket_t::operator=(socket_t &&other) noexcept {
     other.fd = -1;
 
     return *this;
+}
+
+socket_t::SocketClosed::SocketClosed(std::string const &error)
+    : message(error) {}
+
+const char *socket_t::SocketClosed::what() const noexcept {
+    return this->message.c_str();
 }

@@ -8,6 +8,15 @@ struct socket_t {
     int fd;
 
    public:
+    class SocketClosed : public std::exception {
+       private:
+        std::string message;
+
+       public:
+        SocketClosed(std::string const &error);
+
+        const char *what() const noexcept;
+    };
     // Incializa una instancia para ser utilizada.
     // Post: Devuelve 1 si hubo un error, 0 si no.
     socket_t();
@@ -46,11 +55,13 @@ struct socket_t {
     // Post: Devuelve 1 si hubo un error, 0 si no.
     int send(char const *buffer, size_t n);
 
-    // Recibe el mensaje a traves del socket, devuelve a traves de
-    // received la cantidad de bytes leidos.
-    // Post: Devuelve 1 si se cerró el socket, -1 si hubo un error, 0 si
-    // ninguna.
-    int receive(char *buffer, size_t n, size_t &received);
+    /**
+     * @brief Recibe el mensaje a traves del socket, devuelve a traves de
+     * received la cantidad de bytes leidos.
+     * @throws SocketClosed Si el socket se cerró.
+     * @throws std::runtime_exception Si hubo un error con el socket.
+     */
+    void receive(char *buffer, size_t n, size_t &received);
 
     void shutdown();
 
