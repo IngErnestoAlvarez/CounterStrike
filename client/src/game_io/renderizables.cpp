@@ -47,6 +47,9 @@ void Renderizables::createObjects(std::vector<Body *> bodies, Player *player) {
     using up = std::unique_ptr<SdlObject>;
     this->objects.push_back(
         up(new PlayerView("assets/sprites/ct2.png", 2, *window, player)));
+    this->objects.push_back(
+        up(new SdlObject("assets/sprites/ak47.png", 1, *window)));
+    this->objects.back()->set_init_pos(300, 200);
 }
 
 void Renderizables::createFloor() {
