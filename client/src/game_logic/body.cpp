@@ -3,11 +3,14 @@
 #include "game_logic/body.h"
 #include "game_logic/world.h"
 
-Body::Body(World& world, float x, float y, float velocity)
-    : world(world), id(world.bodies.size()), velocity(velocity) {
+Body::Body(World& world, float x, float y, float angle, float velocity)
+    : world(world),
+      id(world.bodies.size()),
+      velocity(velocity),
+      to_be_destroyed(false) {
     b2BodyDef b2_body_def;
     b2_body_def.position.Set(x, y);
-    b2_body_def.angle = 0;
+    b2_body_def.angle = angle;
     b2_body_def.type = velocity > 0 ? b2_dynamicBody : b2_staticBody;
     b2_body_def.allowSleep = false;
     b2_body_def.userData = this;
@@ -59,6 +62,14 @@ void Body::destroy() {
 }
 
 void Body::handleCollision(Body* other) {}
+
+void Body::setToBeDestroyed() {
+    this->to_be_destroyed = true;
+}
+
+bool Body::toBeDestroyed() const {
+    return this->to_be_destroyed;
+}
 
 float Body::getX() const {
     return this->b2_body->GetPosition().x;

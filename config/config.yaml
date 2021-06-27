@@ -7,19 +7,24 @@ game_settings:
       damage: 3
       range: 1
       precision: 1
+      initial_ammo: 0
     glock:
       damage: 10
       range: 5
       precision: 0.7
+      initial_ammo: 20
     ak47:
       damage: 8
       range: 5
       precision: 0.6
+      initial_ammo: 60
     m3:
       damage: 5
       range: 3
       precision: 0.5
+      initial_ammo: 60
     awp:
       damage: 20
       range: 10
       precision: 0.7
+      initial_ammo: 10

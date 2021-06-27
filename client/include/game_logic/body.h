@@ -10,12 +10,13 @@ private:
     World& world;
     int id;
     float velocity;
+    bool to_be_destroyed;
     void move(float x_velocity, float y_velocity);
 
     friend class World;
 
 public:
-    Body(World& world, float x, float y, float velocity);
+    Body(World& world, float x, float y, float angle, float velocity);
     ~Body();
     void setAngle(float angle);
     void move();
@@ -26,6 +27,8 @@ public:
     void stopMoving();
     void destroy();
     void handleCollision(Body* other);
+    void setToBeDestroyed();
+    bool toBeDestroyed() const;
     float getX() const;
     float getY() const;
     float getAngle() const;

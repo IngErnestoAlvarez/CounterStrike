@@ -2,7 +2,7 @@
 #define WEAPON_H
 
 #include <string>
-#include <vector>
+#include <unordered_set>
 
 class Game;
 class Player;
@@ -18,13 +18,17 @@ protected:
     float damage;
     float precision;
     float range;
-    std::vector<Bullet*> active_bullets;
+    int ammo;
+    std::unordered_set<Bullet*> active_bullets;
 
 public:
     Weapon(const std::string& name,
            Game& game,
            Player& player);
     virtual void use() = 0;
+    void createBullet();
+    void createBullet(float angle);
+    void deleteInactiveBullets();
     ~Weapon();
 };
 

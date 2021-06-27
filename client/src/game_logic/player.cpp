@@ -4,7 +4,7 @@
 #include "game_logic/map.h"
 
 Player::Player(World& world, Configuration& config, float x, float y)
-    : Body(world, x, y, config.getPlayerSpeed()) {}
+    : Body(world, x, y, 0, config.getPlayerSpeed()) {}
 
 void Player::addWeaponToInventory(Weapon* weapon) {
     this->inventory.push_back(weapon);

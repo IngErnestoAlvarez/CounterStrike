@@ -25,7 +25,7 @@ World::~World() {
 }
 
 Body *World::createBody(float x, float y, float velocity) {
-    Body *body = new Body(*this, x, y, velocity);
+    Body *body = new Body(*this, x, y, 0, velocity);
     this->bodies.push_back(body);
     return body;
 }
