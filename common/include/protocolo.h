@@ -1,4 +1,29 @@
+#ifndef __PROTOCOLO_H__
+#define __PROTOCOLO_H__
 
+/**
+ * ! Comandos (HEX):
+ **  - MoveUp "75"
+ **  - MoveDown "64"
+ **  - MoveLeft "6C"
+ **  - MoveRight "72"
+ **  - Shoot "73"
+ **  - ChangeWeapon "63" (x4)
+ **  - BuyWeapon "62" ("armaID")
+ **  - Use "79"
+ **  - Stop "7A"
+ */
+enum Comando : unsigned char {
+    UP = 0x75,
+    DOWN = 0x64,
+    LEFT = 0x6C,
+    RIGHT = 0x72,
+    SHOOT = 0x73,
+    CW = 0x63,
+    BW = 0x62,
+    USE = 0x79,
+    STOP = 0x7A
+};
 
 class Protocolo {
    public:
@@ -23,22 +48,24 @@ class Protocolo {
      */
 
     // SERVIDOR
-    send_config();
+    void send_config();
 
     // CLIENTE
-    recv_config();
+    void recv_config();
 
     // SERVIDOR
-    send_state();
+    void send_state();
 
     // CLIENTE
-    recv_state();
+    void recv_state();
 
     // CLIENTE
-    send_comando(Comando comando);
+    void send_comando(Comando comando);
 
     // CLIENTE
-    send_mouse(int x, int y);
+    void send_mouse(int x, int y);
 
    private:
 };
+
+#endif  // __PROTOCOLO_H__
