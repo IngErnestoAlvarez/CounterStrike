@@ -3,6 +3,8 @@
 
 #include <stdlib.h>
 
+#include <string>
+
 struct socket_t {
    private:
     int fd;
@@ -13,7 +15,7 @@ struct socket_t {
         std::string message;
 
        public:
-        SocketClosed(std::string const &error);
+        SocketClosed(const std::string &error);
 
         const char *what() const noexcept;
     };

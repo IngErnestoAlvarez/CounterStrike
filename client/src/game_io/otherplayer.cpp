@@ -23,7 +23,7 @@ OtherPlayer::~OtherPlayer() {}
 void OtherPlayer::update_animation() { animation_pos = 1 - animation_pos; }
 
 void OtherPlayer::render() {
-    SDL_Point pos_actual = {player->getX(), player->getY()};
+    SDL_Point pos_actual = {int(player->getX()), int(player->getY())};
     if ((pos_actual.x != this->pos.x) || (pos_actual.y != this->pos.y)) {
         this->update_animation();
         this->pos = pos_actual;

@@ -15,3 +15,4 @@ void Protocolo::recv_comando(Comando *comando) {
     size_t bytes_received;
     skt->receive(&mesg, COMMAND_SIZE, bytes_received);
     (*comando) = static_cast<Comando>(mesg);
+}
