@@ -4,14 +4,18 @@
 
 PlayerView::PlayerView(std::string const &path, int animation_frames,
                        SdlWindow &window)
-    : SdlObject(path, animation_frames, window), stencil(window) {}
+    : SdlObject(path, animation_frames, window),
+      stencil(window),
+      weapon("assets/sprites/ak47.png", 1, window, nullptr) {}
 
 PlayerView::PlayerView(std::string const &path, int animation_frames,
                        SdlWindow &window, Player *player)
     : SdlObject(path, animation_frames, window),
       player(player),
       animation_pos(0),
-      stencil(window) {
+      stencil(window),
+      weapon("assets/sprites/ak47.png", 1, window,
+             nullptr) {  // ! Cambiar el nullptr
     this->center = {16, 16};
     this->sprite_clips[0].x = 0;
     this->sprite_clips[0].y = 0;
@@ -22,6 +26,11 @@ PlayerView::PlayerView(std::string const &path, int animation_frames,
     this->sprite_clips[1].y = 0;
     this->sprite_clips[1].w = 32;
     this->sprite_clips[1].h = 32;
+
+    this->sprite_clips[2].x = 32;
+    this->sprite_clips[2].y = 32;
+    this->sprite_clips[2].w = 32;
+    this->sprite_clips[2].h = 32;
 }
 
 PlayerView::~PlayerView() {}
@@ -36,6 +45,7 @@ void PlayerView::render() {
                        180.0 + player->getAngle(), center,
                        &sprite_clips[animation_pos]);
     this->stencil.render(player->getX(), player->getY(), player->getAngle());
+    this->weapon.render(player->getX(), player->getY(), player->getAngle());
 }
 
 // void PlayerView::moveUp() { pos.y -= this->sprite_clips->h / 16; }
@@ -51,7 +61,8 @@ void PlayerView::mouse_mov(int x, int y) {
 }
 
 void PlayerView::update_animation() {
-    this->animation_pos = 1 - this->animation_pos;
+    // this->animation_pos = 1 - this->animation_pos;
+    this->animation_pos = 2;
 }
 
 float PlayerView::get_angle() { return this->angle; }

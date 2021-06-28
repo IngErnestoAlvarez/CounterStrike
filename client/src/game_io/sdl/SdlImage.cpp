@@ -55,7 +55,6 @@ void SdlImage::load_from_file(std::string const &path) {
             this->width = loadedSurface->w;
             this->height = loadedSurface->h;
         }
-
         SDL_FreeSurface(loadedSurface);
     }
 
