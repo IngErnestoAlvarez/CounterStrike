@@ -9,6 +9,7 @@ private:
     std::string port;
     float player_health;
     float player_speed;
+    float bullet_speed;
     std::unordered_map<std::string,
     				   std::unordered_map<std::string, float>> weapons;
 
@@ -18,6 +19,7 @@ public:
     float getWeaponConfigValue(const std::string& weapon_name, const std::string& key) const;
     float getPlayerHealth() const;
     float getPlayerSpeed() const;
+    float getBulletSpeed() const;
 };
 
 #endif

@@ -14,6 +14,7 @@ Configuration::Configuration(const std::string &config_filepath) {
     YAML::Node game = config["game_settings"];
     this->player_health = game["player_health"].as<float>();
     this->player_speed = game["player_speed"].as<float>();
+    this->bullet_speed = game["bullet_speed"].as<float>();
 
     YAML::Node weapons = game["weapons"];
     std::vector<std::string> weapon_types = WEAPON_TYPES;
@@ -39,3 +40,5 @@ float Configuration::getWeaponConfigValue(const std::string &weapon_name,
 float Configuration::getPlayerHealth() const { return this->player_health; }
 
 float Configuration::getPlayerSpeed() const { return this->player_speed; }
+
+float Configuration::getBulletSpeed() const { return this->bullet_speed; }

@@ -7,15 +7,18 @@
 
 class Weapon;
 class Game;
-class Configuration;
 
 class Player : public Body {
 private:
-    std::vector<Weapon*> inventory;
+    Weapon* default_melee_weapon;
+    Weapon* default_range_weapon;
+    Weapon* primary_weapon;
+    Weapon* equipped_weapon;
 
 public:
-    Player(World& world, Configuration& config, float x, float y);
+    Player(Game& game, float x, float y);
     void addWeaponToInventory(Weapon* weapon);
+    Weapon* getEquippedWeapon();
 };
 
 #endif
