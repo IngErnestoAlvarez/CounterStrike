@@ -3,6 +3,9 @@
 
 class b2Body;
 class World;
+class Bullet;
+class Player;
+class Block;
 
 class Body {
 private:
@@ -17,7 +20,7 @@ private:
 
 public:
     Body(World& world, float x, float y, float angle, float velocity);
-    ~Body();
+    virtual ~Body();
     void setAngle(float angle);
     void move();
     void moveLeft();
@@ -26,7 +29,10 @@ public:
     void moveDown();
     void stopMoving();
     void destroy();
-    void handleCollision(Body* other);
+    virtual void handleCollision(Body* body) = 0;
+    virtual void handleCollision(Bullet* bullet) = 0;
+    virtual void handleCollision(Player* player) = 0;
+    virtual void handleCollision(Block* block) = 0;
     void setToBeDestroyed();
     bool toBeDestroyed() const;
     float getX() const;

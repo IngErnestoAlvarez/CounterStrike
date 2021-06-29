@@ -5,11 +5,14 @@
 #include <vector>
 
 class b2World;
+class Game;
 class Body;
+class Block;
 class ContactListener;
 
 class World {
    private:
+    Game& game;
     b2World *b2_world;
     std::vector<Body *> bodies;
     ContactListener* contact_listener;
@@ -17,9 +20,9 @@ class World {
     friend class Body;
 
    public:
-    World();
+    World(Game& game);
     ~World();
-    Body *createBody(float x, float y, float velocity);
+    Block *createBody(float x, float y);
     void step();
     std::vector<Body *> &getBodies();
 };

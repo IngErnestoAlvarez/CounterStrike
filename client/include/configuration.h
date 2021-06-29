@@ -10,6 +10,8 @@ private:
     float player_health;
     float player_speed;
     float bullet_speed;
+    int initial_money;
+    int kill_reward;
     std::unordered_map<std::string,
     				   std::unordered_map<std::string, float>> weapons;
 
@@ -20,6 +22,8 @@ public:
     float getPlayerHealth() const;
     float getPlayerSpeed() const;
     float getBulletSpeed() const;
+    int getInitialMoney() const;
+    int getKillReward() const;
 };
 
 #endif

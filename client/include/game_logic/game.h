@@ -16,7 +16,7 @@ class Game {
     Configuration config;
     World world;
     Map map;
-    Body *player = nullptr;
+    Player *player = nullptr;
 
    public:
     Game(const std::string &config_filepath, const std::string &map_filepath);
@@ -25,7 +25,7 @@ class Game {
     Map &getMap();
     Player *getPlayer();
     const Configuration &getConfig();
-    Body *createPlayer(float x, float y);
+    Player *createPlayer(float x, float y);
     void step();
     void moveUp();
     void moveDown();

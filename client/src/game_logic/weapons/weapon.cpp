@@ -1,3 +1,4 @@
+#include "game_logic/body.h"
 #include "game_logic/weapons/weapon.h"
 #include "game_logic/player.h"
 #include "game_logic/world.h"
@@ -20,6 +21,14 @@ Weapon::Weapon(const std::string& name,
 }
 
 Weapon::~Weapon() {}
+
+std::string Weapon::getName() const {
+    return this->name;
+}
+
+int Weapon::getAmmo() const {
+    return this->ammo;
+}
 
 void Weapon::createBullet() {
     this->createBullet(0);

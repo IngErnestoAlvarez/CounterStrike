@@ -4,11 +4,14 @@
 #include "game_logic/cell.h"
 #include "game_logic/map.h"
 #include "game_logic/contact_listener.h"
+#include "game_logic/block.h"
+#include "game_logic/game.h"
 
 #define CELL_SIZE 30
 
-World::World()
-    : b2_world(new b2World(b2Vec2(0, 0))),
+World::World(Game& game)
+    : game(game),
+      b2_world(new b2World(b2Vec2(0, 0))),
       contact_listener(new ContactListener()) {
     this->b2_world->SetContactListener(this->contact_listener);
 }
@@ -16,7 +19,7 @@ World::World()
 World::~World() {
     for (Body *body : this->bodies) {
         if (body != nullptr) {
-            // delete body;
+            body->destroy();
         }
     }
 
@@ -24,10 +27,9 @@ World::~World() {
     delete this->contact_listener;
 }
 
-Body *World::createBody(float x, float y, float velocity) {
-    Body *body = new Body(*this, x, y, 0, velocity);
-    this->bodies.push_back(body);
-    return body;
+// cambiar esto
+Block *World::createBody(float x, float y) {
+    return new Block(this->game, x, y);
 }
 
 void World::step() {

@@ -19,6 +19,7 @@ Body::Body(World& world, float x, float y, float angle, float velocity)
     b2PolygonShape b2_polygon_shape;
     b2_polygon_shape.SetAsBox(10, 10);
     this->b2_body->CreateFixture(&b2_polygon_shape, 1);
+    this->world.bodies.push_back(this);
 }
 
 Body::~Body() {
@@ -34,6 +35,13 @@ void Body::setAngle(float angle) {
 
 void Body::move(float x_velocity, float y_velocity) {
     this->b2_body->SetLinearVelocity(b2Vec2(x_velocity, y_velocity));
+}
+
+void Body::move() {
+    float angle = this->getAngle();
+    float x_velocity = std::cos(angle) * this->velocity;
+    float y_velocity = std::sin(angle) * this->velocity;
+    this->move(x_velocity, y_velocity);
 }
 
 void Body::moveLeft() {
@@ -60,8 +68,6 @@ void Body::destroy() {
     this->world.b2_world->DestroyBody(this->b2_body);
     this->b2_body = nullptr;
 }
-
-void Body::handleCollision(Body* other) {}
 
 void Body::setToBeDestroyed() {
     this->to_be_destroyed = true;

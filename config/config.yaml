@@ -3,6 +3,8 @@ game_settings:
   player_health: 100
   player_speed: 1000
   bullet_speed: 5000
+  initial_money: 100
+  kill_reward: 10
   weapons:
     knife:
       damage: 3

@@ -25,7 +25,7 @@ Map::Map(World &world, const std::string &map_filepath) : world(world) {
             x = i * CELL_SIZE + CELL_SIZE / 2;
             y = j * CELL_SIZE + CELL_SIZE / 2;
 
-            if (cell_type != 0) this->world.createBody(x, y, 0);
+            if (cell_type != 0) this->world.createBody(x, y);
             this->grid.push_back(Cell(cell_type == 0, x, y));
         }
     }

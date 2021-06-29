@@ -7,7 +7,7 @@
 #include "game_logic/player.h"
 
 Game::Game(const std::string &config_filepath, const std::string &map_filepath)
-    : config(config_filepath), world(), map(world, map_filepath) {}
+    : config(config_filepath), world(*this), map(world, map_filepath) {}
 
 void Game::moveUp() { this->player->moveUp(); }
 
@@ -38,18 +38,21 @@ Map &Game::getMap() { return this->map; }
 
 const Configuration &Game::getConfig() { return this->config; }
 
-Body *Game::createPlayer(float x, float y) {
+Player *Game::createPlayer(float x, float y) {
     if (this->player != nullptr) {
         throw std::runtime_error(
             "Se intento crear personaje pero el mismo ya existia");
     }
 
-    this->player = this->world.createBody(x, y, this->config.getPlayerSpeed());
+    this->player = new Player(*this, 0, x, y);
     return this->player;
 }
 
 void Game::step() { this->world.step(); }
 
-Game::~Game() {}
+Game::~Game() {
+    if (this->player != nullptr)
+        delete this->player;
+}
 
-Player *Game::getPlayer() { return (Player *)this->player; }
+Player *Game::getPlayer() { return this->player; }
