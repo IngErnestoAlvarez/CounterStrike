@@ -15,7 +15,7 @@ class PlayerView : public SdlObject {
     Player *player;
     size_t animation_pos;
     Stencil stencil;
-    WeaponView weapon;
+    WeaponView primaryWeapon;
 
    public:
     PlayerView(std::string const &path, int animation_frames,

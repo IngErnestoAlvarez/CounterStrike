@@ -47,7 +47,7 @@ void Renderizables::createObjects(std::vector<Body *> bodies, Player *player) {
     this->objects.push_back(
         up(new PlayerView("assets/sprites/ct2.png", 3, *window, player)));
     this->objects.push_back(
-        up(new SdlObject("assets/sprites/ak47.png", 1, *window)));
+        up(new SdlObject("assets/sprites/ak47_d.png", 1, *window)));
     this->objects.back()->set_init_pos(300, 200);
 }
 
