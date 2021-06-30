@@ -13,7 +13,7 @@ class Block;
 class Player : public Body {
 private:
     int team_id;
-    float health;
+    int health;
     int money;
     int kill_reward;
     Weapon* default_melee_weapon;
@@ -27,6 +27,9 @@ public:
     Weapon* getEquippedWeapon();
     int getTeamID() const;
     bool isAlive() const;
+    int getHealth() const;
+    int getAmmo() const;
+    void useWeapon();
     void takeDamage(float damage);
     void handleEnemyKilled();
     void handleCollision(Body* body) override;

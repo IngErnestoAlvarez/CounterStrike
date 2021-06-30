@@ -28,6 +28,7 @@ public:
     virtual void use() = 0;
     std::string getName() const;
     int getAmmo() const;
+    float getRange() const;
     void createBullet();
     void createBullet(float angle);
     void deleteInactiveBullets();

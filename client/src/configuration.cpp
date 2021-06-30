@@ -11,7 +11,7 @@ Configuration::Configuration(const std::string &config_filepath) {
     this->port = config["port"].as<std::string>();
 
     YAML::Node game = config["game_settings"];
-    this->player_health = game["player_health"].as<float>();
+    this->player_health = game["player_health"].as<int>();
     this->player_speed = game["player_speed"].as<float>();
     this->bullet_speed = game["bullet_speed"].as<float>();
     this->initial_money = game["initial_money"].as<int>();
@@ -38,7 +38,7 @@ float Configuration::getWeaponConfigValue(const std::string &weapon_name,
     return this->weapons.at(weapon_name).at(key);
 }
 
-float Configuration::getPlayerHealth() const { return this->player_health; }
+int Configuration::getPlayerHealth() const { return this->player_health; }
 
 float Configuration::getPlayerSpeed() const { return this->player_speed; }
 

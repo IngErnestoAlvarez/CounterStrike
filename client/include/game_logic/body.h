@@ -29,6 +29,8 @@ public:
     void moveDown();
     void stopMoving();
     void destroy();
+    bool isDestroyed() const;
+    virtual void update();
     virtual void handleCollision(Body* body) = 0;
     virtual void handleCollision(Bullet* bullet) = 0;
     virtual void handleCollision(Player* player) = 0;

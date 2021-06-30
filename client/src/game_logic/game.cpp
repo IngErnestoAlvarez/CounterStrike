@@ -26,6 +26,10 @@ void Game::setAim(int x, int y) {
 
 void Game::stopMoving() { this->player->stopMoving(); }
 
+void Game::useWeapon() {
+    this->player->useWeapon();
+}
+
 int Game::getX() { return int(this->player->getX()); }
 
 int Game::getY() { return int(this->player->getY()); }
@@ -39,16 +43,16 @@ Map &Game::getMap() { return this->map; }
 const Configuration &Game::getConfig() { return this->config; }
 
 Player *Game::createPlayer(float x, float y) {
-    if (this->player != nullptr) {
-        throw std::runtime_error(
-            "Se intento crear personaje pero el mismo ya existia");
-    }
+    if (this->player != nullptr)
+        return nullptr;
 
     this->player = new Player(*this, 0, x, y);
     return this->player;
 }
 
-void Game::step() { this->world.step(); }
+void Game::step() {
+    this->world.step();
+}
 
 Game::~Game() {
     if (this->player != nullptr)

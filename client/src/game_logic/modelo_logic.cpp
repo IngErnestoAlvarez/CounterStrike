@@ -35,6 +35,10 @@ void ModeloLogic::setPlayerAim(int x, int y) { game.setAim(x, y); }
 
 void ModeloLogic::stopPlayer() { game.stopMoving(); }
 
+void ModeloLogic::usePlayerWeapon() {
+    game.useWeapon();
+}
+
 int ModeloLogic::getPlayerX() { return this->game.getX(); }
 
 int ModeloLogic::getPlayerY() { return this->game.getY(); }

@@ -33,6 +33,12 @@ Block *World::createBody(float x, float y) {
 }
 
 void World::step() {
+    for (Body* body : this->bodies) {
+        body->update();
+        if (body->toBeDestroyed()) {
+            body->destroy();
+        }
+    }
     // revisar estos valores
     this->b2_world->Step(2000, 8, 3);
 }

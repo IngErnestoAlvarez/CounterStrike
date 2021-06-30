@@ -41,6 +41,18 @@ bool Player::isAlive() const {
     return this->health > 0;
 }
 
+int Player::getHealth() const {
+    return this->health;
+}
+
+int Player::getAmmo() const {
+    return this->equipped_weapon->getAmmo();
+}
+
+void Player::useWeapon() {
+    return this->equipped_weapon->use();
+}
+
 void Player::takeDamage(float damage) {
     this->health -= damage;
     if (!this->isAlive())

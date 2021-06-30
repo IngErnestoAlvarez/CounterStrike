@@ -30,6 +30,10 @@ int Weapon::getAmmo() const {
     return this->ammo;
 }
 
+float Weapon::getRange() const {
+    return this->range;
+}
+
 void Weapon::createBullet() {
     this->createBullet(0);
 }
@@ -38,17 +42,16 @@ void Weapon::createBullet(float angle) {
     Bullet* bullet = nullptr;
 
     if (this->ammo > 0) {
-        bullet = new Bullet(this->game, this->player, angle);
+        bullet = new Bullet(this->game, this->player, this, angle);
         this->active_bullets.insert(bullet);
         bullet->move();
+        this->ammo--;
     }
-
-    this->ammo--;
 }
 
 void Weapon::deleteInactiveBullets() {
     for (auto it = this->active_bullets.begin(); it != this->active_bullets.end();) {
-        if ((*it)->toBeDestroyed()) {
+        if ((*it)->isDestroyed()) {
             delete *it;
             this->active_bullets.erase(it);
         }

@@ -19,7 +19,7 @@ public:
     Configuration(const std::string& config_filepath);
     const std::string& getPort() const;
     float getWeaponConfigValue(const std::string& weapon_name, const std::string& key) const;
-    float getPlayerHealth() const;
+    int getPlayerHealth() const;
     float getPlayerSpeed() const;
     float getBulletSpeed() const;
     int getInitialMoney() const;

@@ -33,6 +33,7 @@ class Game {
     void moveRight();
     void setAim(int x, int y);
     void stopMoving();
+    void useWeapon();
 
     int getX();
     int getY();

@@ -54,6 +54,10 @@ void ModeloIO::check_events() {
         if (e.type == SDL_QUIT) {
             this->active = false;
         }
+
+        if (e.type == SDL_MOUSEBUTTONDOWN) {
+            this->modelo.usePlayerWeapon();
+        }
     }
 }
 
@@ -90,6 +94,8 @@ void ModeloIO::check_mouse() {
     SDL_GetMouseState(&mouseX, &mouseY);
     this->modelo.setPlayerAim(mouseX + window.getCamera().x,
                               mouseY + window.getCamera().y);
+
+
 }
 
 SdlWindow &ModeloIO::getWindow() { return this->window; }

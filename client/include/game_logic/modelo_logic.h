@@ -21,6 +21,7 @@ class ModeloLogic {
     void movePlayerRight();
     void setPlayerAim(int x, int y);
     void stopPlayer();
+    void usePlayerWeapon();
 
     int getPlayerX();
     int getPlayerY();

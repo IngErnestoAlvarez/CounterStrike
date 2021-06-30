@@ -65,9 +65,18 @@ void Body::stopMoving() {
 }
 
 void Body::destroy() {
+    if (this->b2_body == nullptr)
+        return;
     this->world.b2_world->DestroyBody(this->b2_body);
     this->b2_body = nullptr;
+    this->to_be_destroyed = false;
 }
+
+bool Body::isDestroyed() const {
+    return this->b2_body == nullptr;
+}
+
+void Body::update() {}
 
 void Body::setToBeDestroyed() {
     this->to_be_destroyed = true;
