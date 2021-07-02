@@ -25,13 +25,7 @@ void Renderizables::render() {
     this->renderTexts();
 }
 
-void Renderizables::createTexts() {
-    using up = std::unique_ptr<SdlText>;
-    this->texts.push_back(up(new SdlText(*this->window, "life 100/100")));
-    this->texts.back()->set_pos(0, 570);
-    this->texts.push_back(up(new SdlText(*this->window, "ammo 30/30")));
-    this->texts.back()->set_pos(600, 570);
-}
+void Renderizables::createTexts() {}
 
 void Renderizables::createObjects() {
     // using up = std::unique_ptr<SdlObject>;
