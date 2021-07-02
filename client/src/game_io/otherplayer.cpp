@@ -1,10 +1,8 @@
 #include "game_io/otherplayer.h"
 
 OtherPlayer::OtherPlayer(std::string const &path, int animation_frames,
-                         SdlWindow &window, Player *player)
-    : SdlObject(path, animation_frames, window),
-      player(player),
-      animation_pos(0) {
+                         SdlWindow &window)
+    : SdlObject(path, animation_frames, window), animation_pos(0) {
     this->center = {16, 16};
     this->pos = {200, 200};
     this->sprite_clips[0].x = 0;

@@ -11,7 +11,7 @@ class OtherPlayer : public SdlObject {
 
    public:
     OtherPlayer(std::string const &path, int animation_frames,
-                SdlWindow &window, Player *player);
+                SdlWindow &window);
 
     ~OtherPlayer();
 

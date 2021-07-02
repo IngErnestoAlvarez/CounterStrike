@@ -9,6 +9,7 @@
 
 #include "game_io/sdl/SdlImage.h"
 #include "game_io/sdl/text/SdlText.h"
+#include "game_io/sound/sample.h"
 #include "game_logic/cell.h"
 #include "game_logic/modelo_logic.h"
 #include "math.h"
@@ -82,6 +83,11 @@ void ModeloIO::check_keyboard() {
     if (state[SDL_SCANCODE_S]) {
         any_key_pressed = true;
         this->modelo.movePlayerDown();
+    }
+
+    if (state[SDL_MOUSEBUTTONDOWN]) {
+        // Sample sound("assets/sounds/SHOT.wav");
+        // sound.play();
     }
 
     if (!any_key_pressed) {

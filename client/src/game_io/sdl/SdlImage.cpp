@@ -37,6 +37,11 @@ SdlImage &SdlImage::operator=(SdlImage &&other) {
 SdlImage::~SdlImage() { this->empty(); }
 
 void SdlImage::load_from_file(std::string const &path) {
+    load_from_file(path, 0xFF, 0xFF, 0xFF);
+}
+
+void SdlImage::load_from_file(std::string const &path, Uint8 red, Uint8 green,
+                              Uint8 blue) {
     this->empty();
     SDL_Texture *newTexture = NULL;
 
@@ -45,7 +50,7 @@ void SdlImage::load_from_file(std::string const &path) {
         throw std::runtime_error("Unable to load image ! SDL_image Error:");
     } else {
         SDL_SetColorKey(loadedSurface, SDL_TRUE,
-                        SDL_MapRGB(loadedSurface->format, 0xFF, 0xFF, 0xFF));
+                        SDL_MapRGB(loadedSurface->format, red, green, blue));
 
         newTexture = SDL_CreateTextureFromSurface(this->window->getRendered(),
                                                   loadedSurface);

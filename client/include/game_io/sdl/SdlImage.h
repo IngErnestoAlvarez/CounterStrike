@@ -23,6 +23,8 @@ class SdlImage : public SdlTexture {
     ~SdlImage() override;
 
     void load_from_file(std::string const &path);
+    void load_from_file(std::string const &path, Uint8 red, Uint8 green,
+                        Uint8 blue);
 };
 
 #endif

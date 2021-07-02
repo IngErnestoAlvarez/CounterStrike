@@ -6,6 +6,10 @@ WeaponView::WeaponView(std::string const &path, int animation_frames,
                        SdlWindow &window, Weapon *weapon)
     : SdlObject(path, 1, window), weapon(weapon) {
     center = {16, 32};
+    sprite_clips[0].x = 0;
+    sprite_clips[0].y = 0;
+    sprite_clips[0].w = 32;
+    sprite_clips[0].h = 32;
 }
 
 WeaponView::~WeaponView() {}
