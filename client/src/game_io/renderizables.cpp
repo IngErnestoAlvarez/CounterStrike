@@ -44,8 +44,8 @@ void Renderizables::createObjects() {
 
 void Renderizables::createObjects(std::vector<Body *> bodies, Player *player) {
     using up = std::unique_ptr<SdlObject>;
-    this->objects.push_back(
-        up(new PlayerView("assets/sprites/ct2.png", 3, *window, player)));
+    this->player = std::unique_ptr<PlayerView>(
+        new PlayerView("assets/sprites/ct2.png", 3, *window, player));
     this->objects.push_back(
         up(new SdlObject("assets/sprites/ak47.png", 1, *window)));
     this->objects.back()->set_init_pos(300, 200);
@@ -61,6 +61,7 @@ void Renderizables::renderObjects() {
     for (size_t i = 0; i < objects.size(); ++i) {
         objects[i]->render();
     }
+    this->player->render();
 }
 
 void Renderizables::renderTexts() {
@@ -100,3 +101,5 @@ void Renderizables::mouseMove(int posX, int posY) {
         objects[i]->mouse_mov(posX, posY);
     }
 }
+
+void Renderizables::shootWeapon() { this->player->shootWeapon(); }

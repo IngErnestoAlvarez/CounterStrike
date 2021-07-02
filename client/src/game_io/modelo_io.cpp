@@ -9,7 +9,6 @@
 
 #include "game_io/sdl/SdlImage.h"
 #include "game_io/sdl/text/SdlText.h"
-#include "game_io/sound/sample.h"
 #include "game_logic/cell.h"
 #include "game_logic/modelo_logic.h"
 #include "math.h"
@@ -57,6 +56,7 @@ void ModeloIO::check_events() {
         }
 
         if (e.type == SDL_MOUSEBUTTONDOWN) {
+            this->renderizables.shootWeapon();
             this->modelo.usePlayerWeapon();
         }
     }
@@ -85,11 +85,6 @@ void ModeloIO::check_keyboard() {
         this->modelo.movePlayerDown();
     }
 
-    if (state[SDL_MOUSEBUTTONDOWN]) {
-        // Sample sound("assets/sounds/SHOT.wav");
-        // sound.play();
-    }
-
     if (!any_key_pressed) {
         this->modelo.stopPlayer();
     }
@@ -100,8 +95,6 @@ void ModeloIO::check_mouse() {
     SDL_GetMouseState(&mouseX, &mouseY);
     this->modelo.setPlayerAim(mouseX + window.getCamera().x,
                               mouseY + window.getCamera().y);
-
-
 }
 
 SdlWindow &ModeloIO::getWindow() { return this->window; }

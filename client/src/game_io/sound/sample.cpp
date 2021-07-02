@@ -1,12 +1,13 @@
 #include "game_io/sound/sample.h"
 
 #include <iostream>
+#include <stdexcept>
 
 Sample::Sample(const std::string &filepath) {
     this->chunk = Mix_LoadWAV(filepath.c_str());
     if (this->chunk == NULL) {
         std::cout << filepath << std::endl;
-        throw 1;
+        throw std::runtime_error("No se pudo leer el archivo de audio.");
     }
 }
 
