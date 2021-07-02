@@ -84,7 +84,12 @@ void SdlObject::set_init_pos(SDL_Point const &pos) {
 // void SdlObject::moveLeft() {}
 
 void SdlObject::render() {
-    this->image.render(pos.x, pos.y, angle, center, sprite_clips);
+    if (this->body != nullptr) {
+        this->image.render(body->getX(), body->getY(), body->getAngle(), center,
+                           sprite_clips);
+    } else {
+        this->image.render(pos.x, pos.y, angle, center, sprite_clips);
+    }
 }
 
 void SdlObject::mouse_mov(int x, int y) {}

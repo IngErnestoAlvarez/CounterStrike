@@ -17,7 +17,6 @@ class PlayerView : public SdlObject {
     size_t animation_pos;
     Stencil stencil;
     WeaponView primaryWeapon;
-    Sample sound;
 
    public:
     PlayerView(std::string const &path, int animation_frames,

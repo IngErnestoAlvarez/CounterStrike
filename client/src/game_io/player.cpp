@@ -6,8 +6,7 @@ PlayerView::PlayerView(std::string const &path, int animation_frames,
                        SdlWindow &window)
     : SdlObject(path, animation_frames, window),
       stencil(window),
-      primaryWeapon("assets/sprites/ak47.png", 1, window, nullptr),
-      sound("assets/sounds/SHOT.wav") {}
+      primaryWeapon("assets/sprites/ak47.png", 1, window, nullptr) {}
 
 PlayerView::PlayerView(std::string const &path, int animation_frames,
                        SdlWindow &window, Player *player)
@@ -16,8 +15,8 @@ PlayerView::PlayerView(std::string const &path, int animation_frames,
       animation_pos(0),
       stencil(window),
       primaryWeapon("assets/sprites/ak47.png", 1, window,
-                    nullptr),  // ! Cambiar el nullptr
-      sound("assets/sounds/SHOT.wav") {
+                    nullptr)  // ! Cambiar el nullptr
+{
     this->center = {16, 16};
     this->sprite_clips[0].x = 0;
     this->sprite_clips[0].y = 0;
@@ -70,4 +69,4 @@ void PlayerView::update_animation() {
 
 float PlayerView::get_angle() { return this->angle; }
 
-void PlayerView::shootWeapon() { this->sound.play(); }
+void PlayerView::shootWeapon() { this->primaryWeapon.shoot(); }
