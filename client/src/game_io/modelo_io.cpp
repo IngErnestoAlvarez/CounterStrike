@@ -23,8 +23,10 @@ ModeloIO::ModeloIO(ModeloLogic &logic)
       modelo(logic),
       active(true),
       renderizables(window, logic.getBodies(), logic.getPlayer(),
-                    &logic.getMap()) {
+                    &logic.getMap()),
+      music("assets/music/menu.wav", 50) {
     SDL_SetRenderDrawColor(window.getRendered(), 0xFF, 0xFF, 0xFF, 0xFF);
+    music.play();
 }
 
 // ModeloIO::ModeloIO()
