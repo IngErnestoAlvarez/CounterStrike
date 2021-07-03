@@ -18,6 +18,7 @@ class WeaponView : public SdlObject {
     void render(int x, int y, float angle);
 
     void shoot();
-};
 
+    int getAmmo();
+};
 #endif  // __WEAPONVIEW_H__

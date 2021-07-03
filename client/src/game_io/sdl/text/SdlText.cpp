@@ -58,4 +58,17 @@ void SdlText::set_pos(int x, int y) {
 
 void SdlText::render() { this->texture.render(pos); }
 
+void SdlText::render(std::string newText) {
+    update(newText);
+    this->texture.render(pos);
+}
+
+const std::string &SdlText::getText() { return text; }
+
+void SdlText::setTexture(std::string const &text) {
+    SdlSurface surf;
+    surf = TTF_RenderText_Solid(this->font.font, text.c_str(), GREEN);
+    this->texture = surf.transform_to_texture(*window);
+}
+
 SdlText::~SdlText() {}

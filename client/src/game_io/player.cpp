@@ -1,12 +1,15 @@
 #include "game_io/player.h"
 
 #include <iostream>
+#include <string>
 
 PlayerView::PlayerView(std::string const &path, int animation_frames,
                        SdlWindow &window)
     : SdlObject(path, animation_frames, window),
       stencil(window),
-      primaryWeapon("assets/sprites/ak47.png", 1, window, nullptr) {}
+      primaryWeapon("assets/sprites/ak47.png", 1, window, nullptr),
+      life(window, "life 100/100"),
+      ammo(window, "ammo 30/30") {}
 
 PlayerView::PlayerView(std::string const &path, int animation_frames,
                        SdlWindow &window, Player *player)
@@ -15,35 +18,25 @@ PlayerView::PlayerView(std::string const &path, int animation_frames,
       animation_pos(0),
       stencil(window),
       primaryWeapon("assets/sprites/ak47.png", 1, window,
-                    nullptr)  // ! Cambiar el nullptr
-{
+                    player->getEquippedWeapon()),  // ! Cambiar el nullptr
+      life(window, "Life 100/100"),
+      ammo(window, "Ammo 30/30") {
     this->selectAnimationPositions();
-    this->createText(window);
 }
 
 PlayerView::~PlayerView() {}
 
 void PlayerView::render() {
-    SDL_Point pos_actual = {int(player->getX()), int(player->getY())};
-    if ((pos_actual.x != this->pos.x) || (pos_actual.y != this->pos.y)) {
-        this->update_animation();
-        this->pos = pos_actual;
-    }
     this->image.render(player->getX(), player->getY(),
                        180.0 + player->getAngle(), center,
                        &sprite_clips[animation_pos]);
     this->stencil.render(player->getX(), player->getY(), player->getAngle());
     this->primaryWeapon.render(player->getX(), player->getY(),
                                player->getAngle());
-    for (auto &x : this->texts) {
-        x->render();
-    }
+    life.render(std::to_string(this->player->getHealth()));
+    ammo.render(std::to_string(this->primaryWeapon.getAmmo()));
 }
 
-// void PlayerView::moveUp() { pos.y -= this->sprite_clips->h / 16; }
-// void PlayerView::moveDown() { pos.y += this->sprite_clips->h / 16; }
-// void PlayerView::moveRight() { pos.x += this->sprite_clips->h / 16; }
-// void PlayerView::moveLeft() { pos.x -= this->sprite_clips->h / 16; }
 void PlayerView::mouse_mov(int x, int y) {
     this->prevangle = this->angle;
     this->angle = (atan2(pos.y - y, pos.x - x) * 180.0000 / M_PI) - 90;
@@ -77,11 +70,4 @@ void PlayerView::selectAnimationPositions() {
     this->sprite_clips[2].y = 32;
     this->sprite_clips[2].w = 32;
     this->sprite_clips[2].h = 32;
-}
-void PlayerView::createText(SdlWindow &window) {
-    using up = std::unique_ptr<SdlText>;
-    this->texts.push_back(up(new SdlText(window, "life 100/100")));
-    this->texts.back()->set_pos(0, 570);
-    this->texts.push_back(up(new SdlText(window, "ammo 30/30")));
-    this->texts.back()->set_pos(600, 570);
 }

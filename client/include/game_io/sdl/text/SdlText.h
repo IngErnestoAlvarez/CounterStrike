@@ -32,8 +32,16 @@ class SdlText {
     void set_pos(SDL_Point const &pos);
 
     void render();
+    void render(std::string newText);
 
-    ~SdlText();
+    virtual ~SdlText();
+
+   protected:
+    virtual void update(std::string const &text) = 0;
+
+    const std::string &getText();
+
+    void setTexture(std::string const &text);
 };
 
 #endif

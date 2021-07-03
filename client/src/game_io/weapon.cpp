@@ -27,3 +27,5 @@ void WeaponView::render(int x, int y, float angle) {
 }
 
 void WeaponView::shoot() { this->sound.play(); }
+
+int WeaponView::getAmmo() { return weapon->getAmmo(); }
