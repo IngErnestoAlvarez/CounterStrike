@@ -5,7 +5,6 @@
 #include <string>
 #include <vector>
 
-#include "game_io/player.h"
 #include "game_io/sdl/SdlObject.h"
 #include "game_io/sdl/SdlWindow.h"
 #include "game_io/sdl/text/SdlText.h"
