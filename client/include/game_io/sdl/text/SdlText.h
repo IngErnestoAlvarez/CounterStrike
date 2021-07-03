@@ -37,7 +37,7 @@ class SdlText {
     virtual ~SdlText();
 
    protected:
-    virtual void update(std::string const &text) = 0;
+    virtual void update(std::string const &text);
 
     const std::string &getText();
 

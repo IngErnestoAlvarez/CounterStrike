@@ -27,6 +27,7 @@ ModeloIO::ModeloIO(ModeloLogic &logic)
       music("assets/music/menu.wav", 50) {
     SDL_SetRenderDrawColor(window.getRendered(), 0xFF, 0xFF, 0xFF, 0xFF);
     music.play();
+    std::cout << "Termino el constructor de ModeloIO" << std::endl;
 }
 
 // ModeloIO::ModeloIO()
@@ -40,8 +41,11 @@ bool ModeloIO::update() {
     this->window.clear_renderer();
     this->check_actions();
     this->window.fill();
+    std::cout << "antes de render" << std::endl;
     this->render();
+    std::cout << "despues de render" << std::endl;
     return this->active;
+    std::cout << "Termino el update" << std::endl;
 }
 
 void ModeloIO::check_actions() {
@@ -107,7 +111,9 @@ void ModeloIO::render() {
     this->window.set_camera_pos(modelo.getPlayerX(), modelo.getPlayerY(),
                                 modelo.getMap().getWidth() * 32,
                                 modelo.getMap().getHeight() * 32);
+    std::cout << "antes de renderizables" << std::endl;
     this->renderizables.render();
+    std::cout << "despues de renderizables" << std::endl;
     this->window.render();
 
     // SDL_Renderer *renderer = this->window.getRendered();

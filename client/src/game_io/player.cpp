@@ -9,7 +9,10 @@ PlayerView::PlayerView(std::string const &path, int animation_frames,
       stencil(window),
       primaryWeapon("assets/sprites/ak47.png", 1, window, nullptr),
       life(window, "life 100/100"),
-      ammo(window, "ammo 30/30") {}
+      ammo(window, "ammo 30/30") {
+    life.set_pos(0, 500);
+    ammo.set_pos(550, 500);
+}
 
 PlayerView::PlayerView(std::string const &path, int animation_frames,
                        SdlWindow &window, Player *player)
@@ -21,6 +24,8 @@ PlayerView::PlayerView(std::string const &path, int animation_frames,
                     player->getEquippedWeapon()),  // ! Cambiar el nullptr
       life(window, "Life 100/100"),
       ammo(window, "Ammo 30/30") {
+    life.set_pos(0, 500);
+    ammo.set_pos(550, 500);
     this->selectAnimationPositions();
 }
 

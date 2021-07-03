@@ -1,10 +1,11 @@
 #include "game_io/renderizables.h"
 
+#include <iostream>
+
 #include "game_io/floor.h"
 #include "game_io/player.h"
 #include "game_io/stencil.h"
 #include "game_logic/player.h"
-
 // Renderizables::Renderizables(SdlWindow &window)
 //     : texts(), objects(), window(&window) {
 //     createTexts();
@@ -55,6 +56,7 @@ void Renderizables::renderObjects() {
     for (size_t i = 0; i < objects.size(); ++i) {
         objects[i]->render();
     }
+    std::cout << "antes player" << std::endl;
     this->player->render();
 }
 

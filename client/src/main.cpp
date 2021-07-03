@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_timer.h>
+#include <syslog.h>
 
 #include <iostream>
 
@@ -14,6 +15,5 @@ int main(int argc, char const *argv[]) {
     } catch (const std::exception &e) {
         std::cerr << e.what() << '\n';
     }
-
     return 0;
 }

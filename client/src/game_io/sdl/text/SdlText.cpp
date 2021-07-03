@@ -3,6 +3,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
+#include <iostream>
+#include <string>
 #include <utility>
 
 #include "game_io/sdl/SdlSurface.h"
@@ -12,7 +14,7 @@ const SDL_Color GREEN = {50, 205, 50};
 
 SdlText::SdlText(SdlWindow &window, std::string const &text,
                  std::string const &fontname, size_t font_size)
-    : font(fontname, font_size), texture(window), text(text) {
+    : font(fontname, font_size), texture(window), text(text), window(&window) {
     SdlSurface surf;
     surf = TTF_RenderText_Solid(this->font.font, text.c_str(), GREEN);
     this->texture = surf.transform_to_texture(window);
@@ -23,7 +25,7 @@ SdlText::SdlText(SdlWindow &window, std::string const &text,
     : SdlText(window, text, fontname, 30) {}
 
 SdlText::SdlText(SdlWindow &window, std::string const &text)
-    : font(), texture(window), text(text) {
+    : font(), texture(window), text(text), window(&window) {
     SdlSurface surf;
     surf = TTF_RenderText_Solid(this->font.font, text.c_str(), GREEN);
     this->texture = surf.transform_to_texture(window);
@@ -59,16 +61,28 @@ void SdlText::set_pos(int x, int y) {
 void SdlText::render() { this->texture.render(pos); }
 
 void SdlText::render(std::string newText) {
+    std::cout << "antes update" << std::endl;
     update(newText);
+    std::cout << "despues update" << std::endl;
     this->texture.render(pos);
 }
 
 const std::string &SdlText::getText() { return text; }
 
 void SdlText::setTexture(std::string const &text) {
+    std::cout << "Entra setTexture" << std::endl;
     SdlSurface surf;
     surf = TTF_RenderText_Solid(this->font.font, text.c_str(), GREEN);
+
+    std::cout << &surf << std::endl;
+    std::cout << "Entra update" << std::endl;
     this->texture = surf.transform_to_texture(*window);
+
+    std::cout << "Sale setTexture" << std::endl;
 }
 
 SdlText::~SdlText() {}
+
+void SdlText::update(std::string const &text) {
+    std::cout << "Entra a este update" << std::endl;
+}

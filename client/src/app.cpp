@@ -25,6 +25,7 @@ void App::main_loop() {
     this->next_time = SDL_GetTicks() + RATE;
     while (playing) {
         logic.update();
+        std::cout << "termino update logic" << std::endl;
         playing = view.update();
         SDL_Delay(this->time_left());
         this->next_time += RATE;
