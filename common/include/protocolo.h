@@ -16,6 +16,11 @@
  **  - Stop "7A"
  */
 
+/**
+ * ! Comandos (HEX):
+ *  - SePlantoBomba
+ */
+
 #define COMMAND_SIZE 1
 enum Comando : unsigned char {
     UP = 0x75,
@@ -44,12 +49,16 @@ class Protocolo {
      */
 
     // SERVIDOR
+    // 45, 100
+    // angulodestencil (2bytes), radiodestencil(2bytes)
+    // 2bytes con cant de bodies (1 tipo, 2posx, 2posy)
     void send_config();
 
     // CLIENTE
     void recv_config();
 
     // SERVIDOR
+    // 2bytes con cant de bodies (1 tipo, 2 posx, 2 posy, 4 angle)
     void send_state();
 
     // CLIENTE
@@ -60,7 +69,25 @@ class Protocolo {
 
     void recv_comando(Comando *comando);
     // CLIENTE
+    // (2 x, 2 y)
     void send_mouse(int x, int y);
+
+    /**
+     * ammo 1byte
+     * life 1byte
+     * dinero 2bytes
+     * posx 2 bytes
+     * posy 2 bytes
+     * angle 4 bytes
+     * actualweapon 1byte
+     * tiempo 1byte
+     * gotbomb 1byte
+     *
+     * @param player
+     */
+    void send_player(Player &player);
+
+    void recv_player();
 
    private:
 };
