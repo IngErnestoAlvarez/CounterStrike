@@ -85,7 +85,7 @@ class Protocolo {
      *
      * @param player
      */
-    void send_player(Player &player);
+    // void send_player(Player &player);
 
     void recv_player();
 
