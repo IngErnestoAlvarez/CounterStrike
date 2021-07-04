@@ -28,15 +28,6 @@ void Renderizables::render() {
 
 void Renderizables::createTexts() {}
 
-void Renderizables::createObjects() {
-    // using up = std::unique_ptr<SdlObject>;
-    // this->objects.push_back(
-    //     up(new Floor("assets/sprites/office.png", 1, *this->window)));
-    // this->objects.back()->set_init_pos(0, 0);
-    // this->objects.push_back(
-    //     up(new PlayerView("assets/sprites/ct2.png", 4, *this->window)));
-}
-
 void Renderizables::createObjects(std::vector<Body *> bodies, Player *player) {
     using up = std::unique_ptr<SdlObject>;
     this->player = std::unique_ptr<PlayerView>(
@@ -67,30 +58,6 @@ void Renderizables::renderTexts() {
 }
 
 void Renderizables::renderFloor() {}
-
-// void Renderizables::moveUp() {
-//     for (size_t i = 0; i < objects.size(); i++) {
-//         objects[i]->moveUp();
-//     }
-// }
-
-// void Renderizables::moveDown() {
-//     for (size_t i = 0; i < objects.size(); i++) {
-//         objects[i]->moveDown();
-//     }
-// }
-
-// void Renderizables::moveLeft() {
-//     for (size_t i = 0; i < objects.size(); i++) {
-//         objects[i]->moveLeft();
-//     }
-// }
-
-// void Renderizables::moveRight() {
-//     for (size_t i = 0; i < objects.size(); i++) {
-//         objects[i]->moveRight();
-//     }
-// }
 
 void Renderizables::mouseMove(int posX, int posY) {
     for (size_t i = 0; i < objects.size(); i++) {

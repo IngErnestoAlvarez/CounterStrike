@@ -1,15 +1,20 @@
 #ifndef __MODELO_PROXY_H__
 #define __MODELO_PROXY_H__
 
+#include <string>
 #include <vector>
 
 #include "body_proxy.h"
 #include "player_proxy.h"
+#include "protocolo.h"
 
 class ModeloProxy {
    private:
+    Protocolo protocolo;
+    BodyProxy bodyProxy;
+
    public:
-    ModeloProxy();
+    ModeloProxy(std::string const &host, std::string const &service);
     ~ModeloProxy();
 
     void movePlayerUp();
@@ -20,11 +25,11 @@ class ModeloProxy {
     void stopPlayer();
     void usePlayerWeapon();
 
+    void chargeBodies();
+
     int getPlayerX();
     int getPlayerY();
     int getPlayerAngle();
-    PlayerProxy *getPlayer();
-    std::vector<BodyProxy *> &getBodies();
 };
 
 #endif

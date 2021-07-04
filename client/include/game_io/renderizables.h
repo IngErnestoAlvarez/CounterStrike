@@ -44,8 +44,6 @@ class Renderizables {
 
     void createFloor();
 
-    void createObjects();
-    void createObjects(std::vector<Body *> bodies);
     void createObjects(std::vector<Body *> bodies, Player *player);
 };
 

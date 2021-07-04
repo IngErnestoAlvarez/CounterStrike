@@ -2,21 +2,29 @@
 #define __BODY_PROXY_H__
 
 #include <string>
+#include <vector>
+
+#include "body_cointainer.h"
 
 class BodyProxy {
    private:
-    const std::string path2image;
+    std::vector<BodyContainer> bodies;
 
    public:
     BodyProxy();
 
     ~BodyProxy();
 
-    int getX();
+    std::vector<BodyContainer>::iterator getIterator();
 
-    int getY();
+    std::vector<BodyContainer>::iterator getEnd();
 
-    const std::string &getPath();
+    void setBodies(char *data, size_t n);
+
+   private:
+    void setWithBiggerData(char *data, size_t n);
+
+    void setWithSmallerData(char *data, size_t n);
 };
 
 #endif
