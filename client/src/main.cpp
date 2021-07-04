@@ -1,13 +1,19 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_timer.h>
-#include <syslog.h>
 
 #include <iostream>
 
+#include "Logger.h"
 #include "app.h"
 
 int main(int argc, char const *argv[]) {
+    using namespace CPlusPlusLogging;
+    Logger *log = Logger::getInstance();
+    log->enableConsoleLogging();
+    log->enaleLog();
+    log->info("Empieza el programa");
+
     try {
         App game;
         game.load_media();
@@ -15,5 +21,7 @@ int main(int argc, char const *argv[]) {
     } catch (const std::exception &e) {
         std::cerr << e.what() << '\n';
     }
+
+    log->info("Termina el programa");
     return 0;
 }
