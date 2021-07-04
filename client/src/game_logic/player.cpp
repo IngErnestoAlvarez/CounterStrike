@@ -1,19 +1,25 @@
-#include "game_logic/player.h"
-
+#include "game_logic/block.h"
+#include "game_logic/bullet.h"
+#include "game_logic/bomb.h"
+#include "game_logic/bomb_drop.h"
 #include "game_logic/game.h"
 #include "game_logic/map.h"
+#include "game_logic/player.h"
+#include "game_logic/team.h"
 #include "game_logic/weapons/knife.h"
 #include "game_logic/weapons/glock.h"
-#include "game_logic/bullet.h"
-#include "game_logic/block.h"
+#include "game_logic/weapon_drop.h"
+#include "types.h"
 
-#define INITIAL_PLAYER_ANGLE 0
-
-Player::Player(Game& game, int team_id, float x, float y)
-    : Body(game.getWorld(),
-           x, y,
-           INITIAL_PLAYER_ANGLE,
+Player::Player(Game& game,
+               int player_id,
+               int team_id,
+               float x,
+               float y)
+    : Body(game.getWorld(), CT2_TYPE, x, y, 0,
            game.getConfig().getPlayerSpeed()),
+      game(game),
+      player_id(player_id),
       team_id(team_id),
       health(game.getConfig().getPlayerHealth()),
       money(game.getConfig().getInitialMoney()),
@@ -24,8 +30,10 @@ Player::Player(Game& game, int team_id, float x, float y)
     equipped_weapon = default_range_weapon;
 }
 
-void Player::addWeaponToInventory(Weapon* weapon) {
-    // terminar este metodo
+void Player::addWeapon(Weapon* weapon) {
+    this->game.createWeaponDrop(this->getX(),
+                                this->getY(),
+                                this->primary_weapon);
     this->primary_weapon = weapon;
 }
 
@@ -53,6 +61,23 @@ void Player::useWeapon() {
     return this->equipped_weapon->use();
 }
 
+void Player::receiveBomb() {
+    this->has_bomb = true;
+}
+
+void Player::activateBomb() {
+    if (this->has_bomb)
+        this->game.createBomb(this->getX(), this->getY());
+}
+
+void Player::registerTeam(Team* team) {
+    this->team = team;
+}
+
+bool Player::isTerrorist() const {
+    return this->team->getRole() == 2;
+}
+
 void Player::takeDamage(float damage) {
     this->health -= damage;
     if (!this->isAlive())
@@ -74,3 +99,26 @@ void Player::handleCollision(Bullet* bullet) {
 void Player::handleCollision(Player* player) {}
 
 void Player::handleCollision(Block* block) {}
+
+void Player::handleCollision(WeaponDrop* weapon_drop) {
+    Weapon* weapon = weapon_drop->getWeapon();
+    weapon_drop->setWeapon(this->primary_weapon);
+
+    if (this->primary_weapon == this->equipped_weapon)
+        this->equipped_weapon = weapon;
+
+    this->primary_weapon = weapon;
+}
+
+void Player::handleCollision(BombDrop* bomb_drop) {
+    if (this->team->getRole() == 1) {
+        this->receiveBomb();
+        bomb_drop->setToBeDestroyed();
+    }
+}
+
+void Player::handleCollision(Bomb* bomb) {
+    if (this->team->getRole() == 2) {
+        bomb->setToBeDestroyed();
+    }
+}

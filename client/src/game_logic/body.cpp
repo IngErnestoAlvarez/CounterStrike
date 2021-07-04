@@ -1,11 +1,17 @@
-#include <cmath>
 #include <Box2D/Box2D.h>
+#include <cmath>
+
 #include "game_logic/body.h"
 #include "game_logic/world.h"
 
-Body::Body(World& world, float x, float y, float angle, float velocity)
+Body::Body(World& world,
+           BodyType type,
+           float x,
+           float y,
+           float angle,
+           float velocity)
     : world(world),
-      id(world.bodies.size()),
+      type(type),
       velocity(velocity),
       to_be_destroyed(false) {
     b2BodyDef b2_body_def;
@@ -19,14 +25,19 @@ Body::Body(World& world, float x, float y, float angle, float velocity)
     b2PolygonShape b2_polygon_shape;
     b2_polygon_shape.SetAsBox(10, 10);
     this->b2_body->CreateFixture(&b2_polygon_shape, 1);
-    this->world.bodies.push_back(this);
+
+    // this->world.bodies.push_back(this);
 }
 
 Body::~Body() {
-    if (this->b2_body != nullptr) {
-        this->world.bodies[this->id] = nullptr;
+    if (!this->isDestroyed()) {
+        // this->world.bodies[this->id] = nullptr;
         this->destroy();
     }
+}
+
+BodyType Body::getType() const {
+    return this->type;
 }
 
 void Body::setAngle(float angle) {
@@ -65,7 +76,7 @@ void Body::stopMoving() {
 }
 
 void Body::destroy() {
-    if (this->b2_body == nullptr)
+    if (this->isDestroyed())
         return;
     this->world.b2_world->DestroyBody(this->b2_body);
     this->b2_body = nullptr;
@@ -75,8 +86,6 @@ void Body::destroy() {
 bool Body::isDestroyed() const {
     return this->b2_body == nullptr;
 }
-
-void Body::update() {}
 
 void Body::setToBeDestroyed() {
     this->to_be_destroyed = true;
@@ -97,3 +106,5 @@ float Body::getY() const {
 float Body::getAngle() const {
     return this->b2_body->GetAngle();
 }
+
+void Body::update() {}

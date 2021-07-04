@@ -1,5 +1,5 @@
-#include "game_logic/contact_listener.h"
 #include "game_logic/body.h"
+#include "game_logic/contact_listener.h"
 
 void ContactListener::BeginContact(b2Contact* contact) {
 	void* data_a = contact->GetFixtureA()->GetBody()->GetUserData();

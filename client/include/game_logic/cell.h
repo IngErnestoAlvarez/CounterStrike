@@ -1,19 +1,21 @@
 #ifndef CELL_H
 #define CELL_H
 
+class Body;
+
 class Cell {
 private:
-    bool accesible;
-    int type_id;
+    Body* body;
     float world_x;
     float world_y;
 
 public:
-    explicit Cell(bool accesible, float world_x, float world_y);
+    explicit Cell(Body* body, float world_x, float world_y);
     ~Cell();
     bool canBeAccesed();
     float getWorldX();
     float getWorldY();
+    Body* getBody();
 };
 
 #endif

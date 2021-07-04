@@ -1,28 +1,31 @@
-#ifndef BULLET_H
-#define BULLET_H
+#ifndef BOMB_H
+#define BOMB_H
 
 #include "body.h"
 
-class Bomb;
 class Block;
+class Bomb;
+class BombDrop;
+class Bullet;
 class Game;
 class Player;
-class Weapon;
+class WeaponDrop;
 
-class Bullet : public Body {
+class Bomb : public Body {
 private:
-	Player& player;
-	Weapon* weapon;
-	float initial_x;
-	float initial_y;
+	bool active;
+	bool has_exploded;
+	int max_steps;
+	int steps;
 
 public:
-	Bullet(Game& game, Player& player, Weapon* weapon);
-	Bullet(Game& game, Player& player, Weapon* weapon, float angle_offset);
+	Bomb(Game& game, float x, float y);
 
-	float getTravelDistance() const;
-	float getDamage() const;
-	bool isOutOfRange() const;
+	void explode();
+	void deactivate();
+
+	bool hasExploded() const;
+	bool hasBeenDeactivated() const;
 
 	void handleCollision(Body* body) override;
 	void handleCollision(Player* player) override;
@@ -31,6 +34,7 @@ public:
 	void handleCollision(Bomb* bomb) override;
 	void handleCollision(WeaponDrop* weapon_drop) override;
 	void handleCollision(BombDrop* bomb_drop) override;
+
 	void update() override;
 };
 

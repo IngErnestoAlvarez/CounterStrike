@@ -25,14 +25,15 @@ public:
     Weapon(const std::string& name,
            Game& game,
            Player& player);
+    virtual ~Weapon();
     virtual void use() = 0;
     std::string getName() const;
     int getAmmo() const;
     float getRange() const;
+    float getDamage(float distance) const;
     void createBullet();
     void createBullet(float angle);
     void deleteInactiveBullets();
-    ~Weapon();
 };
 
 #endif

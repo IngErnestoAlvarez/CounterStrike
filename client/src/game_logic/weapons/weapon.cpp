@@ -59,3 +59,7 @@ void Weapon::deleteInactiveBullets() {
         ++it;
     }
 }
+
+float Weapon::getDamage(float distance) const {
+    return 10;
+}

@@ -13,6 +13,10 @@ private:
     int width;
     int height;
     std::string name;
+    int starting_x_terrorists;
+    int starting_y_terrorists;
+    int starting_x_antiterrorists;
+    int starting_y_antiterrorists;
     Cell& getCellAt(int x, int y);
 
 public:
@@ -22,6 +26,8 @@ public:
     const std::string& getName() const;
     int getWidth() const;
     int getHeight() const;
+    Cell& getStartingCellTerrorists();
+    Cell& getStartingCellAntiterrorists();
     std::vector<Cell>::iterator begin();
     std::vector<Cell>::iterator end();
 };

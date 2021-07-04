@@ -3,6 +3,8 @@
 
 #include "socket.h"
 
+class Game;
+
 /**
  * ! Comandos (HEX):
  **  - MoveUp "75"
@@ -36,10 +38,15 @@ enum Comando : unsigned char {
 
 class Protocolo {
    private:
-    socket_t *skt;
+    Game* game;
 
    public:
-    Protocolo(socket_t *skt);
+    // cliente
+    Protocolo();
+
+    // servidor
+    Protocolo(Game* game);
+
     ~Protocolo();
 
     /**
@@ -48,14 +55,23 @@ class Protocolo {
      *   - Dos bytes. 1° x, 2° y
      */
 
+    void send_one_byte(socket_t* skt, uint8_t* byte);
+
+    void send_two_bytes(socket_t* skt, uint16_t* bytes);
+
+    uint8_t receive_one_byte(socket_t* skt);
+
+    uint16_t receive_two_bytes(socket_t* skt);
+
     // SERVIDOR
     // 45, 100
     // angulodestencil (2bytes), radiodestencil(2bytes)
     // 2bytes con cant de bodies (1 tipo, 2posx, 2posy)
-    void send_config();
+    void send_config(socket_t* skt);
+
 
     // CLIENTE
-    void recv_config();
+    void recv_config(socket_t* skt);
 
     // SERVIDOR
     // 2bytes con cant de bodies (1 tipo, 2 posx, 2 posy, 4 angle)
@@ -65,9 +81,9 @@ class Protocolo {
     void recv_state();
 
     // CLIENTE
-    void send_comando(Comando comando);
+    void send_comando(Comando comando, socket_t* skt);
 
-    void recv_comando(Comando *comando);
+    void recv_comando(Comando *comando, socket_t* skt);
     // CLIENTE
     // (2 x, 2 y)
     void send_mouse(int x, int y);
