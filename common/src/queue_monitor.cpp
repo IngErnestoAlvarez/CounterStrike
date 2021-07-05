@@ -42,3 +42,10 @@ void QueueMonitor<T>::kill() {
     this->done = true;
     this->cv.notify_all();
 }
+
+template <typename T>
+inline QueueMonitor<T>::~QueueMonitor() {
+    while (!this->q->empty()) {
+        q->pop();
+    }
+}

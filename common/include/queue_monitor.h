@@ -28,6 +28,8 @@ class QueueMonitor {
 
     QueueMonitor(QueueMonitor const &other);
 
+    ~QueueMonitor();
+
     // Chequea si la cola está vacia, y quita el primer elemento
     // y lo almacena en result, le brinda el ownership a result.
     // Es atomica.
