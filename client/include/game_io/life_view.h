@@ -11,6 +11,7 @@ class lifeView : public SdlText {
 
    public:
     lifeView(SdlWindow &, std::string const &text);
+    lifeView(SdlWindow &, int life);
 
     ~lifeView();
 };

@@ -1,6 +1,7 @@
 #include "game_io/life_view.h"
 
 #include <iostream>
+#include <string>
 
 void lifeView::update(std::string const &newText) {
     std::cout << "Entra update" << std::endl;
@@ -11,5 +12,8 @@ void lifeView::update(std::string const &newText) {
 
 lifeView::lifeView(SdlWindow &window, std::string const &text)
     : SdlText(window, text) {}
+
+lifeView::lifeView(SdlWindow &window, int life)
+    : SdlText(window, std::to_string(life)) {}
 
 lifeView::~lifeView() {}

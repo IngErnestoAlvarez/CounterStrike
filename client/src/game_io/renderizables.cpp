@@ -6,63 +6,49 @@
 #include "game_io/player.h"
 #include "game_io/stencil.h"
 #include "game_logic/player.h"
-// Renderizables::Renderizables(SdlWindow &window)
-//     : texts(), objects(), window(&window) {
-//     createTexts();
-//     createObjects();
-// }
+#include "types.h"
 
-Renderizables::Renderizables(SdlWindow &window, std::vector<Body *> bodies,
-                             Player *player, Map *map)
-    : window(&window), map(map) {
-    this->createFloor();
-    this->createObjects(bodies, player);
-    this->createTexts();
+Renderizables::Renderizables(SdlWindow &window, PlayerProxy *player)
+    : window(&window), objects(BodyTypeSize), floor(window) {
+    createPlayer(player);
 }
 Renderizables::~Renderizables() {}
 
-void Renderizables::render() {
-    this->renderObjects();
-    this->renderTexts();
+void Renderizables::renderObjects(bodyVector::iterator it,
+                                  bodyVector::iterator end) {
+    for (; it != end; it++) {
+        if (objects[it->tipo].get() == nullptr) {
+            createObject(it->tipo);
+        }
+        objects[it->tipo]->render(it->posx, it->posy, it->angle);
+    }
 }
 
-void Renderizables::createTexts() {}
+void Renderizables::renderFloor(bodyVector::iterator it,
+                                bodyVector::iterator end) {
+    floor.render();
+    for (; it != end; it++) {
+        objects[it->tipo]->render(it->posx, it->posy, 0);
+    }
+}
 
-void Renderizables::createObjects(std::vector<Body *> bodies, Player *player) {
+void Renderizables::createPlayer(PlayerProxy *player) {
+    this->player =
+        std::unique_ptr<PlayerView>(new PlayerView(CT2_TYPE, *window, player));
+}
+
+void Renderizables::createStatics(bodyVector::iterator it,
+                                  bodyVector::iterator end) {
+    for (; it != end; it++) {
+        if (objects[it->tipo].get() == nullptr) {
+            createObject(it->tipo);
+        }
+    }
+}
+
+void Renderizables::createObject(BodyType type) {
     using up = std::unique_ptr<SdlObject>;
-    this->player = std::unique_ptr<PlayerView>(
-        new PlayerView("assets/sprites/ct2.png", 3, *window, player));
-    this->objects.push_back(
-        up(new SdlObject("assets/sprites/ak47.png", 1, *window)));
-    this->objects.back()->set_init_pos(300, 200);
-}
-
-void Renderizables::createFloor() {
-    using up = std::unique_ptr<SdlObject>;
-    this->objects.push_back(up(
-        new Floor("assets/sprites/office.png", 1, *this->window, this->map)));
-}
-
-void Renderizables::renderObjects() {
-    for (size_t i = 0; i < objects.size(); ++i) {
-        objects[i]->render();
-    }
-    std::cout << "antes player" << std::endl;
-    this->player->render();
-}
-
-void Renderizables::renderTexts() {
-    for (size_t i = 0; i < texts.size(); i++) {
-        texts[i]->render();
-    }
-}
-
-void Renderizables::renderFloor() {}
-
-void Renderizables::mouseMove(int posX, int posY) {
-    for (size_t i = 0; i < objects.size(); i++) {
-        objects[i]->mouse_mov(posX, posY);
-    }
+    objects[type] = up(new SdlObject(type, *window));
 }
 
 void Renderizables::shootWeapon() { this->player->shootWeapon(); }

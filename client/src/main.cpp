@@ -15,7 +15,7 @@ int main(int argc, char const *argv[]) {
     log->info("Empieza el programa");
 
     try {
-        App game;
+        App game("localhost", "http");
         game.load_media();
         game.main_loop();
     } catch (const std::exception &e) {

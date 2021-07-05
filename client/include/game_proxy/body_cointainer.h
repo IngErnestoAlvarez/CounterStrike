@@ -3,8 +3,10 @@
 
 #include <iostream>
 
+#include "types.h"
+
 struct BodyContainer {
-    uint8_t tipo;
+    BodyType tipo;
     uint16_t posx;
     uint16_t posy;
     float angle;

@@ -12,20 +12,18 @@
 
 #define RATE 60
 
-App::App() : logic(), view(logic) {}
+App::App(std::string const &host, std::string const &service)
+    : proxy(host, service), view(proxy) {}
 
 App::~App() {}
 
-void App::load_media() {
-    // ! Terminar esta funcion
-}
+void App::load_media() { proxy.initialize(); }
 
 void App::main_loop() {
     bool playing = true;
     this->next_time = SDL_GetTicks() + RATE;
     while (playing) {
-        logic.update();
-        std::cout << "termino update logic" << std::endl;
+        proxy.update();
         playing = view.update();
         SDL_Delay(this->time_left());
         this->next_time += RATE;

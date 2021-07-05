@@ -12,6 +12,9 @@ class ModeloProxy {
    private:
     Protocolo protocolo;
     BodyProxy bodyProxy;
+    BodyProxy staticsProxy;
+    PlayerProxy player;
+    socket_t skt;
 
    public:
     ModeloProxy(std::string const &host, std::string const &service);
@@ -25,11 +28,28 @@ class ModeloProxy {
     void stopPlayer();
     void usePlayerWeapon();
 
-    void chargeBodies();
+    bodyVector::iterator getBodyIterator();
+    bodyVector::iterator getBodyEnd();
+
+    bodyVector::iterator getStaticIterator();
+    bodyVector::iterator getStaticEnd();
 
     int getPlayerX();
     int getPlayerY();
-    int getPlayerAngle();
+    float getPlayerAngle();
+    PlayerProxy *getPlayer();
+
+    void initialize();
+
+    void update();
+
+    int getWidth();
+    int getHeight();
+
+   private:
+    void chargeBodies();
+    void chargePlayer();
+    void chargeStatics();
 };
 
 #endif

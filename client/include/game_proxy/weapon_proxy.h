@@ -3,9 +3,13 @@
 
 #include <string>
 
+#include "types.h"
+
 class WeaponProxy {
    private:
-    const std::string path2image;
+    BodyType weapon;
+    int ammo;
+    int maxammo;
 
    public:
     WeaponProxy();
@@ -16,7 +20,9 @@ class WeaponProxy {
 
     int getMaxAmmo();
 
-    const std::string &getPath();
+    void setAmmo(int ammo);
+
+    void setWeapon(int weapon);
 };
 
 #endif

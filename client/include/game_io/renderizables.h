@@ -4,47 +4,39 @@
 #include <memory>
 #include <vector>
 
+#include "game_io/floor.h"
 #include "game_io/player.h"
 #include "game_io/sdl/SdlObject.h"
 #include "game_io/sdl/SdlWindow.h"
 #include "game_io/sdl/text/SdlText.h"
-#include "game_logic/body.h"
-#include "game_logic/map.h"
-#include "game_logic/player.h"
+#include "game_proxy/body_proxy.h"
+#include "game_proxy/player_proxy.h"
 
 class Renderizables {
    private:
-    std::vector<std::unique_ptr<SdlText>> texts;
+    SdlWindow *window;
     std::vector<std::unique_ptr<SdlObject>> objects;
     std::unique_ptr<PlayerView> player;
-    SdlWindow *window;
-    Map *map;
+    Floor floor;
 
    public:
-    // Renderizables(SdlWindow &window);
-    Renderizables(SdlWindow &window, std::vector<Body *> bodies, Player *player,
-                  Map *map);
+    Renderizables(SdlWindow &window, PlayerProxy *player);
 
     ~Renderizables();
 
     void render();
 
-    void mouseMove(int posX, int posY);
-
     void shootWeapon();
 
+    void renderObjects(bodyVector::iterator it, bodyVector::iterator end);
+    void renderFloor(bodyVector::iterator it, bodyVector::iterator end);
+
+    void createStatics(bodyVector::iterator it, bodyVector::iterator end);
+
    private:
-    void renderTexts();
+    void createPlayer(PlayerProxy *player);
 
-    void renderObjects();
-
-    void renderFloor();
-
-    void createTexts();
-
-    void createFloor();
-
-    void createObjects(std::vector<Body *> bodies, Player *player);
+    void createObject(BodyType type);
 };
 
 #endif

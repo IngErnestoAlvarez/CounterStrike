@@ -3,7 +3,7 @@
 #include <math.h>
 
 WeaponView::WeaponView(std::string const &path, int animation_frames,
-                       SdlWindow &window, Weapon *weapon)
+                       SdlWindow &window, WeaponProxy *weapon)
     : SdlObject(path, 1, window),
       weapon(weapon),
       sound("assets/sounds/SHOT.wav") {
@@ -14,6 +14,15 @@ WeaponView::WeaponView(std::string const &path, int animation_frames,
     sprite_clips[0].h = 32;
 }
 
+WeaponView::WeaponView(BodyType type, int animation_frames, SdlWindow &window,
+                       WeaponProxy *weapon)
+    : SdlObject(type, window), weapon(weapon), sound("assets/sounds/SHOT.wav") {
+    center = {16, 32};
+    sprite_clips[0].x = 0;
+    sprite_clips[0].y = 0;
+    sprite_clips[0].w = 32;
+    sprite_clips[0].h = 32;
+}
 WeaponView::~WeaponView() {}
 
 void WeaponView::render(int x, int y, float angle) {

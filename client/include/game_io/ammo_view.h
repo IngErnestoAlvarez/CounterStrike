@@ -9,6 +9,7 @@ class AmmoView : public SdlText {
 
    public:
     AmmoView(SdlWindow &, std::string const &text);
+    AmmoView(SdlWindow &, int ammo);
 
     ~AmmoView();
 };

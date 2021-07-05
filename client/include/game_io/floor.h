@@ -6,16 +6,15 @@
 
 class Floor : public SdlObject {
    private:
-    SdlImage box;
-    Map *map;
+    int width;
+    int height;
 
    public:
-    Floor(std::string const &path, int animation_frames, SdlWindow &window,
-          Map *map);
+    Floor(SdlWindow &window);
 
     ~Floor();
 
-    void render() override;
+    void render();
 };
 
 #endif

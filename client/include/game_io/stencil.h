@@ -9,7 +9,7 @@ class Stencil : public SdlObject {
     Stencil(SdlWindow &window);
     ~Stencil();
 
-    void render(int x, int y, float angle);
+    void render(int x, int y, float angle) override;
 };
 
 #endif  // __STENCIL_H__

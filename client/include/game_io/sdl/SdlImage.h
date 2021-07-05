@@ -4,6 +4,7 @@
 #include <string>
 
 #include "game_io/sdl/SdlTexture.h"
+#include "game_proxy/body_cointainer.h"
 
 class SdlImage : public SdlTexture {
    private:
@@ -13,6 +14,7 @@ class SdlImage : public SdlTexture {
    public:
     SdlImage(SdlWindow &window);
     SdlImage(SdlWindow &window, std::string const &path);
+    SdlImage(SdlWindow &window, BodyType type);
 
     SdlImage(SdlImage const &) = delete;
     SdlImage(SdlImage &&);
@@ -25,6 +27,9 @@ class SdlImage : public SdlTexture {
     void load_from_file(std::string const &path);
     void load_from_file(std::string const &path, Uint8 red, Uint8 green,
                         Uint8 blue);
+
+   private:
+    std::string getBodyPath(BodyType type);
 };
 
 #endif

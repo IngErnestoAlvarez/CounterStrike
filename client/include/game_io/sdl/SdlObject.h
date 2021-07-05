@@ -14,16 +14,11 @@ class SdlObject {
     SdlImage image;
     const int animation_frames;
     SDL_Rect *sprite_clips;
-    SDL_Point pos;
     SDL_Point center;
-    float angle;
-    float prevangle;
-    Body *body;
 
    public:
+    SdlObject(BodyType type, SdlWindow &window);
     SdlObject(std::string const &path, int animation_frames, SdlWindow &window);
-    SdlObject(std::string const &path, int animation_frames, SdlWindow &window,
-              Body *body);
 
     SdlObject(SdlObject const &) = delete;
     SdlObject(SdlObject &&);
@@ -33,19 +28,11 @@ class SdlObject {
 
     virtual ~SdlObject();
 
-    void set_init_pos(int x, int y);
-    void set_init_pos(SDL_Point const &pos);
-
     void blend();
 
     void set_alpha(Uint8 alpha);
 
-    // virtual void moveUp();
-    // virtual void moveDown();
-    // virtual void moveRight();
-    // virtual void moveLeft();
-
-    virtual void render();
+    virtual void render(int posx, int posy, float angle);
 
     virtual void mouse_mov(int x, int y);
 };

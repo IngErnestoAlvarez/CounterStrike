@@ -16,6 +16,9 @@ SdlImage::SdlImage(SdlWindow &window, std::string const &path)
     : SdlTexture(window) {
     this->load_from_file(path);
 }
+SdlImage::SdlImage(SdlWindow &window, BodyType type) : SdlTexture(window) {
+    this->load_from_file(getBodyPath(type));
+}
 
 SdlImage::SdlImage(SdlImage &&other) : SdlTexture(std::move(other)) {
     width = other.width;
@@ -66,4 +69,33 @@ void SdlImage::load_from_file(std::string const &path, Uint8 red, Uint8 green,
     this->texture = newTexture;
     if (this->texture == NULL)
         throw std::runtime_error("Problemas con la carga de la textura");
+}
+
+std::string SdlImage::getBodyPath(BodyType type) {
+    switch (type) {
+        case NO_BODY_TYPE:
+            break;
+        case CT1_TYPE:
+            break;
+        case CT2_TYPE:
+            return std::string("assets/sprites/ct2.png");
+            break;
+        case AK47_TYPE:
+            return std::string("assets/sprites/ak57.png");
+            break;
+        case AK47_D_TYPE:
+            return std::string("assets/sprites/ak47_d.png");
+            break;
+        case OFFICE_TYPE:
+            return std::string("assets/sprites/office.png");
+            break;
+        case PLAYER_TYPE:
+            return std::string("assets/sprites/player.png");
+            break;
+        case WALL_TYPE:
+            return std::string("assets/sprites/wall.png");
+            break;
+    }
+    throw std::logic_error("BodyType erroneo");
+    return std::string("");
 }

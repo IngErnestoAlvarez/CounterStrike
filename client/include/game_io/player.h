@@ -13,11 +13,11 @@
 #include "game_io/sound/sample.h"
 #include "game_io/stencil.h"
 #include "game_io/weapon.h"
-#include "game_logic/player.h"
+#include "game_proxy/player_proxy.h"
 
 class PlayerView : public SdlObject {
    private:
-    Player *player;
+    PlayerProxy *player;
     size_t animation_pos;
     Stencil stencil;
     WeaponView primaryWeapon;
@@ -28,16 +28,14 @@ class PlayerView : public SdlObject {
     PlayerView(std::string const &path, int animation_frames,
                SdlWindow &window);
     PlayerView(std::string const &path, int animation_frames, SdlWindow &window,
-               Player *player);
+               PlayerProxy *player);
+    PlayerView(BodyType type, SdlWindow &window, PlayerProxy *player);
 
     ~PlayerView();
 
-    void mouse_mov(int x, int y) override;
-    void render() override;
+    void render();
 
     void shootWeapon();
-
-    float get_angle();
 
    private:
     void update_animation();

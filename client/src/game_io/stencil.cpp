@@ -2,7 +2,6 @@
 
 Stencil::Stencil(SdlWindow &window)
     : SdlObject("assets/sprites/stencil.png", 1, window) {
-    this->pos = {0, 0};
     this->blend();
     this->set_alpha(100);
     this->center = {800, 600};

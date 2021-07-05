@@ -1,5 +1,7 @@
 #include "game_proxy/body_proxy.h"
 
+#include <arpa/inet.h>
+
 BodyProxy::BodyProxy() : bodies() {}
 
 BodyProxy::~BodyProxy() {}
@@ -21,21 +23,26 @@ void BodyProxy::setBodies(char *data, size_t n) {
     return;
 }
 
+void BodyProxy::setStatics(char *data, size_t n) {
+    setStaticWithBiggerData(data, n);
+}
+
 void BodyProxy::setWithBiggerData(char *data, size_t n) {
     for (size_t i = 0; i < bodies.size(); i++) {
         size_t pos = i * size_t(sizeof(BodyContainer));
-        bodies[i].tipo = uint8_t(data[i]);
-        bodies[i].posx = uint16_t(data[i + 1]);
-        bodies[i].posy = uint16_t(data[i + 3]);
-        bodies[i].angle = float(data[i + 5]);
+        bodies[i].tipo = BodyType(uint8_t(data[pos]));
+        bodies[i].posx = ::ntohs(*(uint16_t *)&data[pos + 1]);
+        bodies[i].posy = ::ntohs(*(uint16_t *)&data[pos + 3]);
+        bodies[i].angle = float(::ntohl(*(uint32_t *)&data[pos + 5]));
     }
 
     for (size_t i = bodies.size(); i < n; i++) {
         BodyContainer aux;
-        aux.tipo = uint8_t(data[i]);
-        aux.posx = uint16_t(data[i + 1]);
-        aux.posy = uint16_t(data[i + 3]);
-        aux.angle = float(data[i + 5]);
+        size_t pos = i * size_t(sizeof(BodyContainer));
+        aux.tipo = BodyType(uint8_t(data[pos]));
+        aux.posx = ::ntohs(*(uint16_t *)&data[pos + 1]);
+        aux.posy = ::ntohs(*(uint16_t *)&data[pos + 3]);
+        aux.angle = float(::ntohl(*(uint32_t *)&data[pos + 5]));
         bodies.push_back(aux);
     }
 }
@@ -43,13 +50,25 @@ void BodyProxy::setWithBiggerData(char *data, size_t n) {
 void BodyProxy::setWithSmallerData(char *data, size_t n) {
     for (size_t i = 0; i < n; i++) {
         size_t pos = i * size_t(sizeof(BodyContainer));
-        bodies[i].tipo = uint8_t(data[i]);
-        bodies[i].posx = uint16_t(data[i + 1]);
-        bodies[i].posy = uint16_t(data[i + 3]);
-        bodies[i].angle = float(data[i + 5]);
+        bodies[i].tipo = BodyType(uint8_t(data[pos]));
+        bodies[i].posx = ::ntohs(*(uint16_t *)&data[pos + 1]);
+        bodies[i].posy = ::ntohs(*(uint16_t *)&data[pos + 3]);
+        bodies[i].angle = float(::ntohl(*(uint32_t *)&data[pos + 5]));
     }
 
     for (size_t i = 0; i < (bodies.size() - n); i++) {
         bodies.pop_back();
+    }
+}
+
+void BodyProxy::setStaticWithBiggerData(char *data, size_t n) {
+    for (size_t i = 0; i < n; i++) {
+        BodyContainer aux;
+        size_t pos = (i * size_t(sizeof(BodyContainer))) - 4;
+        aux.tipo = BodyType(*(uint8_t *)&data[pos]);
+        aux.posx = ::ntohs(*(uint16_t *)&data[pos + 1]);
+        aux.posy = ::ntohs(*(uint16_t *)&data[pos + 3]);
+        aux.angle = 0;
+        bodies.push_back(aux);
     }
 }

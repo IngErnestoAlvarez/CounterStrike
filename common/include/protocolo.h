@@ -1,6 +1,8 @@
 #ifndef __PROTOCOLO_H__
 #define __PROTOCOLO_H__
 
+#include <string>
+
 #include "socket.h"
 
 class Game;
@@ -38,14 +40,14 @@ enum Comando : unsigned char {
 
 class Protocolo {
    private:
-    Game* game;
+    Game *game;
 
    public:
     // cliente
     Protocolo();
 
     // servidor
-    Protocolo(Game* game);
+    Protocolo(Game *game);
 
     ~Protocolo();
 
@@ -55,38 +57,37 @@ class Protocolo {
      *   - Dos bytes. 1° x, 2° y
      */
 
-    void send_one_byte(socket_t* skt, uint8_t* byte);
+    void send_one_byte(socket_t *skt, uint8_t *byte);
 
-    void send_two_bytes(socket_t* skt, uint16_t* bytes);
+    void send_two_bytes(socket_t *skt, uint16_t *bytes);
 
-    uint8_t receive_one_byte(socket_t* skt);
+    uint8_t receive_one_byte(socket_t *skt);
 
-    uint16_t receive_two_bytes(socket_t* skt);
+    uint16_t receive_two_bytes(socket_t *skt);
 
     // SERVIDOR
     // 45, 100
     // angulodestencil (2bytes), radiodestencil(2bytes)
     // 2bytes con cant de bodies (1 tipo, 2posx, 2posy)
-    void send_config(socket_t* skt);
-
+    void send_config(socket_t *skt);
 
     // CLIENTE
-    void recv_config(socket_t* skt);
+    void recv_config(socket_t *skt);
 
     // SERVIDOR
     // 2bytes con cant de bodies (1 tipo, 2 posx, 2 posy, 4 angle)
     void send_state();
 
     // CLIENTE
-    void recv_state();
+    void recv_state(char **result, size_t *size, socket_t *skt);
 
     // CLIENTE
-    void send_comando(Comando comando, socket_t* skt);
+    void send_comando(Comando comando, socket_t *skt);
 
-    void recv_comando(Comando *comando, socket_t* skt);
+    void recv_comando(Comando *comando, socket_t *skt);
     // CLIENTE
     // (2 x, 2 y)
-    void send_mouse(int x, int y);
+    void send_mouse(int x, int y, socket_t *skt);
 
     /**
      * ammo 1byte
@@ -103,7 +104,7 @@ class Protocolo {
      */
     // void send_player(Player &player);
 
-    void recv_player();
+    void recv_player(char **result, size_t *size, socket_t *skt);
 
    private:
 };

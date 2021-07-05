@@ -3,30 +3,16 @@
 #include <iostream>
 #include <string>
 
-PlayerView::PlayerView(std::string const &path, int animation_frames,
-                       SdlWindow &window)
-    : SdlObject(path, animation_frames, window),
-      stencil(window),
-      primaryWeapon("assets/sprites/ak47.png", 1, window, nullptr),
-      life(window, "life 100/100"),
-      ammo(window, "ammo 30/30") {
-    life.set_pos(0, 500);
-    ammo.set_pos(550, 500);
-}
-
-PlayerView::PlayerView(std::string const &path, int animation_frames,
-                       SdlWindow &window, Player *player)
-    : SdlObject(path, animation_frames, window),
+PlayerView::PlayerView(BodyType type, SdlWindow &window, PlayerProxy *player)
+    : SdlObject(type, window),
       player(player),
       animation_pos(0),
       stencil(window),
-      primaryWeapon("assets/sprites/ak47.png", 1, window,
-                    player->getEquippedWeapon()),  // ! Cambiar el nullptr
-      life(window, "Life 100/100"),
-      ammo(window, "Ammo 30/30") {
+      primaryWeapon(type, 1, window, player->getWeapon()),
+      life(window, player->getLife()),
+      ammo(window, player->getWeapon()->getAmmo()) {
     life.set_pos(0, 500);
     ammo.set_pos(550, 500);
-    this->selectAnimationPositions();
 }
 
 PlayerView::~PlayerView() {}
@@ -38,24 +24,14 @@ void PlayerView::render() {
     this->stencil.render(player->getX(), player->getY(), player->getAngle());
     this->primaryWeapon.render(player->getX(), player->getY(),
                                player->getAngle());
-    life.render(std::to_string(this->player->getHealth()));
+    life.render(std::to_string(this->player->getLife()));
     ammo.render(std::to_string(this->primaryWeapon.getAmmo()));
-}
-
-void PlayerView::mouse_mov(int x, int y) {
-    this->prevangle = this->angle;
-    this->angle = (atan2(pos.y - y, pos.x - x) * 180.0000 / M_PI) - 90;
-    if (!angle) {
-        this->angle = this->prevangle;
-    }
 }
 
 void PlayerView::update_animation() {
     // this->animation_pos = 1 - this->animation_pos;
-    this->animation_pos = 2;
+    this->animation_pos = 0;
 }
-
-float PlayerView::get_angle() { return this->angle; }
 
 void PlayerView::shootWeapon() { this->primaryWeapon.shoot(); }
 

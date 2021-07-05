@@ -9,30 +9,22 @@
 
 #include "game_io/sdl/SdlImage.h"
 #include "game_io/sdl/text/SdlText.h"
-#include "game_logic/cell.h"
-#include "game_logic/modelo_logic.h"
 #include "math.h"
 #include "syslog.h"
 
 #define WIDTH 800
 #define HEIGHT 600
 
-ModeloIO::ModeloIO(ModeloLogic &logic)
+ModeloIO::ModeloIO(ModeloProxy &modelo)
     : init(),
       window(WIDTH, HEIGHT),
-      modelo(logic),
+      modelo(modelo),
       active(true),
-      renderizables(window, logic.getBodies(), logic.getPlayer(),
-                    &logic.getMap()),
+      renderizables(window, modelo.getPlayer()),
       music("assets/music/menu.wav", 50) {
     SDL_SetRenderDrawColor(window.getRendered(), 0xFF, 0xFF, 0xFF, 0xFF);
     music.play();
 }
-
-// ModeloIO::ModeloIO()
-//     : init(), window(), modelo(nullptr), active(true), renderizables(window)
-//     { SDL_SetRenderDrawColor(window.getRendered(), 0xFF, 0xFF, 0xFF, 0xFF);
-// }
 
 ModeloIO::~ModeloIO() {}
 
@@ -72,22 +64,22 @@ void ModeloIO::check_keyboard() {
         this->modelo.movePlayerLeft();
     }
 
-    if (state[SDL_SCANCODE_W]) {
+    else if (state[SDL_SCANCODE_W]) {
         any_key_pressed = true;
         this->modelo.movePlayerUp();
     }
 
-    if (state[SDL_SCANCODE_D]) {
+    else if (state[SDL_SCANCODE_D]) {
         any_key_pressed = true;
         this->modelo.movePlayerRight();
     }
 
-    if (state[SDL_SCANCODE_S]) {
+    else if (state[SDL_SCANCODE_S]) {
         any_key_pressed = true;
         this->modelo.movePlayerDown();
     }
 
-    if (!any_key_pressed) {
+    else if (!any_key_pressed) {
         this->modelo.stopPlayer();
     }
 }
@@ -105,37 +97,11 @@ void ModeloIO::clearRenderer() { this->window.clear_renderer(); }
 
 void ModeloIO::render() {
     this->window.set_camera_pos(modelo.getPlayerX(), modelo.getPlayerY(),
-                                modelo.getMap().getWidth() * 32,
-                                modelo.getMap().getHeight() * 32);
-    std::cout << "antes de renderizables" << std::endl;
-    this->renderizables.render();
-    std::cout << "despues de renderizables" << std::endl;
+                                modelo.getWidth() * 32,
+                                modelo.getHeight() * 32);
+    this->renderizables.renderObjects(modelo.getBodyIterator(),
+                                      modelo.getBodyEnd());
+    this->renderizables.renderFloor(modelo.getStaticIterator(),
+                                    modelo.getStaticEnd());
     this->window.render();
-
-    // SDL_Renderer *renderer = this->window.getRendered();
-    // SDL_Rect dst;
-    // SDL_RendererFlip flip =
-    //     SDL_RendererFlip(SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL);
-
-    // SDL_Texture *player =
-    //     IMG_LoadTexture(renderer, "../assets/sprites/player.png");
-    // SDL_Texture *wall = IMG_LoadTexture(renderer,
-    // "../assets/sprites/wall.png");
-    // // SDL_Texture* ground = IMG_LoadTexture(renderer,
-    // // "../assets/sprites/office.png");
-
-    // for (Cell &cell : modelo.getMap()) {
-    //     dst = {int(cell.getWorldX()) - 4, int(cell.getWorldY()), 32, 32};
-    //     if (cell.canBeAccesed()) {
-    //         // SDL_RenderCopy(renderer, ground, nullptr, &dst);
-    //     } else {
-    //         SDL_RenderCopy(renderer, wall, nullptr, &dst);
-    //     }
-    // }
-
-    // dst = {modelo.getPlayerX(), modelo.getPlayerY(), 32, 32};
-    // SDL_RenderCopyEx(renderer, player, nullptr, &dst,
-    // modelo.getPlayerAngle(),
-    //                  nullptr, flip);
-    // SDL_RenderPresent(renderer);
 }

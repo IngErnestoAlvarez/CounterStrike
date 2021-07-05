@@ -9,20 +9,21 @@
 #include "game_io/sdl/initializer.h"
 #include "game_io/sdl/text/SdlText.h"
 #include "game_io/sound/music.h"
-#include "game_logic/modelo_logic.h"
+#include "game_proxy/body_proxy.h"
+#include "game_proxy/modelo_proxy.h"
 
 class ModeloIO {
    private:
     Initializer init;
     SdlWindow window;
-    ModeloLogic &modelo;
+    ModeloProxy &modelo;
     bool active;
     Renderizables renderizables;
     Music music;
 
    public:
     // ModeloIO();
-    ModeloIO(ModeloLogic &logica);
+    ModeloIO(ModeloProxy &logica);
 
     ~ModeloIO();
 

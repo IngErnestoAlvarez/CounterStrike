@@ -1,10 +1,8 @@
 #include "game_io/floor.h"
 
-Floor::Floor(std::string const &path, int animation_frames, SdlWindow &window,
-             Map *map)
-    : SdlObject(path, animation_frames, window),
-      box(window, "assets/sprites/wall.png"),
-      map(map) {
+Floor::Floor(SdlWindow &window) : SdlObject(OFFICE_TYPE, window) {
+    width = 26;
+    height = 26;
     center = {16, 16};
     sprite_clips->h = 32;
     sprite_clips->w = 32;
@@ -15,13 +13,9 @@ Floor::Floor(std::string const &path, int animation_frames, SdlWindow &window,
 Floor::~Floor() {}
 
 void Floor::render() {
-    for (Cell &cell : (*this->map)) {
-        if (cell.canBeAccesed()) {
-            this->image.render(cell.getWorldX(), cell.getWorldY(), angle,
-                               center, sprite_clips);
-        } else {
-            this->box.render(cell.getWorldX(), cell.getWorldY(), angle, center,
-                             sprite_clips);
+    for (int raw = 0; raw < width; ++raw) {
+        for (int col = 0; col < height; ++col) {
+            this->image.render(raw * 64, col * 64, 0, center, sprite_clips);
         }
     }
 }

@@ -7,8 +7,14 @@
 
 class PlayerProxy {
    private:
-    WeaponProxy *equipped_weapon;
-    const std::string path2image;
+    WeaponProxy equipped_weapon;
+    int life;
+    int dinero;
+    int posx;
+    int posy;
+    float angle;
+    int time;
+    bool gotBomb;
 
    public:
     PlayerProxy();
@@ -21,7 +27,11 @@ class PlayerProxy {
 
     float getAngle();
 
-    const std::string &getPath();
+    int getLife();
+
+    WeaponProxy *getWeapon();
+
+    void setPlayer(char *data, size_t n);
 };
 
 #endif

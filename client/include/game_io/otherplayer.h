@@ -15,7 +15,7 @@ class OtherPlayer : public SdlObject {
 
     ~OtherPlayer();
 
-    void render() override;
+    void render(int x, int y, float angle) override;
 
    private:
     void update_animation();
