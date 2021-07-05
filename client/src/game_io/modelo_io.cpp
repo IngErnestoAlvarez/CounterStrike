@@ -79,6 +79,26 @@ void ModeloIO::check_keyboard() {
         this->modelo.movePlayerDown();
     }
 
+    else if (state[SDL_SCANCODE_1]) {
+        any_key_pressed = true;
+        this->modelo.changeToW1();
+    }
+
+    else if (state[SDL_SCANCODE_2]) {
+        any_key_pressed = true;
+        this->modelo.changeToW2();
+    }
+
+    else if (state[SDL_SCANCODE_3]) {
+        any_key_pressed = true;
+        this->modelo.changeToW3();
+    }
+
+    else if (state[SDL_SCANCODE_4]) {
+        any_key_pressed = true;
+        this->modelo.changeToBomb();
+    }
+
     else if (!any_key_pressed) {
         this->modelo.stopPlayer();
     }

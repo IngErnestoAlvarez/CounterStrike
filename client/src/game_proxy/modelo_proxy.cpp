@@ -27,6 +27,14 @@ void ModeloProxy::stopPlayer() { protocolo.send_comando(STOP, &skt); }
 
 void ModeloProxy::usePlayerWeapon() { protocolo.send_comando(SHOOT, &skt); }
 
+void ModeloProxy::changeToW1() { protocolo.send_comando(CW1, &skt); }
+
+void ModeloProxy::changeToW2() { protocolo.send_comando(CW2, &skt); }
+
+void ModeloProxy::changeToW3() { protocolo.send_comando(CW3, &skt); }
+
+void ModeloProxy::changeToBomb() { protocolo.send_comando(CB, &skt); }
+
 bodyVector::iterator ModeloProxy::getBodyIterator() {
     return bodyProxy.getIterator();
 }

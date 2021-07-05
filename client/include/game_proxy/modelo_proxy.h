@@ -27,6 +27,10 @@ class ModeloProxy {
     void setPlayerAim(int x, int y);
     void stopPlayer();
     void usePlayerWeapon();
+    void changeToW1();
+    void changeToW2();
+    void changeToW3();
+    void changeToBomb();
 
     bodyVector::iterator getBodyIterator();
     bodyVector::iterator getBodyEnd();
