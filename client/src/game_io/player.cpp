@@ -10,9 +10,11 @@ PlayerView::PlayerView(BodyType type, SdlWindow &window, PlayerProxy *player)
       stencil(window),
       primaryWeapon(type, 1, window, player->getWeapon()),
       life(window, player->getLife()),
-      ammo(window, player->getWeapon()->getAmmo()) {
+      ammo(window, player->getWeapon()->getAmmo()),
+      money(window, player->getMoney()) {
     life.set_pos(0, 500);
     ammo.set_pos(550, 500);
+    money.set_pos(0, 100);
 }
 
 PlayerView::~PlayerView() {}

@@ -7,6 +7,7 @@
 
 #include "game_io/ammo_view.h"
 #include "game_io/life_view.h"
+#include "game_io/money_view.h"
 #include "game_io/sdl/SdlObject.h"
 #include "game_io/sdl/SdlWindow.h"
 #include "game_io/sdl/text/SdlText.h"
@@ -23,6 +24,7 @@ class PlayerView : public SdlObject {
     WeaponView primaryWeapon;
     lifeView life;
     AmmoView ammo;
+    MoneyView money;
 
    public:
     PlayerView(std::string const &path, int animation_frames,

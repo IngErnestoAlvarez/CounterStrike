@@ -61,9 +61,7 @@ void SdlText::set_pos(int x, int y) {
 void SdlText::render() { this->texture.render(pos); }
 
 void SdlText::render(std::string newText) {
-    std::cout << "antes update" << std::endl;
     update(newText);
-    std::cout << "despues update" << std::endl;
     this->texture.render(pos);
 }
 
@@ -75,8 +73,6 @@ void SdlText::setTexture(std::string const &text) {
 
     std::cout << &surf << std::endl;
     this->texture = surf.transform_to_texture(*window);
-
-    std::cout << "Sale setTexture" << std::endl;
 }
 
 SdlText::~SdlText() {}

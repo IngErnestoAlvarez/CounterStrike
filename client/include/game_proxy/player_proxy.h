@@ -9,7 +9,7 @@ class PlayerProxy {
    private:
     WeaponProxy equipped_weapon;
     int life;
-    int dinero;
+    int money;
     int posx;
     int posy;
     float angle;
@@ -36,6 +36,8 @@ class PlayerProxy {
     int getTime() const { return time; }
 
     bool getGotBomb() const { return gotBomb; }
+
+    int getMoney() const { return money; }
 };
 
 #endif

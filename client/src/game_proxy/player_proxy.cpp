@@ -19,7 +19,7 @@ WeaponProxy *PlayerProxy::getWeapon() { return &equipped_weapon; }
 void PlayerProxy::setPlayer(char *data, size_t n) {
     equipped_weapon.setAmmo(int(*(uint8_t *)&data[0]));
     life = int(*(uint8_t *)&data[1]);
-    dinero = int(::ntohs(*(uint16_t *)&data[2]));
+    money = int(::ntohs(*(uint16_t *)&data[2]));
     posx = int(::ntohs(*(uint16_t *)&data[4]));
     posy = int(::ntohs(*(uint16_t *)&data[6]));
     angle = float(::ntohl(*(uint32_t *)&data[8]));
