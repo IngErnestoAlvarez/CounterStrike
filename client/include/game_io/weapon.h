@@ -8,7 +8,8 @@
 class WeaponView : public SdlObject {
    private:
     WeaponProxy *weapon;
-    Sample sound;
+    Sample shootSound;
+    Sample noBulletSound;
 
    public:
     WeaponView(std::string const &path, int animation_frames, SdlWindow &window,

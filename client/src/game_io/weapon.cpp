@@ -6,7 +6,8 @@ WeaponView::WeaponView(std::string const &path, int animation_frames,
                        SdlWindow &window, WeaponProxy *weapon)
     : SdlObject(path, 1, window),
       weapon(weapon),
-      sound("assets/sounds/SHOT.wav") {
+      shootSound("assets/sounds/SHOT.wav"),
+      noBulletSound("assets/sounds/w_empty.wav") {
     center = {16, 32};
     sprite_clips[0].x = 0;
     sprite_clips[0].y = 0;
@@ -16,7 +17,10 @@ WeaponView::WeaponView(std::string const &path, int animation_frames,
 
 WeaponView::WeaponView(BodyType type, int animation_frames, SdlWindow &window,
                        WeaponProxy *weapon)
-    : SdlObject(type, window), weapon(weapon), sound("assets/sounds/SHOT.wav") {
+    : SdlObject(type, window),
+      weapon(weapon),
+      shootSound("assets/sounds/SHOT.wav"),
+      noBulletSound("assets/sounds/w_empty.wav") {
     center = {16, 32};
     sprite_clips[0].x = 0;
     sprite_clips[0].y = 0;
@@ -35,6 +39,12 @@ void WeaponView::render(int x, int y, float angle) {
     this->image.render(x, y - 16, auxangle, center, &sprite_clips[0]);
 }
 
-void WeaponView::shoot() { this->sound.play(); }
+void WeaponView::shoot() {
+    if (weapon->getAmmo() == 0) {
+        this->noBulletSound.play();
+    } else {
+        this->shootSound.play();
+    }
+}
 
 int WeaponView::getAmmo() { return weapon->getAmmo(); }
