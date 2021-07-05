@@ -70,12 +70,10 @@ void SdlText::render(std::string newText) {
 const std::string &SdlText::getText() { return text; }
 
 void SdlText::setTexture(std::string const &text) {
-    std::cout << "Entra setTexture" << std::endl;
     SdlSurface surf;
     surf = TTF_RenderText_Solid(this->font.font, text.c_str(), GREEN);
 
     std::cout << &surf << std::endl;
-    std::cout << "Entra update" << std::endl;
     this->texture = surf.transform_to_texture(*window);
 
     std::cout << "Sale setTexture" << std::endl;

@@ -9,7 +9,9 @@ void AmmoView::update(std::string const &newText) {
 AmmoView::AmmoView(SdlWindow &window, std::string const &text)
     : SdlText(window, text) {}
 
-AmmoView::AmmoView(SdlWindow &window,int ammo)
-    : SdlText(window, std::to_string(ammo)) {}
+AmmoView::AmmoView(SdlWindow &window, int ammo) : SdlText(window, "") {
+    std::string aux = "ammo " + std::to_string(ammo) + "/30";
+    setTexture(aux);
+}
 
 AmmoView::~AmmoView() {}
