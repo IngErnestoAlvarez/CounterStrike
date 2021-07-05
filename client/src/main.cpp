@@ -16,7 +16,9 @@ int main(int argc, char const *argv[]) {
 
     try {
         App game("localhost", "http");
+        log->info("Loading media");
         game.load_media();
+        log->info("Starting main_loop");
         game.main_loop();
     } catch (const std::exception &e) {
         std::cerr << e.what() << '\n';

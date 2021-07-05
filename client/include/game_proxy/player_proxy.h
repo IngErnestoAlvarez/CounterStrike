@@ -32,6 +32,10 @@ class PlayerProxy {
     WeaponProxy *getWeapon();
 
     void setPlayer(char *data, size_t n);
+
+    int getTime() const { return time; }
+
+    bool getGotBomb() const { return gotBomb; }
 };
 
 #endif

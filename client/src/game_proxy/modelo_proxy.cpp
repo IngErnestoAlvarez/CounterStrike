@@ -6,7 +6,11 @@
 
 ModeloProxy::ModeloProxy(std::string const &host, std::string const &service)
     : protocolo(), bodyProxy(), staticsProxy(), player() {
+    using namespace CPlusPlusLogging;
+    Logger *log = Logger::getInstance();
+    log->info("Conectando con el servidor");
     skt.connect(host.c_str(), service.c_str());
+    log->info("Conexion exitosa");
 }
 
 ModeloProxy::~ModeloProxy() {}
@@ -92,7 +96,12 @@ float ModeloProxy::getPlayerAngle() { return player.getAngle(); }
 
 PlayerProxy *ModeloProxy::getPlayer() { return &this->player; }
 
-void ModeloProxy::initialize() { chargeStatics(); }
+void ModeloProxy::initialize() {
+    using namespace CPlusPlusLogging;
+    Logger *log = Logger::getInstance();
+    log->info("Cargando objetos estaticos");
+    chargeStatics();
+}
 
 void ModeloProxy::update() {
     chargeBodies();

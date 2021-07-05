@@ -30,6 +30,7 @@ class Renderizables {
 
     void renderObjects(bodyVector::iterator it, bodyVector::iterator end);
     void renderFloor(bodyVector::iterator it, bodyVector::iterator end);
+    void renderPlayer();
 
     void createStatics(bodyVector::iterator it, bodyVector::iterator end);
 

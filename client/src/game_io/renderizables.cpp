@@ -32,6 +32,8 @@ void Renderizables::renderFloor(bodyVector::iterator it,
     }
 }
 
+void Renderizables::renderPlayer() { player->render(); }
+
 void Renderizables::createPlayer(PlayerProxy *player) {
     this->player =
         std::unique_ptr<PlayerView>(new PlayerView(CT2_TYPE, *window, player));

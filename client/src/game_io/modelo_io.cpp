@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <utility>
 
+#include "Logger.h"
 #include "game_io/sdl/SdlImage.h"
 #include "game_io/sdl/text/SdlText.h"
 #include "math.h"
@@ -57,45 +58,55 @@ void ModeloIO::check_events() {
 }
 
 void ModeloIO::check_keyboard() {
+    using namespace CPlusPlusLogging;
+    Logger *log = Logger::getInstance();
     const Uint8 *state = SDL_GetKeyboardState(NULL);
     bool any_key_pressed = false;
     if (state[SDL_SCANCODE_A]) {
         any_key_pressed = true;
+        log->debug("Move Left");
         this->modelo.movePlayerLeft();
     }
 
     else if (state[SDL_SCANCODE_W]) {
         any_key_pressed = true;
+        log->debug("Move Up");
         this->modelo.movePlayerUp();
     }
 
     else if (state[SDL_SCANCODE_D]) {
         any_key_pressed = true;
+        log->debug("Move Right");
         this->modelo.movePlayerRight();
     }
 
     else if (state[SDL_SCANCODE_S]) {
         any_key_pressed = true;
+        log->debug("Move Down");
         this->modelo.movePlayerDown();
     }
 
     else if (state[SDL_SCANCODE_1]) {
         any_key_pressed = true;
+        log->debug("Change to weapon 1");
         this->modelo.changeToW1();
     }
 
     else if (state[SDL_SCANCODE_2]) {
         any_key_pressed = true;
+        log->debug("Change to weapon 2");
         this->modelo.changeToW2();
     }
 
     else if (state[SDL_SCANCODE_3]) {
         any_key_pressed = true;
+        log->debug("Change to weapon 3");
         this->modelo.changeToW3();
     }
 
     else if (state[SDL_SCANCODE_4]) {
         any_key_pressed = true;
+        log->debug("Change to bomb");
         this->modelo.changeToBomb();
     }
 
@@ -119,9 +130,10 @@ void ModeloIO::render() {
     this->window.set_camera_pos(modelo.getPlayerX(), modelo.getPlayerY(),
                                 modelo.getWidth() * 32,
                                 modelo.getHeight() * 32);
-    this->renderizables.renderObjects(modelo.getBodyIterator(),
-                                      modelo.getBodyEnd());
     this->renderizables.renderFloor(modelo.getStaticIterator(),
                                     modelo.getStaticEnd());
+    this->renderizables.renderObjects(modelo.getBodyIterator(),
+                                      modelo.getBodyEnd());
+    this->renderizables.renderPlayer();
     this->window.render();
 }
