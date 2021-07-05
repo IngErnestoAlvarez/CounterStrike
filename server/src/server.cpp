@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "game_logic/server.h"
+#include "server.h"
 
 Server::Server()
 	: game("config/config.yaml", "assets/maps/map.yaml"),
