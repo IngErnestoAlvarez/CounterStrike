@@ -11,6 +11,7 @@
 #include "game_logic/body.h"
 #include "game_logic/game.h"
 #include "game_logic/map.h"
+#include "game_logic/cell.h"
 
 Protocolo::Protocolo() : game(nullptr) {}
 
@@ -26,6 +27,10 @@ void Protocolo::send_two_bytes(socket_t *skt, uint16_t *bytes) {
     skt->send((char *)bytes, 2);
 }
 
+void Protocolo::send_four_bytes(socket_t* skt, uint32_t* bytes) {
+    skt->send((char*)bytes, 4);
+}
+
 uint8_t Protocolo::receive_one_byte(socket_t *skt) {
     uint8_t byte;
     size_t received;
@@ -37,6 +42,13 @@ uint16_t Protocolo::receive_two_bytes(socket_t *skt) {
     uint16_t bytes;
     size_t received;
     skt->receive((char *)&bytes, 2, received);
+    return bytes;
+}
+
+uint32_t Protocolo::receive_four_bytes(socket_t* skt) {
+    uint32_t bytes;
+    size_t received;
+    skt->receive((char *)&bytes, 4, received);
     return bytes;
 }
 
@@ -82,10 +94,10 @@ void Protocolo::send_state(socket_t* skt) {
     uint16_t body_count = bodies.size();
     this->send_two_bytes(skt, &body_count);
     for (Body* body : bodies) {
-        uint8_t type = body->getType();
-        uint16_t x = body->getX();
-        uint16_t y = body->getY();
-        uint32_t angle = body->getAngle();
+        uint8_t type = uint8_t(body->getType());
+        uint16_t x = uint16_t(body->getX());
+        uint16_t y = uint16_t(body->getY());
+        uint32_t angle = uint32_t(body->getAngle());
         this->send_one_byte(skt, &type);
         this->send_two_bytes(skt, &x);
         this->send_two_bytes(skt, &y);
