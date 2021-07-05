@@ -52,9 +52,7 @@ void Protocolo::send_config(socket_t *skt) {
     this->send_two_bytes(skt, &cell_count);
 
     for (Cell &cell : map) {
-        uint8_t type =
-            cell.canBeAccesed() ? OFFICE_TYPE : cell.getBody()->getType();
-
+        uint8_t type = cell.getBodyType();
         uint16_t x = uint16_t(cell.getWorldX());
         uint16_t y = uint16_t(cell.getWorldY());
 
@@ -76,6 +74,22 @@ void Protocolo::recv_config(socket_t *skt) {
         // uint8_t type = this->receive_one_byte(skt);
         // uint16_t x = this->receive_two_bytes(skt);
         // uint16_t y = this->receive_two_bytes(skt);
+    }
+}
+
+void Protocolo::send_state(socket_t* skt) {
+    std::vector<Body*> bodies = this->game->getBodies();
+    uint16_t body_count = bodies.size();
+    this->send_two_bytes(skt, &body_count);
+    for (Body* body : bodies) {
+        uint8_t type = body->getType();
+        uint16_t x = body->getX();
+        uint16_t y = body->getY();
+        uint32_t angle = body->getAngle();
+        this->send_one_byte(skt, &type);
+        this->send_two_bytes(skt, &x);
+        this->send_two_bytes(skt, &y);
+        this->send_four_bytes(skt, &angle);
     }
 }
 

@@ -23,14 +23,14 @@ enum Phase : char {
 
 #define BodyTypeSize 8
 enum BodyType : uint8_t {
-    NO_BODY_TYPE = 0,
-    CT1_TYPE = 1,
+    OFFICE_TYPE = 0,
+    WALL_TYPE = 1,
     CT2_TYPE = 2,
     AK47_TYPE = 3,
     AK47_D_TYPE = 4,
-    OFFICE_TYPE = 5,
+    CT1_TYPE = 5,
     PLAYER_TYPE = 6,
-    WALL_TYPE = 7,
+    NO_BODY_TYPE = 7,
 };
 
 #endif

@@ -4,7 +4,9 @@
 #include <vector>
 #include <string>
 #include "cell.h"
-#include "world.h"
+
+class Game;
+class World;
 
 class Map {
 private:
@@ -20,7 +22,7 @@ private:
     Cell& getCellAt(int x, int y);
 
 public:
-    Map(World& world, const std::string& map_filepath);
+    Map(Game& game, const std::string& map_filepath);
     bool canBeAccesed(int x, int y);
     int getWeaponAt(int x, int y);
     const std::string& getName() const;

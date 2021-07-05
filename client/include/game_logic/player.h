@@ -39,6 +39,8 @@ public:
            float x,
            float y);
 
+    ~Player();
+
     int getTeamID() const;
     bool isAlive() const;
     int getHealth() const;

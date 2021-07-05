@@ -30,10 +30,28 @@ Player::Player(Game& game,
     equipped_weapon = default_range_weapon;
 }
 
+Player::~Player() {
+    if (default_melee_weapon != nullptr
+        && default_melee_weapon != equipped_weapon)
+        delete default_melee_weapon;
+
+    if (default_range_weapon != nullptr
+        && default_range_weapon != equipped_weapon)
+        delete default_range_weapon;
+
+    if (primary_weapon != nullptr
+        && primary_weapon != equipped_weapon)
+        delete primary_weapon;
+
+    if (equipped_weapon != nullptr)
+        delete equipped_weapon;
+}
+
 void Player::addWeapon(Weapon* weapon) {
-    this->game.createWeaponDrop(this->getX(),
-                                this->getY(),
-                                this->primary_weapon);
+    if (this->primary_weapon != nullptr)
+        this->game.createWeaponDrop(this->getX(),
+                                    this->getY(),
+                                    this->primary_weapon);
     this->primary_weapon = weapon;
 }
 

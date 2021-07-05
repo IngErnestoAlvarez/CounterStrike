@@ -65,9 +65,13 @@ class Protocolo {
 
     void send_two_bytes(socket_t *skt, uint16_t *bytes);
 
+    void send_four_bytes(socket_t* skt, uint32_t* bytes);
+
     uint8_t receive_one_byte(socket_t *skt);
 
     uint16_t receive_two_bytes(socket_t *skt);
+
+    uint32_t receive_four_bytes(socket_t* skt);
 
     // SERVIDOR
     // 45, 100
@@ -80,7 +84,7 @@ class Protocolo {
 
     // SERVIDOR
     // 2bytes con cant de bodies (1 tipo, 2 posx, 2 posy, 4 angle)
-    void send_state();
+    void send_state(socket_t* skt);
 
     // CLIENTE
     void recv_state(char **result, size_t *size, socket_t *skt);

@@ -3,8 +3,10 @@
 #include <cstdlib>
 #include <iostream>
 
+#include "game_logic/block.h"
 #include "game_logic/body.h"
 #include "game_logic/bomb.h"
+#include "game_logic/bomb_drop.h"
 #include "game_logic/game.h"
 #include "game_logic/player.h"
 #include "game_logic/weapon_drop.h"
@@ -13,7 +15,7 @@ Game::Game(const std::string &config_filepath,
            const std::string &map_filepath)
     : config(config_filepath),
       world(*this),
-      map(world, map_filepath),
+      map(*this, map_filepath),
       round(0),
       phase(TEAMS_FORMING_PHASE),
       winner_team(NO_ROLE),
@@ -120,12 +122,27 @@ void Game::usePlayerWeapon(int player_id) {
 }
 
 void Game::createBomb(float x, float y) {
-    this->bomb = new Bomb(*this, x, y);
+    Bomb* bomb = new Bomb(*this, x, y);
+    this->bomb = bomb;
+    this->bodies.push_back(bomb);
 }
 
 void Game::createWeaponDrop(float x, float y, Weapon* weapon) {
     WeaponDrop* weapon_drop = new WeaponDrop(*this, x, y);
     weapon_drop->setWeapon(weapon);
+    this->bodies.push_back(weapon_drop);
+}
+
+void Game::createBombDrop(float x, float y) {
+    this->bodies.push_back(new BombDrop(*this, x, y));
+}
+
+void Game::createBlock(float x, float y) {
+    this->bodies.push_back(new Block(*this, x, y));
+}
+
+std::vector<Body*>& Game::getBodies() {
+    return this->bodies;
 }
 
 int Game::getX() { return int(this->player->getX()); }
@@ -203,6 +220,9 @@ Role Game::getWinnerTeam() {
 Game::~Game() {
     if (this->player != nullptr)
         delete this->player;
+
+    for (Body* body : this->bodies)
+        delete body;
 }
 
 // ----------- estos metodos se eliminarian ------------

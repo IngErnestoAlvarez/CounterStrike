@@ -30,6 +30,8 @@ class Game {
     bool has_finished;
 
     std::vector<Player*> players;
+    std::vector<Body*> bodies;
+
     Team team_a;
     Team team_b;
     Bomb* bomb = nullptr;
@@ -59,8 +61,11 @@ class Game {
     bool hasBombBeenDeactivated();
     bool hasBombExploded();
     Role getWinnerTeam();
+    std::vector<Body*>& getBodies();
 
+    void createBlock(float x, float y);
     void createBomb(float x, float y);
+    void createBombDrop(float x, float y);
     void createWeaponDrop(float x, float y, Weapon* weapon);
 
     World &getWorld();
