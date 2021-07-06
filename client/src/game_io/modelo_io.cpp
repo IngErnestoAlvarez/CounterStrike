@@ -145,8 +145,8 @@ void ModeloIO::render() {
     log->debug("Comienza el render del floor");
     this->renderizables.renderFloor(modelo.getStaticIterator(),
                                     modelo.getStaticEnd());
-    // this->renderizables.renderObjects(modelo.getBodyIterator(),
-    //                                   modelo.getBodyEnd());
+    this->renderizables.renderObjects(modelo.getBodyIterator(),
+                                      modelo.getBodyEnd());
     this->renderizables.renderPlayer();
     log->debug("Finaliza el render del floor");
     log->debug("Comienza el render del window");

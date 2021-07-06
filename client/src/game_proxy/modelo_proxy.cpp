@@ -105,7 +105,7 @@ void ModeloProxy::initialize() {
 }
 
 void ModeloProxy::update() {
-    // chargeBodies();
+    chargeBodies();
     chargePlayer();
 }
 

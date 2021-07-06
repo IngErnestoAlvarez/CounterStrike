@@ -25,7 +25,7 @@ int Peer::getPeerID() const { return this->id; }
 void Peer::run() {
     try {
         while (this->is_running) {
-            // this->protocol.send_state(&this->socket);
+            this->protocol.send_state(&this->socket);
             this->protocol.send_player(&this->socket, this->id);
             Comando code = this->protocol.recv_comando(&this->socket);
             Command command(code, this->id);

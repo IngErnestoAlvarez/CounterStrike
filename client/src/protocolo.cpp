@@ -84,9 +84,9 @@ void Protocolo::recv_state(char **result, size_t *size, socket_t *skt) {
     log->debug("Se recibio como size en el recv_state: ");
     log->debug(std::to_string(*size).c_str());
 
-    skt->receive(*result, *size, rllyReceived);
+    skt->receive(*result, (*size) * 9, rllyReceived);
 
-    if (rllyReceived != *size) {
+    if (rllyReceived != ((*size) * 9)) {
         throw std::runtime_error(
             "Problemas al recibir el stream entero en recv_state");
     }
