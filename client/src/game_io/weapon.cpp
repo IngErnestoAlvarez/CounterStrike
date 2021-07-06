@@ -8,6 +8,8 @@ WeaponView::WeaponView(std::string const &path, int animation_frames,
                        SdlWindow &window, WeaponProxy *weapon)
     : SdlObject(path, 1, window),
       weapon(weapon),
+      window(&window),
+      prevWeapon(weapon->getBodyType()),
       shootSound("assets/sounds/SHOT.wav"),
       noBulletSound("assets/sounds/w_empty.wav") {
     center = {16, 32};
@@ -20,6 +22,8 @@ WeaponView::WeaponView(std::string const &path, int animation_frames,
 WeaponView::WeaponView(SdlWindow &window, WeaponProxy *weapon)
     : SdlObject(weapon->getBodyType(), window),
       weapon(weapon),
+      window(&window),
+      prevWeapon(weapon->getBodyType()),
       shootSound("assets/sounds/SHOT.wav"),
       noBulletSound("assets/sounds/w_empty.wav") {
     using namespace CPlusPlusLogging;
@@ -35,6 +39,7 @@ WeaponView::WeaponView(SdlWindow &window, WeaponProxy *weapon)
 WeaponView::~WeaponView() {}
 
 void WeaponView::render(int x, int y, float angle) {
+    checkToChangeWeapon();
     // const int deviation = 8;
     float auxangle = angle + 180.0;
 
@@ -53,3 +58,9 @@ void WeaponView::shoot() {
 }
 
 int WeaponView::getAmmo() { return weapon->getAmmo(); }
+
+void WeaponView::checkToChangeWeapon() {
+    if (prevWeapon != weapon->getBodyType()) {
+        this->image = SdlImage(*window, weapon->getBodyType());
+    }
+}

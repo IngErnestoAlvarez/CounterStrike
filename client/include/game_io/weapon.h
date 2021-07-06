@@ -8,6 +8,8 @@
 class WeaponView : public SdlObject {
    private:
     WeaponProxy *weapon;
+    SdlWindow *window;
+    BodyType prevWeapon;
     Sample shootSound;
     Sample noBulletSound;
 
@@ -22,5 +24,7 @@ class WeaponView : public SdlObject {
     void shoot();
 
     int getAmmo();
+
+    void checkToChangeWeapon();
 };
 #endif  // __WEAPONVIEW_H__

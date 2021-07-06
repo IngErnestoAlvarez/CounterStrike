@@ -1,6 +1,6 @@
 #include "game_proxy/weapon_proxy.h"
 
-WeaponProxy::WeaponProxy() { maxammo = 30; }
+WeaponProxy::WeaponProxy() : weapon(AK47_TYPE) { maxammo = 30; }
 
 WeaponProxy::~WeaponProxy() {}
 

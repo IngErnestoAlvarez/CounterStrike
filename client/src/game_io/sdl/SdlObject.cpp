@@ -40,6 +40,7 @@ SdlObject::~SdlObject() { delete sprite_clips; }
 SdlObject &SdlObject::operator=(SdlObject &&other) {
     if (this == &other) return *this;
     using std::move;
+    if (this->sprite_clips != nullptr) delete this->sprite_clips;
     sprite_clips = other.sprite_clips;
     other.sprite_clips = nullptr;
     image = move(other.image);
