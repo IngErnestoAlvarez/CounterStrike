@@ -79,18 +79,18 @@ void ModeloProxy::chargeStatics() {
     char *result;
     size_t size;
 
-    protocolo.recv_player(&result, &size, &skt);
+    protocolo.recv_config(&result, &size, &skt);
     log->debug("Se recibio lo siguiente del recv_config del protocolo: ");
     log->debug(result);
 
     staticsProxy.setStatics(result, size);
 
-    free(result);
+    delete (result);
 }
 
-int ModeloProxy::getPlayerX() { return player.getX(); }
+int ModeloProxy::getPlayerX() { return 400; }
 
-int ModeloProxy::getPlayerY() { return player.getY(); }
+int ModeloProxy::getPlayerY() { return 400; }
 
 float ModeloProxy::getPlayerAngle() { return player.getAngle(); }
 
@@ -101,11 +101,12 @@ void ModeloProxy::initialize() {
     Logger *log = Logger::getInstance();
     log->info("Cargando objetos estaticos");
     chargeStatics();
+    log->info("Terminados de cargar objetos estaticos");
 }
 
 void ModeloProxy::update() {
-    chargeBodies();
-    chargePlayer();
+    // chargeBodies();
+    // chargePlayer();
 }
 
 int ModeloProxy::getWidth() { return 26; }

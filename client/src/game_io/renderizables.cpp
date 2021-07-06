@@ -2,15 +2,15 @@
 
 #include <iostream>
 
+#include "Logger.h"
 #include "game_io/floor.h"
 #include "game_io/player.h"
 #include "game_io/stencil.h"
-#include "game_logic/player.h"
 #include "types.h"
 
 Renderizables::Renderizables(SdlWindow &window, PlayerProxy *player)
     : window(&window), objects(BodyTypeSize), floor(window) {
-    createPlayer(player);
+    // createPlayer(player);
 }
 Renderizables::~Renderizables() {}
 
@@ -26,8 +26,13 @@ void Renderizables::renderObjects(bodyVector::iterator it,
 
 void Renderizables::renderFloor(bodyVector::iterator it,
                                 bodyVector::iterator end) {
+    using namespace CPlusPlusLogging;
+    Logger *log = Logger::getInstance();
     floor.render();
     for (; it != end; it++) {
+        if (objects[it->tipo].get() == nullptr) {
+            createObject(it->tipo);
+        }
         objects[it->tipo]->render(it->posx, it->posy, 0);
     }
 }

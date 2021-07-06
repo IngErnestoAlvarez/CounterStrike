@@ -4,8 +4,8 @@ project(CounterStrike)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -O0 -Werror -pedantic")
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ggdb -DDEBUG -fno-inline ")
+# set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -O0 -Werror -pedantic")
+# set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ggdb -DDEBUG -fno-inline ")
 
 file(GLOB_RECURSE CLIENT_SRCS ./client/src/*.cpp)
 file(GLOB_RECURSE COMMON_SRCS ./common/src/*.cpp)
@@ -23,9 +23,9 @@ find_package(yaml-cpp REQUIRED)
 
 include_directories(
     ${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS} ${SDL2_MIXER_INCLUDE_DIRS} ${SDL2TTF_INCLUDE_DIR})
-include_directories(client/include)
+# include_directories(client/include)
 include_directories(common/include)
-include_directories(server/include)
+# include_directories(server/include)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -44,7 +44,11 @@ target_link_libraries(
     )
 
 target_link_libraries(libclient -ldl -lBox2D)
+target_include_directories(libclient PUBLIC 
+client/include)
 target_link_libraries(libserver -ldl -lBox2D)
+target_include_directories(libserver PUBLIC 
+server/include)
 
 target_link_libraries(
     libcommon 

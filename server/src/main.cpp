@@ -1,11 +1,15 @@
 #include <iostream>
+
 #include "server.h"
 
-int main(int argc, char* argv[]) {
-	std::cout << "server" << std::endl;
+int main(int argc, char *argv[]) {
+    std::cout << "server" << std::endl;
 
-	Server server;
-	server.run();
+    Server server;
+    server.run();
 
-	return 0;
+    char a;
+    std::cin >> a;
+
+    return 0;
 }

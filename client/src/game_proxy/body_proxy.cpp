@@ -64,10 +64,10 @@ void BodyProxy::setWithSmallerData(char *data, size_t n) {
 void BodyProxy::setStaticWithBiggerData(char *data, size_t n) {
     for (size_t i = 0; i < n; i++) {
         BodyContainer aux;
-        size_t pos = (i * size_t(sizeof(BodyContainer))) - 4;
+        size_t pos = (i * 5);
         aux.tipo = BodyType(*(uint8_t *)&data[pos]);
-        aux.posx = ::ntohs(*(uint16_t *)&data[pos + 1]);
-        aux.posy = ::ntohs(*(uint16_t *)&data[pos + 3]);
+        aux.posx = (*(uint16_t *)&data[pos + 1]);
+        aux.posy = (*(uint16_t *)&data[pos + 3]);
         aux.angle = 0;
         bodies.push_back(aux);
     }

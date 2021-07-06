@@ -38,12 +38,19 @@ bool ModeloIO::update() {
 }
 
 void ModeloIO::check_actions() {
+    using namespace CPlusPlusLogging;
+    Logger *log = Logger::getInstance();
+    log->debug("Comienza check_actions");
     this->check_events();
     this->check_keyboard();
     this->check_mouse();
+    log->debug("Finaliza check_actions");
 }
 
 void ModeloIO::check_events() {
+    using namespace CPlusPlusLogging;
+    Logger *log = Logger::getInstance();
+    log->debug("Chequeando eventos");
     SDL_Event e;
     while (SDL_PollEvent(&e) != 0) {
         if (e.type == SDL_QUIT) {
@@ -55,6 +62,7 @@ void ModeloIO::check_events() {
             this->modelo.usePlayerWeapon();
         }
     }
+    log->debug("Terminaron los eventos");
 }
 
 void ModeloIO::check_keyboard() {
@@ -127,13 +135,21 @@ SdlWindow &ModeloIO::getWindow() { return this->window; }
 void ModeloIO::clearRenderer() { this->window.clear_renderer(); }
 
 void ModeloIO::render() {
+    using namespace CPlusPlusLogging;
+    Logger *log = Logger::getInstance();
+    log->debug("Comienza el seteo de la camara");
     this->window.set_camera_pos(modelo.getPlayerX(), modelo.getPlayerY(),
                                 modelo.getWidth() * 32,
                                 modelo.getHeight() * 32);
+    log->debug("Finaliza el seteo de la camara");
+    log->debug("Comienza el render del floor");
     this->renderizables.renderFloor(modelo.getStaticIterator(),
                                     modelo.getStaticEnd());
-    this->renderizables.renderObjects(modelo.getBodyIterator(),
-                                      modelo.getBodyEnd());
-    this->renderizables.renderPlayer();
+    // this->renderizables.renderObjects(modelo.getBodyIterator(),
+    //                                   modelo.getBodyEnd());
+    // this->renderizables.renderPlayer();
+    log->debug("Finaliza el render del floor");
+    log->debug("Comienza el render del window");
     this->window.render();
+    log->debug("Finaliza el render del window");
 }

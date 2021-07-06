@@ -1,5 +1,7 @@
 #include "game_io/floor.h"
 
+#include "Logger.h"
+
 Floor::Floor(SdlWindow &window) : SdlObject(OFFICE_TYPE, window) {
     width = 26;
     height = 26;
@@ -13,9 +15,15 @@ Floor::Floor(SdlWindow &window) : SdlObject(OFFICE_TYPE, window) {
 Floor::~Floor() {}
 
 void Floor::render() {
+    using namespace CPlusPlusLogging;
+    Logger *log = Logger::getInstance();
+    log->debug("Comienza loop del Floor::render");
     for (int raw = 0; raw < width; ++raw) {
         for (int col = 0; col < height; ++col) {
             this->image.render(raw * 64, col * 64, 0, center, sprite_clips);
         }
+        log->debug("Paso la vuelta:");
+        log->debug(std::to_string(raw).c_str());
     }
+    log->debug("Finaliza loop del Floor::render");
 }

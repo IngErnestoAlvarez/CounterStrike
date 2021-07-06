@@ -7,7 +7,6 @@
 
 #include "game_io/sdl/SdlImage.h"
 #include "game_io/sdl/SdlWindow.h"
-#include "game_logic/body.h"
 
 class SdlObject {
    protected:
@@ -33,8 +32,6 @@ class SdlObject {
     void set_alpha(Uint8 alpha);
 
     virtual void render(int posx, int posy, float angle);
-
-    virtual void mouse_mov(int x, int y);
 };
 
 #endif

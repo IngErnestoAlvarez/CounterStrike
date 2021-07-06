@@ -15,7 +15,7 @@ int main(int argc, char const *argv[]) {
     log->info("Empieza el programa");
 
     try {
-        App game("localhost", "http");
+        App game("localhost", "8000");
         log->info("Loading media");
         game.load_media();
         log->info("Starting main_loop");
