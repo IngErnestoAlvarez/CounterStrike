@@ -1,18 +1,16 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-#include "game_logic/game.h"
-#include "protocolo.h"
-#include "socket.h"
+#include <string>
+
+#include "acceptor.h"
 
 class Server {
 private:
-	Game game;
-	Protocolo protocolo;
-	socket_t socket;
+	Acceptor acceptor;
 
 public:
-	Server();
+	Server(const std::string& config_filepath);
 	~Server();
 
 	void run();

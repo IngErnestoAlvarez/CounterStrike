@@ -67,6 +67,8 @@ struct socket_t {
 
     void shutdown();
 
+    void close();
+
    private:
     int socket_servidor(const char *nombre_host, const char *servicio);
 

@@ -30,7 +30,7 @@ socket_t::~socket_t() {
         std::cout << "Error con el shutdown final del socket";
     }
 
-    if (this->fd >= 0) close(this->fd);
+    if (this->fd >= 0) ::close(this->fd);
 }
 
 int socket_t::bind_and_listen(const char *host, const char *servicio,
@@ -44,7 +44,7 @@ int socket_t::bind_and_listen(const char *host, const char *servicio,
     int status = listen(this->fd, tam_queue);
 
     if (status == -1) {
-        close(this->fd);
+        ::close(this->fd);
         this->fd = -1;
         return 1;
     }
@@ -62,7 +62,7 @@ int socket_t::accept(socket_t *aceptado) {
 
     if (aceptado->fd >= 0) {
         ::shutdown(aceptado->fd, SHUT_RDWR);
-        close(aceptado->fd);
+        ::close(aceptado->fd);
     }
     aceptado->fd = sktaux;
     return 0;
@@ -85,14 +85,14 @@ int socket_t::connect(const char *host, const char *servicio) {
         } else {
             status = ::connect(skt, ptr->ai_addr, ptr->ai_addrlen);
             if (status == -1) {
-                close(skt);
+                ::close(skt);
             }
             estamos_conectados = (status == 0);
         }
     }
     if (!estamos_conectados) {
         fprintf(stderr, "Error al intentar conectarse al skt");
-        close(skt);
+        ::close(skt);
         freeaddrinfo(info);
         return 1;
     }
@@ -156,7 +156,7 @@ int socket_t::socket_servidor(const char *nombre_host, const char *servicio) {
             status =
                 setsockopt(skt, SOL_SOCKET, SO_REUSEADDR, &val, sizeof(val));
             if (status == -1) {
-                close(skt);
+                ::close(skt);
                 freeaddrinfo(info);
                 return 1;
             }
@@ -164,7 +164,7 @@ int socket_t::socket_servidor(const char *nombre_host, const char *servicio) {
             status = bind(skt, info->ai_addr, info->ai_addrlen);
             if (status == -1) {
                 freeaddrinfo(info);
-                close(skt);
+                ::close(skt);
                 return 1;
             }
             estamos_conectados = (status == 0);
@@ -172,7 +172,7 @@ int socket_t::socket_servidor(const char *nombre_host, const char *servicio) {
     }
     if (!estamos_conectados) {
         fprintf(stderr, "Error al intentar conectarse al skt");
-        close(skt);
+        ::close(skt);
         freeaddrinfo(info);
         return 1;
     }
@@ -239,4 +239,11 @@ socket_t::SocketClosed::SocketClosed(std::string const &error)
 
 const char *socket_t::SocketClosed::what() const noexcept {
     return this->message.c_str();
+}
+
+void socket_t::close() {
+    if (this->fd == -1)
+        return;
+    ::close(this->fd);
+    this->fd = -1;
 }

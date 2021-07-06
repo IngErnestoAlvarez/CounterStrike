@@ -37,7 +37,8 @@ enum Comando : unsigned char {
     CB = 0x67,
     BW = 0x62,
     USE = 0x79,
-    STOP = 0x7A
+    STOP = 0x7A,
+    AIM = 0x41,
 };
 
 class Protocolo {

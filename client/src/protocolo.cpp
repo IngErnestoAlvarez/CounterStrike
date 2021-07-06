@@ -116,6 +116,7 @@ void Protocolo::send_mouse(int x, int y, socket_t *skt) {
     memcpy(&message[2], &yaux, 2);
 
     log->debug(message);
+    this->send_comando(AIM, skt);
     skt->send(message, 4);
 }
 

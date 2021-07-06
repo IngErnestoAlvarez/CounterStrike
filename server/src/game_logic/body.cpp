@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include <Box2D/Box2D.h>
 #include <cmath>
 
@@ -19,6 +21,7 @@ Body::Body(World& world,
     b2_body_def.angle = angle;
     b2_body_def.type = velocity > 0 ? b2_dynamicBody : b2_staticBody;
     b2_body_def.allowSleep = false;
+    b2_body_def.fixedRotation = true;
     b2_body_def.userData = this;
     this->b2_body = this->world.b2_world->CreateBody(&b2_body_def);
 
@@ -104,7 +107,9 @@ float Body::getY() const {
 }
 
 float Body::getAngle() const {
-    return this->b2_body->GetAngle();
+    float angle = this->b2_body->GetAngle();
+    std::cout << "angle: " << angle << std::endl;
+    return angle;
 }
 
 void Body::update() {}

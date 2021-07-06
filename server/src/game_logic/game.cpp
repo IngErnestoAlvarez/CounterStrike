@@ -2,7 +2,9 @@
 #include <cmath>
 #include <cstdlib>
 #include <iostream>
+#include "Logger.h"
 
+#include "command.h"
 #include "game_logic/block.h"
 #include "game_logic/body.h"
 #include "game_logic/bomb.h"
@@ -28,45 +30,51 @@ void Game::start() {
     this->assignBombToRandomPlayer();
 }
 
-int Game::addPlayer(TeamID team_id) {
+bool Game::isRunning() {
+    return this->phase != TEAMS_FORMING_PHASE;
+}
+
+void Game::addPlayer(TeamID team_id, int peer_id) {
     if (this->phase != TEAMS_FORMING_PHASE)
-        return 0;
+        return;
 
-    Cell& cell = (team_id == TEAM_A)
-               ? this->map.getStartingCellAntiterrorists()
-               : this->map.getStartingCellTerrorists();
+    // Cell& cell = (team_id == TEAM_A)
+    //            ? this->map.getStartingCellAntiterrorists()
+    //            : this->map.getStartingCellTerrorists();
 
-    int player_id = this->players.size();
     Player* player = new Player(*this,
-                                player_id,
+                                peer_id,
                                 team_id,
-                                cell.getWorldX(),
-                                cell.getWorldY());
-    this->players.push_back(player);
+                                400, 400);
+    this->players[peer_id] = player;
+    this->bodies.push_back(player);
 
     if (team_id == TEAM_A)
         this->team_a.addPlayer(player);
     else
         this->team_b.addPlayer(player);
 
-    return player_id;
+    // testing
+    this->player = player;
 }
 
 void Game::assignBombToRandomPlayer() {
-    std::vector<Player*> terrorists;
-    std::copy_if(this->players.begin(),
-                 this->players.end(),
-                 std::back_inserter(terrorists),
-                 [](const Player* p) {
-                    return p->isTerrorist();
-                });
+    // std::vector<Player*> terrorists;
+    // std::copy_if(this->players.begin(),
+    //              this->players.end(),
+    //              std::back_inserter(terrorists),
+    //              [](const Player* p) {
+    //                 return p->isTerrorist();
+    //             });
 
-    int index = rand() % terrorists.size();
-    terrorists[index]->receiveBomb();
+    // int index = rand() % terrorists.size();
+    // terrorists[index]->receiveBomb();
 }
 
-void Game::executeCommand(int player_id, Comando command) {
-    switch (command) {
+void Game::executeCommand(Command& command) {
+    Comando code = command.getCode();
+    int player_id = command.getPeerID();
+    switch (code) {
         case UP:
             this->movePlayerUp(player_id);
             break;
@@ -85,6 +93,8 @@ void Game::executeCommand(int player_id, Comando command) {
         case STOP:
             this->stopPlayer(player_id);
             break;
+        case AIM:
+            this->setPlayerAim(player_id, (int)command.getArg("x"), (int)command.getArg("y"));
         default:
             break;
     }
@@ -218,11 +228,15 @@ Role Game::getWinnerTeam() {
 }
 
 Game::~Game() {
-    if (this->player != nullptr)
-        delete this->player;
+    // if (this->player != nullptr)
+    //     delete this->player;
 
     for (Body* body : this->bodies)
         delete body;
+}
+
+Player* Game::getPlayer(int player_id) {
+    return this->players[player_id];
 }
 
 // ----------- estos metodos se eliminarian ------------

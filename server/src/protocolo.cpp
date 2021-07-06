@@ -147,11 +147,11 @@ void Protocolo::send_comando(Comando comando, socket_t *skt) {
     skt->send((char *)&comando, COMMAND_SIZE);
 }
 
-void Protocolo::recv_comando(Comando *comando, socket_t *skt) {
+Comando Protocolo::recv_comando(socket_t *skt) {
     char mesg;
     size_t bytes_received;
     skt->receive(&mesg, COMMAND_SIZE, bytes_received);
-    (*comando) = static_cast<Comando>(mesg);
+    return static_cast<Comando>(mesg);
 }
 
 void Protocolo::send_mouse(int x, int y, socket_t *skt) {
@@ -187,10 +187,11 @@ void Protocolo::recv_player(char **result, size_t *size, socket_t *skt) {
     log->debug(*result);
 }
 
-void Protocolo::send_player(Player &player, socket_t *skt) {
+void Protocolo::send_player(socket_t *skt, int peer_id) {
     using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();
     log->debug("Comienza send player");
+    Player& player = *this->game->getPlayer(peer_id);
     uint8_t ammo = player.getAmmo();
     uint8_t life = player.getHealth();
     uint16_t money = ::htons(16000);

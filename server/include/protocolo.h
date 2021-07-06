@@ -40,7 +40,8 @@ enum Comando : unsigned char {
     CB = 0x67,
     BW = 0x62,
     USE = 0x79,
-    STOP = 0x7A
+    STOP = 0x7A,
+    AIM = 0x41,
 };
 
 class Protocolo {
@@ -93,7 +94,7 @@ class Protocolo {
     // CLIENTE
     void send_comando(Comando comando, socket_t *skt);
 
-    void recv_comando(Comando *comando, socket_t *skt);
+    Comando recv_comando(socket_t *skt);
     // CLIENTE
     // (2 x, 2 y)
     void send_mouse(int x, int y, socket_t *skt);
@@ -111,7 +112,7 @@ class Protocolo {
      *
      * @param player
      */
-    void send_player(Player &player, socket_t *skt);
+    void send_player(socket_t *skt, int peer_id);
 
     void recv_player(char **result, size_t *size, socket_t *skt);
 

@@ -24,7 +24,7 @@ void ModeloProxy::movePlayerLeft() { protocolo.send_comando(LEFT, &skt); }
 void ModeloProxy::movePlayerRight() { protocolo.send_comando(RIGHT, &skt); }
 
 void ModeloProxy::setPlayerAim(int x, int y) {
-    protocolo.send_mouse(x, y, &skt);
+    // protocolo.send_mouse(x, y, &skt);
 }
 
 void ModeloProxy::stopPlayer() { protocolo.send_comando(STOP, &skt); }

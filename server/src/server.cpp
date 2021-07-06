@@ -2,23 +2,14 @@
 
 #include <iostream>
 
-#include "Logger.h"
 
-Server::Server()
-    : game("config/config.yaml", "assets/maps/map.yaml"),
-      protocolo(&game),
-      socket() {
-    this->socket.bind_and_listen("localhost", "8000", 20);
-}
+Server::Server(const std::string& config_filepath)
+	: acceptor(config_filepath) {}
 
 Server::~Server() {}
 
 void Server::run() {
-    socket_t peer;
-    this->socket.accept(&peer);
-    this->protocolo.send_config(&peer);
-    this->game.createPlayer(400, 400);
-    while (true) {
-        this->protocolo.send_player(*this->game.getPlayer(), &peer);
-    }
+	this->acceptor.start();
+	while (getc(stdin) != 'q') {}
+	this->acceptor.stop();
 }

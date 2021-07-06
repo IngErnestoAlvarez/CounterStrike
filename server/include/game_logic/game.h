@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 #include "configuration.h"
 #include "map.h"
@@ -16,6 +17,7 @@ class Body;
 class Bomb;
 class Player;
 class Weapon;
+class Command;
 
 class Game {
    private:
@@ -29,7 +31,7 @@ class Game {
     Role winner_team;
     bool has_finished;
 
-    std::vector<Player*> players;
+    std::unordered_map<int, Player*> players;
     std::vector<Body*> bodies;
 
     Team team_a;
@@ -55,9 +57,10 @@ class Game {
          const std::string &map_filepath);
     ~Game();
 
-    int addPlayer(TeamID team_id);
+    bool isRunning();
+    void addPlayer(TeamID team_id, int peer_id);
     void start();
-    void executeCommand(int player_id, Comando command);
+    void executeCommand(Command& command);
     bool hasBombBeenDeactivated();
     bool hasBombExploded();
     Role getWinnerTeam();
@@ -71,6 +74,8 @@ class Game {
     World &getWorld();
     Map &getMap();
     const Configuration &getConfig();
+
+    Player* getPlayer(int player_id);
 
     // metodos a eliminar del server
     Player *getPlayer();
