@@ -56,8 +56,11 @@ void Protocolo::send_config(socket_t *skt) {
     Map &map = this->game->getMap();
 
     uint16_t stencil_angle = 45;
+    stencil_angle = ::htons(stencil_angle);
     uint16_t stencil_radius = 100;
+    stencil_radius = ::htons(stencil_radius);
     uint16_t cell_count = uint16_t(map.getWidth() * map.getHeight());
+    cell_count = ::htons(cell_count);
 
     this->send_two_bytes(skt, &stencil_angle);
     this->send_two_bytes(skt, &stencil_radius);
@@ -65,8 +68,11 @@ void Protocolo::send_config(socket_t *skt) {
 
     for (Cell &cell : map) {
         uint8_t type = cell.getBodyType();
+
         uint16_t x = uint16_t(cell.getWorldX());
+        x = ::htons(x);
         uint16_t y = uint16_t(cell.getWorldY());
+        y = ::htons(y);
 
         this->send_one_byte(skt, &type);
         this->send_two_bytes(skt, &x);
@@ -92,12 +98,16 @@ void Protocolo::recv_config(socket_t *skt) {
 void Protocolo::send_state(socket_t *skt) {
     std::vector<Body *> bodies = this->game->getBodies();
     uint16_t body_count = bodies.size();
+    body_count = ::htons(body_count);
     this->send_two_bytes(skt, &body_count);
     for (Body *body : bodies) {
         uint8_t type = uint8_t(body->getType());
         uint16_t x = uint16_t(body->getX());
+        x = ::htons(x);
         uint16_t y = uint16_t(body->getY());
+        y = ::htons(y);
         uint32_t angle = uint32_t(body->getAngle());
+        angle = ::htonl(angle);
         this->send_one_byte(skt, &type);
         this->send_two_bytes(skt, &x);
         this->send_two_bytes(skt, &y);

@@ -88,9 +88,9 @@ void ModeloProxy::chargeStatics() {
     delete (result);
 }
 
-int ModeloProxy::getPlayerX() { return 400; }
+int ModeloProxy::getPlayerX() { return 100; }
 
-int ModeloProxy::getPlayerY() { return 400; }
+int ModeloProxy::getPlayerY() { return 50; }
 
 float ModeloProxy::getPlayerAngle() { return player.getAngle(); }
 

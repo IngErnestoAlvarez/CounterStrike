@@ -67,6 +67,15 @@ class Protocolo {
     uint32_t receive_four_bytes(socket_t *skt);
 
     // CLIENTE
+    /**
+     * @brief Crea un array dinamico en result, obligacion del usuario
+     * eliminarlo.
+     *
+     * @param result Donde se guardara el resultado
+     * @param size tamaño del resultado
+     * @param skt socket por el que se quiere recibir la informacion.
+     * Tiene que estar conectado a un servidor
+     */
     void recv_config(char **result, size_t *size, socket_t *skt);
 
     // CLIENTE

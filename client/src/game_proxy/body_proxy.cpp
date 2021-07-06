@@ -66,8 +66,8 @@ void BodyProxy::setStaticWithBiggerData(char *data, size_t n) {
         BodyContainer aux;
         size_t pos = (i * 5);
         aux.tipo = BodyType(*(uint8_t *)&data[pos]);
-        aux.posx = (*(uint16_t *)&data[pos + 1]);
-        aux.posy = (*(uint16_t *)&data[pos + 3]);
+        aux.posx = ::ntohs(*(uint16_t *)&data[pos + 1]);
+        aux.posy = ::ntohs(*(uint16_t *)&data[pos + 3]);
         aux.angle = 0;
         bodies.push_back(aux);
     }
