@@ -44,7 +44,6 @@ SdlTexture::SdlTexture(SdlTexture &&other)
 
 SdlTexture &SdlTexture::operator=(SdlTexture &&other) {
     if (this == &other) return *this;
-    std::cout << "Llega al =" << std::endl;
     this->texture = other.texture;
     other.texture = nullptr;
     this->width = other.width;

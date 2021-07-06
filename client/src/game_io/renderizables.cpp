@@ -1,6 +1,7 @@
 #include "game_io/renderizables.h"
 
 #include <iostream>
+#include <utility>
 
 #include "Logger.h"
 #include "game_io/floor.h"
@@ -10,7 +11,11 @@
 
 Renderizables::Renderizables(SdlWindow &window, PlayerProxy *player)
     : window(&window), objects(BodyTypeSize), floor(window) {
-    // createPlayer(player);
+    using namespace CPlusPlusLogging;
+    Logger *log = Logger::getInstance();
+    log->debug("Comienza el constructor de renderizables");
+    createPlayer(player);
+    log->debug("Finaliza el constructor de renderizables");
 }
 Renderizables::~Renderizables() {}
 
@@ -40,8 +45,8 @@ void Renderizables::renderFloor(bodyVector::iterator it,
 void Renderizables::renderPlayer() { player->render(); }
 
 void Renderizables::createPlayer(PlayerProxy *player) {
-    this->player =
-        std::unique_ptr<PlayerView>(new PlayerView(CT2_TYPE, *window, player));
+    this->player = std::move(
+        std::unique_ptr<PlayerView>(new PlayerView(CT2_TYPE, *window, player)));
 }
 
 void Renderizables::createStatics(bodyVector::iterator it,

@@ -17,4 +17,8 @@ void Server::run() {
     socket_t peer;
     this->socket.accept(&peer);
     this->protocolo.send_config(&peer);
+    this->game.createPlayer(400, 400);
+    while (true) {
+        this->protocolo.send_player(*this->game.getPlayer(), &peer);
+    }
 }

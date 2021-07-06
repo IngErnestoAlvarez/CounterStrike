@@ -3,18 +3,24 @@
 #include <iostream>
 #include <string>
 
+#include "Logger.h"
+
 PlayerView::PlayerView(BodyType type, SdlWindow &window, PlayerProxy *player)
-    : SdlObject(type, window),
+    : SdlObject("assets/sprites/ct2.png", 1, window),
       player(player),
       animation_pos(0),
       stencil(window),
-      primaryWeapon(type, 1, window, player->getWeapon()),
+      primaryWeapon(AK47_TYPE, 1, window, player->getWeapon()),
       life(window, player->getLife()),
       ammo(window, player->getWeapon()->getAmmo()),
       money(window, player->getMoney()) {
+    using namespace CPlusPlusLogging;
+    Logger *log = Logger::getInstance();
+    log->debug("Comienza constructor PlayerView");
     life.set_pos(0, 500);
     ammo.set_pos(550, 500);
     money.set_pos(0, 100);
+    log->debug("Finaliza constructor PlayerView");
 }
 
 PlayerView::~PlayerView() {}

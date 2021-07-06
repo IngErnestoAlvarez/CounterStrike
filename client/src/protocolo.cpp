@@ -125,6 +125,8 @@ void Protocolo::recv_player(char **result, size_t *size, socket_t *skt) {
     size_t rllyReceived;
     *size = 15;
 
+    *result = new char[*size];
+
     skt->receive(*result, *size, rllyReceived);
 
     if (rllyReceived != *size) {

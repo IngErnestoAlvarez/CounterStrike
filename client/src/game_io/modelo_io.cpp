@@ -147,7 +147,7 @@ void ModeloIO::render() {
                                     modelo.getStaticEnd());
     // this->renderizables.renderObjects(modelo.getBodyIterator(),
     //                                   modelo.getBodyEnd());
-    // this->renderizables.renderPlayer();
+    this->renderizables.renderPlayer();
     log->debug("Finaliza el render del floor");
     log->debug("Comienza el render del window");
     this->window.render();

@@ -186,3 +186,30 @@ void Protocolo::recv_player(char **result, size_t *size, socket_t *skt) {
     log->debug("Se recibio como mensaje en el recv_player: ");
     log->debug(*result);
 }
+
+void Protocolo::send_player(Player &player, socket_t *skt) {
+    using namespace CPlusPlusLogging;
+    Logger *log = Logger::getInstance();
+    log->debug("Comienza send player");
+    uint8_t ammo = player.getAmmo();
+    uint8_t life = player.getHealth();
+    uint16_t money = ::htons(16000);
+    uint16_t x = ::htons(uint16_t(player.getX()));
+    uint16_t y = ::htons(uint16_t(player.getY()));
+    float angleAux = player.getAngle();
+    uint32_t angle = ::htonl(*(uint32_t *)&angleAux);
+    uint8_t actualWeapon = AK47_TYPE;
+    uint8_t time = 60;
+    uint8_t gotBomb = uint8_t(false);
+    log->debug("Comienza el envio de datos en send_player");
+
+    send_one_byte(skt, &ammo);
+    send_one_byte(skt, &life);
+    send_two_bytes(skt, &money);
+    send_two_bytes(skt, &x);
+    send_two_bytes(skt, &y);
+    send_four_bytes(skt, &angle);
+    send_one_byte(skt, &actualWeapon);
+    send_one_byte(skt, &time);
+    send_one_byte(skt, &gotBomb);
+}

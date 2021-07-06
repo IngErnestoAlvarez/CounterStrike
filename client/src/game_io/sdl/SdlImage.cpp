@@ -81,7 +81,7 @@ std::string SdlImage::getBodyPath(BodyType type) {
             return std::string("assets/sprites/ct2.png");
             break;
         case AK47_TYPE:
-            return std::string("assets/sprites/ak57.png");
+            return std::string("assets/sprites/ak47.png");
             break;
         case AK47_D_TYPE:
             return std::string("assets/sprites/ak47_d.png");

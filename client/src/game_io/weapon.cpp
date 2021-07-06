@@ -2,6 +2,8 @@
 
 #include <math.h>
 
+#include "Logger.h"
+
 WeaponView::WeaponView(std::string const &path, int animation_frames,
                        SdlWindow &window, WeaponProxy *weapon)
     : SdlObject(path, 1, window),
@@ -21,11 +23,15 @@ WeaponView::WeaponView(BodyType type, int animation_frames, SdlWindow &window,
       weapon(weapon),
       shootSound("assets/sounds/SHOT.wav"),
       noBulletSound("assets/sounds/w_empty.wav") {
+    using namespace CPlusPlusLogging;
+    Logger *log = Logger::getInstance();
+    log->debug("Comienza WeaponView constructor");
     center = {16, 32};
     sprite_clips[0].x = 0;
     sprite_clips[0].y = 0;
     sprite_clips[0].w = 32;
     sprite_clips[0].h = 32;
+    log->debug("Finaliza WeaponView constructor");
 }
 WeaponView::~WeaponView() {}
 

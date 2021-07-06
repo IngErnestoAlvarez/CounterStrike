@@ -1,9 +1,13 @@
 #include <iostream>
 
+#include "Logger.h"
 #include "server.h"
 
 int main(int argc, char *argv[]) {
-    std::cout << "server" << std::endl;
+    using namespace CPlusPlusLogging;
+    Logger *log = Logger::getInstance();
+    log->enableConsoleLogging();
+    log->info("server");
 
     Server server;
     server.run();

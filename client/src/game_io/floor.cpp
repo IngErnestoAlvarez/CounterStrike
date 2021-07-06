@@ -22,8 +22,6 @@ void Floor::render() {
         for (int col = 0; col < height; ++col) {
             this->image.render(raw * 64, col * 64, 0, center, sprite_clips);
         }
-        log->debug("Paso la vuelta:");
-        log->debug(std::to_string(raw).c_str());
     }
     log->debug("Finaliza loop del Floor::render");
 }

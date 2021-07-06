@@ -3,6 +3,7 @@
 
 #include <string>
 
+#include "game_logic/player.h"
 #include "socket.h"
 
 class Game;
@@ -110,7 +111,7 @@ class Protocolo {
      *
      * @param player
      */
-    // void send_player(Player &player);
+    void send_player(Player &player, socket_t *skt);
 
     void recv_player(char **result, size_t *size, socket_t *skt);
 
