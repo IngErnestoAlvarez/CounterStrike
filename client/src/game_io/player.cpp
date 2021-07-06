@@ -34,6 +34,7 @@ void PlayerView::render() {
                                player->getAngle());
     life.render(std::to_string(this->player->getLife()));
     ammo.render(std::to_string(this->primaryWeapon.getAmmo()));
+    money.render(std::to_string(this->player->getMoney()));
 }
 
 void PlayerView::update_animation() {
