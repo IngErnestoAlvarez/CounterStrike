@@ -43,7 +43,7 @@ void ModeloIO::check_actions() {
     log->debug("Comienza check_actions");
     this->check_events();
     this->check_keyboard();
-    this->check_mouse();
+    // this->check_mouse();
     log->debug("Finaliza check_actions");
 }
 
@@ -119,7 +119,11 @@ void ModeloIO::check_keyboard() {
     }
 
     else if (!any_key_pressed) {
-        this->modelo.stopPlayer();
+        // this->modelo.stopPlayer();
+        int mouseX, mouseY;
+        SDL_GetMouseState(&mouseX, &mouseY);
+        this->modelo.setPlayerAim(mouseX + window.getCamera().x,
+                                  mouseY + window.getCamera().y);
     }
 }
 
