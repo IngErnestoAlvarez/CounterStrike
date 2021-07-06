@@ -105,12 +105,11 @@ void Protocolo::send_mouse(int x, int y, socket_t *skt) {
     uint16_t yaux = y;
     xaux = htons(xaux);
     yaux = htons(yaux);
-    memcpy(message, &xaux, 2);
-    memcpy(&message[2], &yaux, 2);
+    this->send_comando(AIM, skt);
+    send_two_bytes(skt, &xaux);
+    send_two_bytes(skt, &yaux);
 
     log->debug(message);
-    this->send_comando(AIM, skt);
-    skt->send(message, 4);
 }
 
 void Protocolo::recv_player(char **result, size_t *size, socket_t *skt) {
