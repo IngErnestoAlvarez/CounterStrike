@@ -77,14 +77,10 @@ void Protocolo::recv_state(char **result, size_t *size, socket_t *skt) {
     size_t rllyReceived;
     uint16_t aux;
 
-    skt->receive((char *)&aux, 2, rllyReceived);
-    if (rllyReceived != 2) {
-        throw std::runtime_error(
-            "Problemas al recibir el estado. Se recibio una cantidad inexacta "
-            "de bytes");
-    }
+    aux = receive_two_bytes(skt);
     aux = ::ntohs(aux);
     (*size) = aux;
+    (*result) = new char[(*size) * 9];
     log->debug("Se recibio como size en el recv_state: ");
     log->debug(std::to_string(*size).c_str());
 
@@ -94,9 +90,6 @@ void Protocolo::recv_state(char **result, size_t *size, socket_t *skt) {
         throw std::runtime_error(
             "Problemas al recibir el stream entero en recv_state");
     }
-
-    log->debug("Se recibio como mensaje en el recv_state: ");
-    log->debug(*result);
 }
 
 void Protocolo::send_comando(Comando comando, socket_t *skt) {
@@ -131,6 +124,7 @@ void Protocolo::recv_player(char **result, size_t *size, socket_t *skt) {
     skt->receive(*result, *size, rllyReceived);
 
     if (rllyReceived != *size) {
+        free(*result);
         throw std::runtime_error(
             "Problemas al recibir el stream entero en recv_player");
     }

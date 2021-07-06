@@ -60,7 +60,7 @@ void ModeloProxy::chargeBodies() {
     protocolo.recv_state(&result, &size, &skt);
 
     bodyProxy.setBodies(result, size);
-    free(result);
+    delete (result);
 }
 
 void ModeloProxy::chargePlayer() {
@@ -70,7 +70,7 @@ void ModeloProxy::chargePlayer() {
     protocolo.recv_player(&result, &size, &skt);
 
     player.setPlayer(result, size);
-    free(result);
+    delete (result);
 }
 
 void ModeloProxy::chargeStatics() {

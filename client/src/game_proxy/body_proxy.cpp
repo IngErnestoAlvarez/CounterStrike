@@ -2,6 +2,8 @@
 
 #include <arpa/inet.h>
 
+#include "Logger.h"
+
 BodyProxy::BodyProxy() : bodies() {}
 
 BodyProxy::~BodyProxy() {}
@@ -28,8 +30,14 @@ void BodyProxy::setStatics(char *data, size_t n) {
 }
 
 void BodyProxy::setWithBiggerData(char *data, size_t n) {
+    using namespace CPlusPlusLogging;
+    Logger *log = Logger::getInstance();
+
+    log->debug("Empezando set with biggerdata");
+    log->debug(std::to_string(n).c_str());
+    log->debug(std::to_string(bodies.size()).c_str());
     for (size_t i = 0; i < bodies.size(); i++) {
-        size_t pos = i * size_t(sizeof(BodyContainer));
+        size_t pos = i * 9;
         bodies[i].tipo = BodyType(uint8_t(data[pos]));
         bodies[i].posx = ::ntohs(*(uint16_t *)&data[pos + 1]);
         bodies[i].posy = ::ntohs(*(uint16_t *)&data[pos + 3]);
@@ -38,7 +46,7 @@ void BodyProxy::setWithBiggerData(char *data, size_t n) {
 
     for (size_t i = bodies.size(); i < n; i++) {
         BodyContainer aux;
-        size_t pos = i * size_t(sizeof(BodyContainer));
+        size_t pos = i * 9;
         aux.tipo = BodyType(uint8_t(data[pos]));
         aux.posx = ::ntohs(*(uint16_t *)&data[pos + 1]);
         aux.posy = ::ntohs(*(uint16_t *)&data[pos + 3]);
@@ -49,7 +57,7 @@ void BodyProxy::setWithBiggerData(char *data, size_t n) {
 
 void BodyProxy::setWithSmallerData(char *data, size_t n) {
     for (size_t i = 0; i < n; i++) {
-        size_t pos = i * size_t(sizeof(BodyContainer));
+        size_t pos = i * 9;
         bodies[i].tipo = BodyType(uint8_t(data[pos]));
         bodies[i].posx = ::ntohs(*(uint16_t *)&data[pos + 1]);
         bodies[i].posy = ::ntohs(*(uint16_t *)&data[pos + 3]);

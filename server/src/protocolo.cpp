@@ -53,6 +53,9 @@ uint32_t Protocolo::receive_four_bytes(socket_t *skt) {
 }
 
 void Protocolo::send_config(socket_t *skt) {
+    using namespace CPlusPlusLogging;
+    Logger *log = Logger::getInstance();
+    log->debug("Se envia config");
     Map &map = this->game->getMap();
 
     uint16_t stencil_angle = 45;
@@ -96,8 +99,15 @@ void Protocolo::recv_config(socket_t *skt) {
 }
 
 void Protocolo::send_state(socket_t *skt) {
+    using namespace CPlusPlusLogging;
+    Logger *log = Logger::getInstance();
+    log->debug("Se envia estado");
     std::vector<Body *> bodies = this->game->getBodies();
     uint16_t body_count = bodies.size();
+
+    log->debug("Se enviaran esta cantidad de bodies: ");
+    log->debug(std::to_string(bodies.size()).c_str());
+
     body_count = ::htons(body_count);
     this->send_two_bytes(skt, &body_count);
     for (Body *body : bodies) {
@@ -191,7 +201,7 @@ void Protocolo::send_player(socket_t *skt, int peer_id) {
     using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();
     log->debug("Comienza send player");
-    Player& player = *this->game->getPlayer(peer_id);
+    Player &player = *this->game->getPlayer(peer_id);
     uint8_t ammo = player.getAmmo();
     uint8_t life = player.getHealth();
     uint16_t money = ::htons(16000);

@@ -10,21 +10,22 @@ int main(int argc, char *argv[]) {
     using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();
     log->enableConsoleLogging();
+    log->enaleLog();
     log->info("server");
 
     if (argc != 2) {
-		std::cout << USAGE << std::endl;
-		return 1;
-	}
+        std::cout << USAGE << std::endl;
+        return 1;
+    }
 
-	try {
-		Server server(argv[1]);
-		server.run();
-	} catch (const std::exception& e) {
-		std::cerr << e.what() << std::endl;
-	} catch (...) {
-		std::cerr << UNEXPECTED_ERROR << std::endl;
-	}
+    try {
+        Server server(argv[1]);
+        server.run();
+    } catch (const std::exception &e) {
+        std::cerr << e.what() << std::endl;
+    } catch (...) {
+        std::cerr << UNEXPECTED_ERROR << std::endl;
+    }
 
     return 0;
 }

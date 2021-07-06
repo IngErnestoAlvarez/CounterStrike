@@ -21,12 +21,12 @@ void App::load_media() { proxy.initialize(); }
 
 void App::main_loop() {
     bool playing = true;
-    this->next_time = SDL_GetTicks() + RATE;
+    // this->next_time = SDL_GetTicks() + RATE;
     while (playing) {
         proxy.update();
         playing = view.update();
-        SDL_Delay(this->time_left());
-        this->next_time += RATE;
+        // SDL_Delay(this->time_left());
+        // this->next_time += RATE;
     }
 }
 

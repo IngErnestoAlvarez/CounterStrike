@@ -79,6 +79,7 @@ void SdlImage::load_from_file(std::string const &path, SDL_Color color) {
 std::string SdlImage::getBodyPath(BodyType type) {
     switch (type) {
         case NO_BODY_TYPE:
+            return std::string("");
             break;
         case CT1_TYPE:
             break;
