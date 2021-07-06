@@ -11,3 +11,5 @@ int WeaponProxy::getMaxAmmo() { return maxammo; }
 void WeaponProxy::setAmmo(int ammo) { this->ammo = ammo; }
 
 void WeaponProxy::setWeapon(int weapon) { this->weapon = BodyType(weapon); }
+
+BodyType WeaponProxy::getBodyType() { return weapon; }

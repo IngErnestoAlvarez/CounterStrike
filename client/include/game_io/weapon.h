@@ -14,8 +14,7 @@ class WeaponView : public SdlObject {
    public:
     WeaponView(std::string const &path, int animation_frames, SdlWindow &window,
                WeaponProxy *weapon);
-    WeaponView(BodyType type, int animation_frames, SdlWindow &window,
-               WeaponProxy *weapon);
+    WeaponView(SdlWindow &window, WeaponProxy *weapon);
 
     ~WeaponView();
     void render(int x, int y, float angle);

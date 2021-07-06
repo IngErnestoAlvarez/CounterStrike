@@ -23,6 +23,8 @@ class WeaponProxy {
     void setAmmo(int ammo);
 
     void setWeapon(int weapon);
+
+    BodyType getBodyType();
 };
 
 #endif

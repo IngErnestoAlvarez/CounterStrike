@@ -17,9 +17,8 @@ WeaponView::WeaponView(std::string const &path, int animation_frames,
     sprite_clips[0].h = 32;
 }
 
-WeaponView::WeaponView(BodyType type, int animation_frames, SdlWindow &window,
-                       WeaponProxy *weapon)
-    : SdlObject(type, window),
+WeaponView::WeaponView(SdlWindow &window, WeaponProxy *weapon)
+    : SdlObject(weapon->getBodyType(), window),
       weapon(weapon),
       shootSound("assets/sounds/SHOT.wav"),
       noBulletSound("assets/sounds/w_empty.wav") {
