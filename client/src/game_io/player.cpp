@@ -10,7 +10,7 @@ PlayerView::PlayerView(BodyType type, SdlWindow &window, PlayerProxy *player)
       player(player),
       animation_pos(0),
       stencil(window),
-      primaryWeapon(AK47_TYPE, 1, window, player->getWeapon()),
+      primaryWeapon(GLOCK_TYPE, 1, window, player->getWeapon()),
       life(window, player->getLife()),
       ammo(window, player->getWeapon()->getAmmo()),
       money(window, player->getMoney()) {
