@@ -103,6 +103,12 @@ std::string SdlImage::getBodyPath(BodyType type) {
         case GLOCK_TYPE:
             return std::string("assets/sprites/glock.png");
             break;
+        case KNIFE_TYPE:
+            return std::string("assets/sprites/knife.png");
+            break;
+        case BOMB_D_TYPE:
+            return std::string("assets/sprites/bomb_d.png");
+            break;
     }
     throw std::logic_error("BodyType erroneo");
     return std::string("");
@@ -133,6 +139,12 @@ SDL_Color SdlImage::getBodyBG(BodyType type) {
             return WHITE;
             break;
         case GLOCK_TYPE:
+            return BLACK;
+            break;
+        case KNIFE_TYPE:
+            return BLACK;
+            break;
+        case BOMB_D_TYPE:
             return BLACK;
             break;
     }
