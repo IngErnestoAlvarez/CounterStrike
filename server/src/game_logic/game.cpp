@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cmath>
+#include <cassert>
 #include <cstdlib>
 #include <iostream>
 #include "Logger.h"
@@ -94,7 +95,9 @@ void Game::executeCommand(Command& command) {
             this->stopPlayer(player_id);
             break;
         case AIM:
+            // assert(false);
             this->setPlayerAim(player_id, (int)command.getArg("x"), (int)command.getArg("y"));
+            break;
         default:
             break;
     }
@@ -118,9 +121,11 @@ void Game::movePlayerRight(int player_id) {
 
 void Game::setPlayerAim(int player_id, int x, int y) {
     this->players[player_id]->setAngle(
-        (atan2(this->player->getY() - y, this->player->getX() - x) * 180.0000) /
+        (atan2(this->players[player_id]->getY() - y, this->players[player_id]->getX() - x) * 180.0000) /
             3.1416 +
         90);
+
+    std::cout << "setPlayerAim: " << this->players[player_id]->getAngle() << std::endl;
 }
 
 void Game::stopPlayer(int player_id) {

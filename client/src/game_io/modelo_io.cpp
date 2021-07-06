@@ -1,5 +1,6 @@
 #include "game_io/modelo_io.h"
 
+#include <cassert>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
@@ -122,8 +123,10 @@ void ModeloIO::check_keyboard() {
         // this->modelo.stopPlayer();
         int mouseX, mouseY;
         SDL_GetMouseState(&mouseX, &mouseY);
-        this->modelo.setPlayerAim(mouseX + window.getCamera().x,
-                                  mouseY + window.getCamera().y);
+        assert(mouseX >= 0);
+        assert(mouseY >= 0);
+        this->modelo.setPlayerAim(mouseX - window.getCamera().x,
+                                  mouseY - window.getCamera().y);
     }
 }
 

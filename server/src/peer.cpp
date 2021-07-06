@@ -1,5 +1,5 @@
 #include "peer.h"
-
+#include <arpa/inet.h>
 #include <iostream>
 
 #include "Logger.h"
@@ -30,10 +30,16 @@ void Peer::run() {
             Comando code = this->protocol.recv_comando(&this->socket);
             Command command(code, this->id);
             if (code == AIM) {
+                std::cout << "aim" << std::endl;
                 uint16_t x = this->protocol.receive_two_bytes(&this->socket);
                 uint16_t y = this->protocol.receive_two_bytes(&this->socket);
+                x = ::ntohs(x);
+                y = ::ntohs(y);
+                std::cout << x << ", " << y << std::endl;
                 command.setArg("x", x);
                 command.setArg("y", y);
+            } else {
+                std::cout << "recibi otro evento que no es aim" << std::endl;
             }
             this->command_queue.push(command);
         }

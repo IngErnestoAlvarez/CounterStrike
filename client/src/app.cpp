@@ -25,7 +25,9 @@ void App::main_loop() {
     while (playing) {
         proxy.update();
         playing = view.update();
-        SDL_Delay(this->time_left());
+        Uint32 time_left = this->time_left();
+        std::cout << "time_left: " << time_left << std::endl;
+        SDL_Delay(time_left);
         this->next_time += RATE;
     }
 }

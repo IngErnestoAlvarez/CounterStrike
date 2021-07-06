@@ -44,6 +44,7 @@ BodyType Body::getType() const {
 }
 
 void Body::setAngle(float angle) {
+    std::cout << "setAngle: " << angle << std::endl;
     this->b2_body->SetTransform(this->b2_body->GetPosition(), angle);
 }
 

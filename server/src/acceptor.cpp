@@ -2,6 +2,7 @@
 #include "peer.h"
 #include <iostream>
 #include "types.h"
+#include <cassert>
 
 Acceptor::Acceptor(const std::string& config_filepath)
 	: game(config_filepath, "assets/maps/map.yaml"),
@@ -22,10 +23,13 @@ Acceptor::~Acceptor() {
 
 void Acceptor::run() {
 	try {
-		while (this->is_running && !this->game.isRunning())
+		for (int i = 0; i < 1; i++)
 			this->accept();
 
+		this->game.start();
+
 		while (this->is_running && this->game.isRunning()) {
+			std::cout << "acceptor run" << std::endl;
 			Command command(STOP, 0);
 			this->command_queue_monitor.pop(command);
 			// this->game.executeCommand(command.getPeerID(), command.getCode());
@@ -53,7 +57,4 @@ void Acceptor::accept() {
 	this->peers.push_back(peer);
 	this->game.addPlayer(TEAM_A, peer->getPeerID());
 	peer->start();
-
-	// testing
-	this->game.start();
 }
