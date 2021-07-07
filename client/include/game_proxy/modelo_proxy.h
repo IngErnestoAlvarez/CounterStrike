@@ -25,6 +25,7 @@ class ModeloProxy {
     void movePlayerLeft();
     void movePlayerRight();
     void setPlayerAim(int x, int y);
+    void setPlayerAngle(float angle);
     void stopPlayer();
     void usePlayerWeapon();
     void changeToW1();

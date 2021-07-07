@@ -23,18 +23,19 @@ Acceptor::~Acceptor() {
 
 void Acceptor::run() {
 	try {
-		for (int i = 0; i < 1; i++)
-			this->accept();
-
+		this->accept();
 		this->game.start();
 
 		while (this->is_running && this->game.isRunning()) {
-			std::cout << "acceptor run" << std::endl;
+			this->game.step();
+
+			for (Peer* peer : this->peers)
+				peer->sendState();
+
 			Command command(STOP, 0);
 			this->command_queue_monitor.pop(command);
-			// this->game.executeCommand(command.getPeerID(), command.getCode());
+
 			this->game.executeCommand(command);
-			this->game.step();
 		}
 	} catch (...) {
 

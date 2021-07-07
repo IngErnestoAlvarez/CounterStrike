@@ -6,16 +6,19 @@ Command::Command(Comando code, int peer_id)
 Command::Command(const Command& other) {
 	this->code = other.code;
 	this->peer_id = other.peer_id;
+	this->args = other.args;
 }
 
 Command::Command(Command&& other) {
 	this->code = other.code;
 	this->peer_id = other.peer_id;
+	this->args = other.args;
 }
 
 Command& Command::operator=(Command&& other) {
 	this->code = other.code;
 	this->peer_id = other.peer_id;
+	this->args = other.args;
 	return *this;
 }
 

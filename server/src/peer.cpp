@@ -25,19 +25,22 @@ int Peer::getPeerID() const { return this->id; }
 void Peer::run() {
     try {
         while (this->is_running) {
-            this->protocol.send_state(&this->socket);
-            this->protocol.send_player(&this->socket, this->id);
+            // this->protocol.send_state(&this->socket);
+            // this->protocol.send_player(&this->socket, this->id);
             Comando code = this->protocol.recv_comando(&this->socket);
             Command command(code, this->id);
             if (code == AIM) {
                 std::cout << "aim" << std::endl;
-                uint16_t x = this->protocol.receive_two_bytes(&this->socket);
-                uint16_t y = this->protocol.receive_two_bytes(&this->socket);
-                x = ::ntohs(x);
-                y = ::ntohs(y);
-                std::cout << x << ", " << y << std::endl;
-                command.setArg("x", x);
-                command.setArg("y", y);
+                // uint16_t x = this->protocol.receive_two_bytes(&this->socket);
+                // uint16_t y = this->protocol.receive_two_bytes(&this->socket);
+                // x = ::ntohs(x);
+                // y = ::ntohs(y);
+                uint16_t angle = this->protocol.receive_two_bytes(&this->socket);
+                angle = ::ntohs(angle);
+                std::cout << "received angle: " << angle << std::endl;
+                // std::cout << x << ", " << y << std::endl;
+                command.setArg("angle", angle);
+                // command.setArg("y", y);
             } else {
                 std::cout << "recibi otro evento que no es aim" << std::endl;
             }
@@ -48,6 +51,11 @@ void Peer::run() {
     } catch (...) {
         std::cerr << UNEXPECTED_ERROR_PEER;
     }
+}
+
+void Peer::sendState() {
+    this->protocol.send_state(&this->socket);
+    this->protocol.send_player(&this->socket, this->id);
 }
 
 void Peer::stop() {

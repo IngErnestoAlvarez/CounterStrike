@@ -125,8 +125,12 @@ void ModeloIO::check_keyboard() {
         SDL_GetMouseState(&mouseX, &mouseY);
         assert(mouseX >= 0);
         assert(mouseY >= 0);
-        this->modelo.setPlayerAim(mouseX - window.getCamera().x,
-                                  mouseY - window.getCamera().y);
+        float angle = atan2(300 - mouseY, 400 - mouseX) + 4.71239;
+        std::cout << "angle in radians: " << angle << std::endl;
+        angle = angle * 180 / 3.1416;
+        this->modelo.setPlayerAngle(angle);
+        // this->modelo.setPlayerAim(mouseX - window.getCamera().x,
+        //                           mouseY - window.getCamera().y);
     }
 }
 

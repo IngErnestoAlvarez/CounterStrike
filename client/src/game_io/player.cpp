@@ -27,11 +27,11 @@ PlayerView::~PlayerView() {}
 
 void PlayerView::render() {
     this->image.render(player->getX(), player->getY(),
-                       180.0 + player->getAngle(), center,
+                       player->getAngle(), center,
                        &sprite_clips[animation_pos]);
     this->stencil.render(player->getX(), player->getY(), player->getAngle());
     this->primaryWeapon.render(player->getX(), player->getY(),
-                               player->getAngle());
+                               player->getAngle() - 180);
     life.render(std::to_string(this->player->getLife()));
     ammo.render(std::to_string(this->primaryWeapon.getAmmo()));
     money.render(std::to_string(this->player->getMoney()));

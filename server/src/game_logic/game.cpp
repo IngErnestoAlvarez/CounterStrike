@@ -75,6 +75,7 @@ void Game::assignBombToRandomPlayer() {
 void Game::executeCommand(Command& command) {
     Comando code = command.getCode();
     int player_id = command.getPeerID();
+    uint16_t angle;
     switch (code) {
         case UP:
             this->movePlayerUp(player_id);
@@ -96,7 +97,10 @@ void Game::executeCommand(Command& command) {
             break;
         case AIM:
             // assert(false);
-            this->setPlayerAim(player_id, (int)command.getArg("x"), (int)command.getArg("y"));
+            angle = command.getArg("angle");
+            // angle = 1.5708;
+            std::cout << "Player::setAngle(" << angle << ")" << std::endl;
+            this->players[player_id]->setAngle(angle * 3.1416/180);
             break;
         default:
             break;
@@ -124,6 +128,8 @@ void Game::setPlayerAim(int player_id, int x, int y) {
         (atan2(this->players[player_id]->getY() - y, this->players[player_id]->getX() - x) * 180.0000) /
             3.1416 +
         90);
+
+    this->players[player_id]->setAngle(atan2(this->players[player_id]->getY() - y, this->players[player_id]->getX() - x));
 
     std::cout << "setPlayerAim: " << this->players[player_id]->getAngle() << std::endl;
 }

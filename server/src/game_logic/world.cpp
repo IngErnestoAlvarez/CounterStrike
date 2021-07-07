@@ -40,7 +40,7 @@ void World::step() {
         }
     }
     // revisar estos valores
-    this->b2_world->Step(2000, 8, 3);
+    this->b2_world->Step(120, 8, 3);
 }
 
 std::vector<Body *> &World::getBodies() { return this->bodies; }

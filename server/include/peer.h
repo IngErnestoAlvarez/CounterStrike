@@ -24,6 +24,7 @@ public:
 	~Peer();
 	int getPeerID() const;
 	void run() override;
+	void sendState();
 	void stop();
 };
 

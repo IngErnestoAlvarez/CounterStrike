@@ -133,3 +133,13 @@ void Protocolo::recv_player(char **result, size_t *size, socket_t *skt) {
     log->debug("Se recibio como mensaje en el recv_player: ");
     log->debug(*result);
 }
+
+void Protocolo::send_angle(float angle, socket_t* skt) {
+    std::cout << "Protocolo::send_angle(" << angle << ")" << std::endl;
+    this->send_comando(AIM, skt);
+    uint16_t aux = angle;
+    aux = aux % 360;
+    if (aux < 0) aux += 360;
+    aux = htons(aux);
+    this->send_two_bytes(skt, &aux);
+}

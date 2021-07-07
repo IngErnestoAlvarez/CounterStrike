@@ -89,6 +89,8 @@ class Protocolo {
     // (2 x, 2 y)
     void send_mouse(int x, int y, socket_t *skt);
 
+    void send_angle(float angle, socket_t* skt);
+
     /**
      * ammo 1byte
      * life 1byte

@@ -20,5 +20,5 @@ Stencil::Stencil(SdlWindow &window)
 Stencil::~Stencil() {}
 
 void Stencil::render(int x, int y, float angle) {
-    this->image.render(x - 784, y - 584, angle + 90, center, sprite_clips);
+    this->image.render(x - 784, y - 584, angle - 90, center, sprite_clips);
 }

@@ -29,6 +29,10 @@ void ModeloProxy::setPlayerAim(int x, int y) {
     protocolo.send_mouse(x, y, &skt);
 }
 
+void ModeloProxy::setPlayerAngle(float angle) {
+    protocolo.send_angle(angle, &skt);
+}
+
 void ModeloProxy::stopPlayer() { protocolo.send_comando(STOP, &skt); }
 
 void ModeloProxy::usePlayerWeapon() { protocolo.send_comando(SHOOT, &skt); }
