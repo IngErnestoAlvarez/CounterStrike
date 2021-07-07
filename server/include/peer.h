@@ -7,6 +7,7 @@
 #include "queue_monitor.h"
 
 class Protocolo;
+class CommandQueue;
 
 class Peer : public Thread {
 private:
@@ -14,13 +15,14 @@ private:
 	socket_t socket;
 	Protocolo& protocol;
 	QueueMonitor<Command>& command_queue;
+	CommandQueue& cmd_queue;
 	bool is_running;
 
 public:
 	Peer(int id,
 		 socket_t& socket,
 		 Protocolo& protocol,
-		 QueueMonitor<Command>& command_queue);
+		 QueueMonitor<Command>& command_queue, CommandQueue& cmd_queue);
 	~Peer();
 	int getPeerID() const;
 	void run() override;

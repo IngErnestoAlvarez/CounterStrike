@@ -1,5 +1,5 @@
 #include <Box2D/Box2D.h>
-
+#include <iostream>
 #include "game_logic/bomb.h"
 #include "game_logic/bomb_drop.h"
 #include "game_logic/block.h"
@@ -9,14 +9,15 @@
 #include "game_logic/weapons/weapon.h"
 #include "game_logic/weapon_drop.h"
 #include "types.h"
+#include <cmath>
 
 Bullet::Bullet(Game& game,
 			   Player& player,
 			   Weapon* weapon)
 	: Body(game.getWorld(),
 		   NO_BODY_TYPE,
-		   player.getX(),
-		   player.getY(),
+		   player.getX() + 20 * cos(player.getAngle()),
+		   player.getY() + 20 * sin(player.getAngle()),
 		   player.getAngle(),
 		   game.getConfig().getBulletSpeed()),
 	  player(player),
@@ -30,8 +31,8 @@ Bullet::Bullet(Game& game,
 			   float angle_offset)
 	: Body(game.getWorld(),
 		   NO_BODY_TYPE,
-		   player.getX(),
-		   player.getY(),
+		   player.getX() + 20 * cos(player.getAngle() + angle_offset),
+		   player.getY() + 20 * sin(player.getAngle() + angle_offset),
 		   player.getAngle() + angle_offset,
 		   game.getConfig().getBulletSpeed()),
 	  player(player),
@@ -56,7 +57,7 @@ float Bullet::getDamage() const {
 }
 
 void Bullet::handleCollision(Player* player) {
-	if (this->player.getTeamID() != player->getTeamID()) {
+	if (true) {
 		player->takeDamage(this->getDamage());
 
 		if (!player->isAlive())
@@ -92,6 +93,7 @@ bool Bullet::isOutOfRange() const {
 }
 
 void Bullet::update() {
+	std::cout << "bullet position: " << this->getX() << ", " << this->getY() << std::endl;
 	if (!this->isDestroyed() && this->isOutOfRange())
 		this->setToBeDestroyed();
 }

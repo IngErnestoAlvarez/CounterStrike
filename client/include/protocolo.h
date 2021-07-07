@@ -2,7 +2,7 @@
 #define __PROTOCOLO_H__
 
 #include <string>
-
+#include "types.h"
 #include "socket.h"
 
 /**
@@ -25,6 +25,7 @@
 
 #define COMMAND_SIZE 1
 enum Comando : unsigned char {
+    NO_COMMAND = 0x00,
     UP = 0x75,
     DOWN = 0x64,
     LEFT = 0x6C,
@@ -36,7 +37,7 @@ enum Comando : unsigned char {
     // Change to bomb
     CB = 0x67,
     BW = 0x62,
-    USE = 0x79,
+    USE = 0x79, // desactivar bomba
     STOP = 0x7A,
     AIM = 0x41,
 };
@@ -107,6 +108,9 @@ class Protocolo {
     // void send_player(Player &player);
 
     void recv_player(char **result, size_t *size, socket_t *skt);
+
+    // team_id 1byte (1 = team_a, 2 = team_b)
+    void send_login(socket_t* skt, TeamID team_id);
 
    private:
 };

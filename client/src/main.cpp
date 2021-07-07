@@ -10,8 +10,9 @@
 int main(int argc, char const *argv[]) {
     using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();
-    log->enableConsoleLogging();
-    log->enaleLog();
+    // log->enableConsoleLogging();
+    // log->enaleLog();
+    log->disableLog();
     log->info("Empieza el programa");
 
     try {

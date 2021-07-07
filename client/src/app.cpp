@@ -10,7 +10,7 @@
 #include "game_io/sdl/SdlImage.h"
 #include "game_io/sdl/SdlObject.h"
 
-#define RATE 120
+#define RATE 14
 
 App::App(std::string const &host, std::string const &service)
     : proxy(host, service), view(proxy) {}

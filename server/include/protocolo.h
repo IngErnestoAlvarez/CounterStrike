@@ -28,6 +28,7 @@ class Game;
 
 #define COMMAND_SIZE 1
 enum Comando : unsigned char {
+    NO_COMMAND = 0x00,
     UP = 0x75,
     DOWN = 0x64,
     LEFT = 0x6C,
@@ -85,6 +86,9 @@ class Protocolo {
     void recv_config(socket_t *skt);
 
     // SERVIDOR
+    // 1byte con equipo ganador
+    // 0 = la partida sigue
+    // 1 = gana
     // 2bytes con cant de bodies (1 tipo, 2 posx, 2 posy, 4 angle)
     void send_state(socket_t *skt);
 
@@ -109,12 +113,15 @@ class Protocolo {
      * actualweapon 1byte
      * tiempo 1byte
      * gotbomb 1byte
+     * bodytype 1byte
      *
      * @param player
      */
     void send_player(socket_t *skt, int peer_id);
 
     void recv_player(char **result, size_t *size, socket_t *skt);
+
+    void recv_login(socket_t* skt);
 
    private:
 };

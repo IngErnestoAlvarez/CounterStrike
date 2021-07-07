@@ -11,6 +11,7 @@
 #include "socket.h"
 #include "protocolo.h"
 #include "game_logic/game.h"
+#include "command_queue.h"
 
 class Peer;
 
@@ -22,6 +23,7 @@ private:
 	std::vector<Peer*> peers;
 	std::queue<Command> command_queue;
 	QueueMonitor<Command> command_queue_monitor;
+	CommandQueue cmd_queue;
 	bool is_running;
 	void accept();
 

@@ -4,15 +4,17 @@
 
 #include "Logger.h"
 #include "protocolo.h"
+#include "command_queue.h"
 
 #define UNEXPECTED_ERROR_PEER "Se ha producido un error inesperado en peer"
 
 Peer::Peer(int id, socket_t &socket, Protocolo &protocol,
-           QueueMonitor<Command> &command_queue)
+           QueueMonitor<Command> &command_queue, CommandQueue& cmd_queue)
     : id(id),
       socket(std::move(socket)),
       protocol(protocol),
       command_queue(command_queue),
+      cmd_queue(cmd_queue),
       is_running(true) {
     using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();
@@ -30,21 +32,22 @@ void Peer::run() {
             Comando code = this->protocol.recv_comando(&this->socket);
             Command command(code, this->id);
             if (code == AIM) {
-                std::cout << "aim" << std::endl;
+                // std::cout << "aim" << std::endl;
                 // uint16_t x = this->protocol.receive_two_bytes(&this->socket);
                 // uint16_t y = this->protocol.receive_two_bytes(&this->socket);
                 // x = ::ntohs(x);
                 // y = ::ntohs(y);
                 uint16_t angle = this->protocol.receive_two_bytes(&this->socket);
                 angle = ::ntohs(angle);
-                std::cout << "received angle: " << angle << std::endl;
+                // std::cout << "received angle: " << angle << std::endl;
                 // std::cout << x << ", " << y << std::endl;
                 command.setArg("angle", angle);
                 // command.setArg("y", y);
             } else {
-                std::cout << "recibi otro evento que no es aim" << std::endl;
+                // std::cout << "recibi otro evento que no es aim" << std::endl;
             }
-            this->command_queue.push(command);
+            // this->command_queue.push(command);
+            this->cmd_queue.push(command);
         }
     } catch (const std::exception &e) {
         std::cerr << e.what();

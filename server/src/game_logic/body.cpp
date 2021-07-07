@@ -21,7 +21,7 @@ Body::Body(World& world,
     b2_body_def.angle = angle;
     b2_body_def.type = velocity > 0 ? b2_dynamicBody : b2_staticBody;
     b2_body_def.allowSleep = velocity > 0;
-    // b2_body_def.fixedRotation = true;
+    b2_body_def.fixedRotation = true;
     b2_body_def.userData = this;
     this->b2_body = this->world.b2_world->CreateBody(&b2_body_def);
 
