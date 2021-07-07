@@ -54,6 +54,8 @@ public:
     void activateBomb();
     void addWeapon(Weapon* weapon);
     Weapon* getEquippedWeapon();
+    void changeToDMeleeWeapon();
+    void changeToDRangeWeapon();
     void registerTeam(Team* team);
 
     void handleCollision(Body* body) override;

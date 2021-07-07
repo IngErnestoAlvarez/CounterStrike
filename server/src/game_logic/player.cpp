@@ -59,6 +59,14 @@ Weapon* Player::getEquippedWeapon() {
     return this->equipped_weapon;
 }
 
+void Player::changeToDMeleeWeapon() {
+    this->equipped_weapon = this->default_melee_weapon;
+}
+
+void Player::changeToDRangeWeapon() {
+    this->equipped_weapon = this->default_range_weapon;
+}
+
 int Player::getTeamID() const {
     return this->team_id;
 }

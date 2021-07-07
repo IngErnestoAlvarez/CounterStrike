@@ -1,21 +1,21 @@
+#include "game_logic/game.h"
+
 #include <algorithm>
-#include <cmath>
 #include <cassert>
+#include <cmath>
 #include <cstdlib>
 #include <iostream>
-#include "Logger.h"
 
+#include "Logger.h"
 #include "command.h"
 #include "game_logic/block.h"
 #include "game_logic/body.h"
 #include "game_logic/bomb.h"
 #include "game_logic/bomb_drop.h"
-#include "game_logic/game.h"
 #include "game_logic/player.h"
 #include "game_logic/weapon_drop.h"
 
-Game::Game(const std::string &config_filepath,
-           const std::string &map_filepath)
+Game::Game(const std::string &config_filepath, const std::string &map_filepath)
     : config(config_filepath),
       world(*this),
       map(*this, map_filepath),
@@ -31,22 +31,16 @@ void Game::start() {
     this->assignBombToRandomPlayer();
 }
 
-bool Game::isRunning() {
-    return this->phase != TEAMS_FORMING_PHASE;
-}
+bool Game::isRunning() { return this->phase != TEAMS_FORMING_PHASE; }
 
 void Game::addPlayer(TeamID team_id, int peer_id) {
-    if (this->phase != TEAMS_FORMING_PHASE)
-        return;
+    if (this->phase != TEAMS_FORMING_PHASE) return;
 
     // Cell& cell = (team_id == TEAM_A)
     //            ? this->map.getStartingCellAntiterrorists()
     //            : this->map.getStartingCellTerrorists();
 
-    Player* player = new Player(*this,
-                                peer_id,
-                                team_id,
-                                400, 400);
+    Player *player = new Player(*this, peer_id, team_id, 400, 400);
     this->players[peer_id] = player;
     this->bodies.push_back(player);
 
@@ -72,7 +66,7 @@ void Game::assignBombToRandomPlayer() {
     // terrorists[index]->receiveBomb();
 }
 
-void Game::executeCommand(Command& command) {
+void Game::executeCommand(Command &command) {
     Comando code = command.getCode();
     int player_id = command.getPeerID();
     uint16_t angle;
@@ -95,21 +89,25 @@ void Game::executeCommand(Command& command) {
         case STOP:
             this->stopPlayer(player_id);
             break;
+        case CW2:
+            this->setWeaponToRange(player_id);
+            break;
+        case CW3:
+            this->setWeaponToMelee(player_id);
+            break;
         case AIM:
             // assert(false);
             angle = command.getArg("angle");
             // angle = 1.5708;
             std::cout << "Player::setAngle(" << angle << ")" << std::endl;
-            this->players[player_id]->setAngle(angle * 3.1416/180);
+            this->players[player_id]->setAngle(angle * 3.1416 / 180);
             break;
         default:
             break;
     }
 }
 
-void Game::movePlayerUp(int player_id) {
-    this->players[player_id]->moveUp();
-}
+void Game::movePlayerUp(int player_id) { this->players[player_id]->moveUp(); }
 
 void Game::movePlayerDown(int player_id) {
     this->players[player_id]->moveDown();
@@ -125,31 +123,42 @@ void Game::movePlayerRight(int player_id) {
 
 void Game::setPlayerAim(int player_id, int x, int y) {
     this->players[player_id]->setAngle(
-        (atan2(this->players[player_id]->getY() - y, this->players[player_id]->getX() - x) * 180.0000) /
+        (atan2(this->players[player_id]->getY() - y,
+               this->players[player_id]->getX() - x) *
+         180.0000) /
             3.1416 +
         90);
 
-    this->players[player_id]->setAngle(atan2(this->players[player_id]->getY() - y, this->players[player_id]->getX() - x));
+    this->players[player_id]->setAngle(
+        atan2(this->players[player_id]->getY() - y,
+              this->players[player_id]->getX() - x));
 
-    std::cout << "setPlayerAim: " << this->players[player_id]->getAngle() << std::endl;
+    std::cout << "setPlayerAim: " << this->players[player_id]->getAngle()
+              << std::endl;
 }
 
-void Game::stopPlayer(int player_id) {
-    this->players[player_id]->stopMoving();
-}
+void Game::stopPlayer(int player_id) { this->players[player_id]->stopMoving(); }
 
 void Game::usePlayerWeapon(int player_id) {
     this->players[player_id]->useWeapon();
 }
 
+void Game::setWeaponToMelee(int player_id) {
+    this->players[player_id]->changeToDMeleeWeapon();
+}
+
+void Game::setWeaponToRange(int player_id) {
+    this->players[player_id]->changeToDRangeWeapon();
+}
+
 void Game::createBomb(float x, float y) {
-    Bomb* bomb = new Bomb(*this, x, y);
+    Bomb *bomb = new Bomb(*this, x, y);
     this->bomb = bomb;
     this->bodies.push_back(bomb);
 }
 
-void Game::createWeaponDrop(float x, float y, Weapon* weapon) {
-    WeaponDrop* weapon_drop = new WeaponDrop(*this, x, y);
+void Game::createWeaponDrop(float x, float y, Weapon *weapon) {
+    WeaponDrop *weapon_drop = new WeaponDrop(*this, x, y);
     weapon_drop->setWeapon(weapon);
     this->bodies.push_back(weapon_drop);
 }
@@ -162,9 +171,7 @@ void Game::createBlock(float x, float y) {
     this->bodies.push_back(new Block(*this, x, y));
 }
 
-std::vector<Body*>& Game::getBodies() {
-    return this->bodies;
-}
+std::vector<Body *> &Game::getBodies() { return this->bodies; }
 
 int Game::getX() { return int(this->player->getX()); }
 
@@ -179,13 +186,11 @@ Map &Game::getMap() { return this->map; }
 const Configuration &Game::getConfig() { return this->config; }
 
 bool Game::hasBombBeenDeactivated() {
-    return this->bomb != nullptr
-        && this->bomb->isDestroyed();
+    return this->bomb != nullptr && this->bomb->isDestroyed();
 }
 
 bool Game::hasBombExploded() {
-    return this->bomb != nullptr
-        && this->bomb->hasExploded();
+    return this->bomb != nullptr && this->bomb->hasExploded();
 }
 
 void Game::checkBombState() {
@@ -215,8 +220,7 @@ void Game::goToNextRound() {
 }
 
 void Game::step() {
-    if (this->has_finished)
-        return;
+    if (this->has_finished) return;
 
     // if (this->winner_team) {
     //     this->nextRound();
@@ -234,27 +238,21 @@ void Game::step() {
     //     this->has_finished = true;
 }
 
-Role Game::getWinnerTeam() {
-    return this->winner_team;
-}
+Role Game::getWinnerTeam() { return this->winner_team; }
 
 Game::~Game() {
     // if (this->player != nullptr)
     //     delete this->player;
 
-    for (Body* body : this->bodies)
-        delete body;
+    for (Body *body : this->bodies) delete body;
 }
 
-Player* Game::getPlayer(int player_id) {
-    return this->players[player_id];
-}
+Player *Game::getPlayer(int player_id) { return this->players[player_id]; }
 
 // ----------- estos metodos se eliminarian ------------
 
 Player *Game::createPlayer(float x, float y) {
-    if (this->player != nullptr)
-        return nullptr;
+    if (this->player != nullptr) return nullptr;
 
     this->player = new Player(*this, 0, 0, x, y);
     return this->player;
@@ -279,6 +277,4 @@ void Game::setAim(int x, int y) {
 
 void Game::stopMoving() { this->player->stopMoving(); }
 
-void Game::useWeapon() {
-    this->player->useWeapon();
-}
+void Game::useWeapon() { this->player->useWeapon(); }

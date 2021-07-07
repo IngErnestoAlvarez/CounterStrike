@@ -47,6 +47,8 @@ class Game {
     void movePlayerRight(int player_id);
     void stopPlayer(int player_id);
     void usePlayerWeapon(int player_id);
+    void setWeaponToMelee(int player_id);
+    void setWeaponToRange(int player_id);
     void setPlayerAim(int player_id, int x, int y);
     void checkBombState();
     void checkTeamsState();
@@ -91,6 +93,7 @@ class Game {
     int getX();
     int getY();
     int getAngle();
+
 };
 
 #endif
