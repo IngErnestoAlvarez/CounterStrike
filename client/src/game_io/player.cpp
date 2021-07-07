@@ -43,8 +43,8 @@ void PlayerView::update_animation() {
 void PlayerView::shootWeapon() { this->primaryWeapon.shoot(); }
 
 bool PlayerView::isDead() {
-    // return (player->getLife() <= 0);
-    return (player->getWeapon()->getAmmo() < 15);
+    return (player->getLife() <= 0);
+    // return (player->getWeapon()->getAmmo() < 15);
 }
 
 void PlayerView::selectAnimationPositions() {
