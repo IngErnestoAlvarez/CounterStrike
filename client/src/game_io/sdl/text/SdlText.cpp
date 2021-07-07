@@ -9,9 +9,6 @@
 
 #include "game_io/sdl/SdlSurface.h"
 
-const SDL_Color WHITE = {255, 255, 255};
-const SDL_Color GREEN = {50, 205, 50};
-
 SdlText::SdlText(SdlWindow &window, std::string const &text,
                  std::string const &fontname, size_t font_size)
     : font(fontname, font_size), texture(window), text(text), window(&window) {
@@ -28,6 +25,16 @@ SdlText::SdlText(SdlWindow &window, std::string const &text)
     : font(), texture(window), text(text), window(&window) {
     SdlSurface surf;
     surf = TTF_RenderText_Solid(this->font.font, text.c_str(), GREEN);
+    this->texture = surf.transform_to_texture(window);
+}
+SdlText::SdlText(SdlWindow &window, std::string const &text,
+                 SDL_Color const &color, size_t font_size)
+    : font("assets/font/cs.ttf", font_size),
+      texture(window),
+      text(text),
+      window(&window) {
+    SdlSurface surf;
+    surf = TTF_RenderText_Solid(this->font.font, text.c_str(), color);
     this->texture = surf.transform_to_texture(window);
 }
 

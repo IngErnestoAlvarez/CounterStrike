@@ -25,6 +25,7 @@ class PlayerView : public SdlObject {
     lifeView life;
     AmmoView ammo;
     MoneyView money;
+    SdlText killNotice;
 
    public:
     PlayerView(std::string const &path, int animation_frames,

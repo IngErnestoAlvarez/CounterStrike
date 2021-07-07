@@ -13,13 +13,15 @@ PlayerView::PlayerView(BodyType type, SdlWindow &window, PlayerProxy *player)
       primaryWeapon(window, player->getWeapon()),
       life(window, player->getLife()),
       ammo(window, player->getWeapon()->getAmmo()),
-      money(window, player->getMoney()) {
+      money(window, player->getMoney()),
+      killNotice(window, "Fuiste asesinado", RED, 50) {
     using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();
     log->debug("Comienza constructor PlayerView");
     life.set_pos(0, 500);
     ammo.set_pos(550, 500);
     money.set_pos(0, 100);
+    killNotice.set_pos(350, 100);
     log->debug("Finaliza constructor PlayerView");
 }
 
@@ -71,4 +73,7 @@ void PlayerView::renderAlivePlayer() {
     money.render(std::to_string(this->player->getMoney()));
 }
 
-void PlayerView::renderDeadPlayer() { money.render(); }
+void PlayerView::renderDeadPlayer() {
+    money.render();
+    killNotice.render();
+}
