@@ -1,9 +1,9 @@
 #include "game_io/modelo_io.h"
 
-#include <cassert>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+#include <cassert>
 #include <iostream>
 #include <stdexcept>
 #include <utility>
@@ -149,18 +149,25 @@ void ModeloIO::render() {
     using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();
     log->debug("Comienza el seteo de la camara");
+
     this->window.set_camera_pos(modelo.getPlayerX(), modelo.getPlayerY(),
                                 modelo.getWidth() * 32,
                                 modelo.getHeight() * 32);
+
     log->debug("Finaliza el seteo de la camara");
     log->debug("Comienza el render del floor");
+
+    this->renderizables.modifyTexturesIfDead();
     this->renderizables.renderFloor(modelo.getStaticIterator(),
                                     modelo.getStaticEnd());
     this->renderizables.renderObjects(modelo.getBodyIterator(),
                                       modelo.getBodyEnd());
     this->renderizables.renderPlayer();
+
     log->debug("Finaliza el render del floor");
     log->debug("Comienza el render del window");
+
     this->window.render();
+
     log->debug("Finaliza el render del window");
 }

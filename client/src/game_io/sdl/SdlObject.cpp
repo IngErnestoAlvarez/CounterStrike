@@ -53,6 +53,10 @@ void SdlObject::render(int posx, int posy, float angle) {
     this->image.render(posx, posy, angle, center, sprite_clips);
 }
 
+void SdlObject::setColorMod(Uint8 r, Uint8 g, Uint8 b) {
+    this->image.setColorMod(r, g, b);
+}
+
 void SdlObject::set_alpha(Uint8 a) { this->image.set_alpha(a); }
 
 void SdlObject::blend() { this->image.set_blendMode(SDL_BLENDMODE_BLEND); }

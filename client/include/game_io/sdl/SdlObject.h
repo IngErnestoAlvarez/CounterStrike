@@ -32,6 +32,8 @@ class SdlObject {
     void set_alpha(Uint8 alpha);
 
     virtual void render(int posx, int posy, float angle);
+
+    void setColorMod(Uint8 r, Uint8 g, Uint8 b);
 };
 
 #endif

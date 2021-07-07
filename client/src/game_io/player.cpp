@@ -26,15 +26,11 @@ PlayerView::PlayerView(BodyType type, SdlWindow &window, PlayerProxy *player)
 PlayerView::~PlayerView() {}
 
 void PlayerView::render() {
-    this->image.render(player->getX(), player->getY(),
-                       player->getAngle(), center,
-                       &sprite_clips[animation_pos]);
-    this->stencil.render(player->getX(), player->getY(), player->getAngle());
-    this->primaryWeapon.render(player->getX(), player->getY(),
-                               player->getAngle() - 180);
-    life.render(std::to_string(this->player->getLife()));
-    ammo.render(std::to_string(this->primaryWeapon.getAmmo()));
-    money.render(std::to_string(this->player->getMoney()));
+    if (!this->isDead()) {
+        renderAlivePlayer();
+    } else {
+        renderDeadPlayer();
+    }
 }
 
 void PlayerView::update_animation() {
@@ -43,6 +39,8 @@ void PlayerView::update_animation() {
 }
 
 void PlayerView::shootWeapon() { this->primaryWeapon.shoot(); }
+
+bool PlayerView::isDead() { return (player->getLife() <= 0); }
 
 void PlayerView::selectAnimationPositions() {
     this->center = {16, 16};
@@ -61,3 +59,16 @@ void PlayerView::selectAnimationPositions() {
     this->sprite_clips[2].w = 32;
     this->sprite_clips[2].h = 32;
 }
+
+void PlayerView::renderAlivePlayer() {
+    this->image.render(player->getX(), player->getY(), player->getAngle(),
+                       center, &sprite_clips[animation_pos]);
+    this->stencil.render(player->getX(), player->getY(), player->getAngle());
+    this->primaryWeapon.render(player->getX(), player->getY(),
+                               player->getAngle() - 180);
+    life.render(std::to_string(this->player->getLife()));
+    ammo.render(std::to_string(this->primaryWeapon.getAmmo()));
+    money.render(std::to_string(this->player->getMoney()));
+}
+
+void PlayerView::renderDeadPlayer() { money.render(); }

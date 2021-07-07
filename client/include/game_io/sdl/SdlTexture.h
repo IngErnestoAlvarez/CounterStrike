@@ -41,6 +41,8 @@ class SdlTexture {
 
     virtual ~SdlTexture();
 
+    void setColorMod(Uint8 r, Uint8 g, Uint8 b);
+
    protected:
     void empty();
 };

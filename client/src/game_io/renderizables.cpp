@@ -63,4 +63,24 @@ void Renderizables::createObject(BodyType type) {
     objects[type] = up(new SdlObject(type, *window));
 }
 
+void Renderizables::camFilter(Uint8 r, Uint8 g, Uint8 b) {
+    for (auto &object : objects) {
+        if (object.get() != nullptr) {
+            object->setColorMod(r, g, b);
+        }
+    }
+    this->player->setColorMod(r, g, b);
+    this->floor.setColorMod(r, g, b);
+}
+
 void Renderizables::shootWeapon() { this->player->shootWeapon(); }
+
+void Renderizables::modifyTexturesIfDead() {
+    const SDL_Color aliveColors{255, 255, 255, 255};
+    const SDL_Color deadColors{60, 50, 50, 255};
+    if (this->player->isDead()) {
+        camFilter(deadColors.r, deadColors.g, deadColors.b);
+    } else {
+        camFilter(aliveColors.r, aliveColors.g, aliveColors.b);
+    }
+}

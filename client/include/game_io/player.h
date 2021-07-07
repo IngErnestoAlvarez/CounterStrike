@@ -39,10 +39,16 @@ class PlayerView : public SdlObject {
 
     void shootWeapon();
 
+    bool isDead();
+
    private:
     void update_animation();
 
     void selectAnimationPositions();
+
+    void renderAlivePlayer();
+
+    void renderDeadPlayer();
 };
 
 #endif

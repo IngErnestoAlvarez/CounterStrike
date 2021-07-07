@@ -34,10 +34,14 @@ class Renderizables {
 
     void createStatics(bodyVector::iterator it, bodyVector::iterator end);
 
+    void modifyTexturesIfDead();
+
    private:
     void createPlayer(PlayerProxy *player);
 
     void createObject(BodyType type);
+
+    void camFilter(Uint8 r, Uint8 g, Uint8 b);
 };
 
 #endif
