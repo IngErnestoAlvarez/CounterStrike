@@ -9,6 +9,7 @@
 
 const SDL_Color WHITE = {255, 255, 255};
 const SDL_Color GREEN = {50, 205, 50};
+const SDL_Color BLUE = {65, 105, 225};
 const SDL_Color RED = {0xbb, 0x0a, 0x1e};
 
 class SdlText {

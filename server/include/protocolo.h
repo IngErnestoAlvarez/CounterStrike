@@ -88,7 +88,8 @@ class Protocolo {
     // SERVIDOR
     // 1byte con equipo ganador
     // 0 = la partida sigue
-    // 1 = gana
+    // 1 = gana equipo 1
+    // 2 = gana equipo 2
     // 2bytes con cant de bodies (1 tipo, 2 posx, 2 posy, 4 angle)
     void send_state(socket_t *skt);
 
@@ -121,7 +122,7 @@ class Protocolo {
 
     void recv_player(char **result, size_t *size, socket_t *skt);
 
-    void recv_login(socket_t* skt);
+    void recv_login(socket_t *skt);
 
    private:
 };

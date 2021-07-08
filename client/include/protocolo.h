@@ -2,8 +2,9 @@
 #define __PROTOCOLO_H__
 
 #include <string>
-#include "types.h"
+
 #include "socket.h"
+#include "types.h"
 
 /**
  * ! Comandos (HEX):
@@ -37,7 +38,7 @@ enum Comando : unsigned char {
     // Change to bomb
     CB = 0x67,
     BW = 0x62,
-    USE = 0x79, // desactivar bomba
+    USE = 0x79,  // desactivar bomba
     STOP = 0x7A,
     AIM = 0x41,
 };
@@ -81,7 +82,8 @@ class Protocolo {
     void recv_config(char **result, size_t *size, socket_t *skt);
 
     // CLIENTE
-    void recv_state(char **result, size_t *size, socket_t *skt);
+    void recv_state(char **result, size_t *size, uint8_t *roundResult,
+                    socket_t *skt);
 
     // CLIENTE
     void send_comando(Comando comando, socket_t *skt);
@@ -90,7 +92,7 @@ class Protocolo {
     // (2 x, 2 y)
     void send_mouse(int x, int y, socket_t *skt);
 
-    void send_angle(float angle, socket_t* skt);
+    void send_angle(float angle, socket_t *skt);
 
     /**
      * ammo 1byte
@@ -110,7 +112,7 @@ class Protocolo {
     void recv_player(char **result, size_t *size, socket_t *skt);
 
     // team_id 1byte (1 = team_a, 2 = team_b)
-    void send_login(socket_t* skt, TeamID team_id);
+    void send_login(socket_t *skt, TeamID team_id);
 
    private:
 };

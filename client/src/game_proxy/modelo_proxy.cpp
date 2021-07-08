@@ -5,7 +5,12 @@
 #include "Logger.h"
 
 ModeloProxy::ModeloProxy(std::string const &host, std::string const &service)
-    : protocolo(), bodyProxy(), staticsProxy(), player() {
+    : protocolo(),
+      bodyProxy(),
+      staticsProxy(),
+      player(),
+      roundResult(0),
+      skt() {
     using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();
     log->info("Conectando con el servidor");
@@ -63,7 +68,7 @@ void ModeloProxy::chargeBodies() {
     char *result;
     size_t size;
 
-    protocolo.recv_state(&result, &size, &skt);
+    protocolo.recv_state(&result, &size, &roundResult, &skt);
 
     bodyProxy.setBodies(result, size);
     delete (result);
@@ -118,3 +123,5 @@ void ModeloProxy::update() {
 int ModeloProxy::getWidth() { return 26; }
 
 int ModeloProxy::getHeight() { return 26; }
+
+uint8_t ModeloProxy::getRoundState() { return roundResult; }

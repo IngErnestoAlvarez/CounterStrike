@@ -1,7 +1,8 @@
 #include "protocolo.h"
-#include <cassert>
+
 #include <arpa/inet.h>
 
+#include <cassert>
 #include <cstring>
 #include <stdexcept>
 #include <string>
@@ -71,11 +72,14 @@ void Protocolo::recv_config(char **result, size_t *size, socket_t *skt) {
     log->debug("Finalizado el recv_config");
 }
 
-void Protocolo::recv_state(char **result, size_t *size, socket_t *skt) {
+void Protocolo::recv_state(char **result, size_t *size, uint8_t *roundResult,
+                           socket_t *skt) {
     using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();
     size_t rllyReceived;
     uint16_t aux;
+
+    *roundResult = receive_one_byte(skt);
 
     aux = receive_two_bytes(skt);
     aux = ::ntohs(aux);
@@ -134,7 +138,7 @@ void Protocolo::recv_player(char **result, size_t *size, socket_t *skt) {
     log->debug(*result);
 }
 
-void Protocolo::send_angle(float angle, socket_t* skt) {
+void Protocolo::send_angle(float angle, socket_t *skt) {
     std::cout << "Protocolo::send_angle(" << angle << ")" << std::endl;
     this->send_comando(AIM, skt);
     uint16_t aux = angle;

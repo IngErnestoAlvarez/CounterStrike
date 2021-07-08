@@ -6,6 +6,7 @@
 
 #include "game_io/floor.h"
 #include "game_io/player.h"
+#include "game_io/roundrender.h"
 #include "game_io/sdl/SdlObject.h"
 #include "game_io/sdl/SdlWindow.h"
 #include "game_io/sdl/text/SdlText.h"
@@ -18,6 +19,7 @@ class Renderizables {
     std::vector<std::unique_ptr<SdlObject>> objects;
     std::unique_ptr<PlayerView> player;
     Floor floor;
+    RoundEnd roundsRender;
 
    public:
     Renderizables(SdlWindow &window, PlayerProxy *player);
@@ -31,10 +33,12 @@ class Renderizables {
     void renderObjects(bodyVector::iterator it, bodyVector::iterator end);
     void renderFloor(bodyVector::iterator it, bodyVector::iterator end);
     void renderPlayer();
+    void renderWin();
+    void renderLose();
 
     void createStatics(bodyVector::iterator it, bodyVector::iterator end);
 
-    void modifyTexturesIfDead();
+    void modifyTextures(uint8_t roundState);
 
    private:
     void createPlayer(PlayerProxy *player);

@@ -14,6 +14,7 @@ class ModeloProxy {
     BodyProxy bodyProxy;
     BodyProxy staticsProxy;
     PlayerProxy player;
+    uint8_t roundResult;
     socket_t skt;
 
    public:
@@ -50,6 +51,8 @@ class ModeloProxy {
 
     int getWidth();
     int getHeight();
+
+    uint8_t getRoundState();
 
    private:
     void chargeBodies();

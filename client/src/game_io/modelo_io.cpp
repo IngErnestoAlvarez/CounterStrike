@@ -130,11 +130,11 @@ void ModeloIO::check_mouse() {
     SDL_GetMouseState(&mouseX, &mouseY);
     assert(mouseX >= 0);
     assert(mouseY >= 0);
-    float angle = atan2(300 - mouseY, 400 - mouseX) + 4.71239; // le sumo 270 grados
+    float angle =
+        atan2(300 - mouseY, 400 - mouseX) + 4.71239;  // le sumo 270 grados
     std::cout << "angle in radians: " << angle << std::endl;
-    angle = angle * 180 / 3.1416; // se convierte a grados
+    angle = angle * 180 / 3.1416;  // se convierte a grados
     this->modelo.setPlayerAngle(angle);
-
 }
 
 SdlWindow &ModeloIO::getWindow() { return this->window; }
@@ -153,12 +153,18 @@ void ModeloIO::render() {
     log->debug("Finaliza el seteo de la camara");
     log->debug("Comienza el render del floor");
 
-    this->renderizables.modifyTexturesIfDead();
+    this->renderizables.modifyTextures(modelo.getRoundState());
     this->renderizables.renderFloor(modelo.getStaticIterator(),
                                     modelo.getStaticEnd());
     this->renderizables.renderObjects(modelo.getBodyIterator(),
                                       modelo.getBodyEnd());
-    this->renderizables.renderPlayer();
+    if (modelo.getRoundState() == 0) {
+        this->renderizables.renderPlayer();
+    } else if (modelo.getRoundState() == 1) {
+        renderizables.renderWin();
+    } else {
+        renderizables.renderLose();
+    }
 
     log->debug("Finaliza el render del floor");
     log->debug("Comienza el render del window");
