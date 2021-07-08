@@ -1,10 +1,13 @@
 #include "game_proxy/modelo_proxy.h"
 
+#include <cstdlib>
+#include <stdexcept>
 #include <string>
 
 #include "Logger.h"
 
-ModeloProxy::ModeloProxy(std::string const &host, std::string const &service)
+ModeloProxy::ModeloProxy(std::string const &host, std::string const &service,
+                         const char *teamID)
     : protocolo(),
       bodyProxy(),
       staticsProxy(),
@@ -14,7 +17,15 @@ ModeloProxy::ModeloProxy(std::string const &host, std::string const &service)
     using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();
     log->info("Conectando con el servidor");
+
     skt.connect(host.c_str(), service.c_str());
+
+    int teamIDaux = strtol(teamID, nullptr, 10);
+    if (teamIDaux != 1 && teamIDaux != 2) {
+        throw std::runtime_error("No es valido el equipo elegido");
+    }
+    protocolo.send_login(&skt, (TeamID)teamIDaux);
+
     log->info("Conexion exitosa");
 }
 

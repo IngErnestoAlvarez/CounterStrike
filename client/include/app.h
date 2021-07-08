@@ -13,7 +13,8 @@ class App {
     ModeloIO view;
 
    public:
-    App(std::string const &host, std::string const &service);
+    App(std::string const &host, std::string const &service,
+        const char *teamID);
 
     ~App();
 

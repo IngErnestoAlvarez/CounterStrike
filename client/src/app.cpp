@@ -12,8 +12,9 @@
 
 #define RATE 14
 
-App::App(std::string const &host, std::string const &service)
-    : proxy(host, service), view(proxy) {}
+App::App(std::string const &host, std::string const &service,
+         const char *teamID)
+    : proxy(host, service, teamID), view(proxy) {}
 
 App::~App() {}
 

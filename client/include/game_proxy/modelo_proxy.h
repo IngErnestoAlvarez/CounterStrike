@@ -18,7 +18,8 @@ class ModeloProxy {
     socket_t skt;
 
    public:
-    ModeloProxy(std::string const &host, std::string const &service);
+    ModeloProxy(std::string const &host, std::string const &service,
+                const char *teamID);
     ~ModeloProxy();
 
     void movePlayerUp();

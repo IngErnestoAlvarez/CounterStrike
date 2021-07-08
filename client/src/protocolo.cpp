@@ -138,6 +138,10 @@ void Protocolo::recv_player(char **result, size_t *size, socket_t *skt) {
     log->debug(*result);
 }
 
+void Protocolo::send_login(socket_t *skt, TeamID team_id) {
+    send_one_byte(skt, (uint8_t *)&team_id);
+}
+
 void Protocolo::send_angle(float angle, socket_t *skt) {
     std::cout << "Protocolo::send_angle(" << angle << ")" << std::endl;
     this->send_comando(AIM, skt);

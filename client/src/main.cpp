@@ -10,13 +10,18 @@
 int main(int argc, char const *argv[]) {
     using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();
-    // log->enableConsoleLogging();
-    // log->enaleLog();
-    log->disableLog();
+    log->enableConsoleLogging();
+    log->enaleLog();
+    // log->disableLog();
     log->info("Empieza el programa");
 
+    if (argc != 2) {
+        log->info("Error en los parametros");
+        return -1;
+    }
+
     try {
-        App game("localhost", "8000");
+        App game("localhost", "8000", argv[1]);
         log->info("Loading media");
         game.load_media();
         log->info("Starting main_loop");
