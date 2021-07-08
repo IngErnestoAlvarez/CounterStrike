@@ -42,10 +42,6 @@ void WeaponView::render(int x, int y, float angle) {
     checkToChangeWeapon();
     // const int deviation = 8;
     float auxangle = angle + 180.0;
-
-    // x = int(cos(auxangle / (180.0 / M_PI)) * deviation) + x;
-    // y = int(sin(auxangle / (180.0 / M_PI)) * deviation) + y;
-
     this->image.render(x, y - 16, auxangle, center, &sprite_clips[0]);
 }
 
@@ -62,5 +58,6 @@ int WeaponView::getAmmo() { return weapon->getAmmo(); }
 void WeaponView::checkToChangeWeapon() {
     if (prevWeapon != weapon->getBodyType()) {
         this->image = SdlImage(*window, weapon->getBodyType());
+        prevWeapon = weapon->getBodyType();
     }
 }
