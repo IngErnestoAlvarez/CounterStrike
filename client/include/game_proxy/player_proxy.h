@@ -7,6 +7,7 @@
 
 class PlayerProxy {
    private:
+    BodyType type;
     WeaponProxy equipped_weapon;
     int life;
     int money;
@@ -17,7 +18,7 @@ class PlayerProxy {
     bool gotBomb;
 
    public:
-    PlayerProxy();
+    PlayerProxy(BodyType type);
 
     ~PlayerProxy();
 
@@ -28,6 +29,8 @@ class PlayerProxy {
     float getAngle();
 
     int getLife();
+
+    BodyType getType();
 
     WeaponProxy *getWeapon();
 

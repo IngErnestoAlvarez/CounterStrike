@@ -21,7 +21,7 @@ enum Phase : char {
     MAIN_PHASE = 2,
 };
 
-#define BodyTypeSize 11
+#define BodyTypeSize 12
 enum BodyType : uint8_t {
     OFFICE_TYPE = 0,
     WALL_TYPE = 1,
@@ -33,7 +33,8 @@ enum BodyType : uint8_t {
     NO_BODY_TYPE = 7,
     GLOCK_TYPE = 8,
     KNIFE_TYPE = 9,
-    BOMB_D_TYPE = 10
+    BOMB_D_TYPE = 10,
+    TT1_TYPE = 11
 };
 
 #endif

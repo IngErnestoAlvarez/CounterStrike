@@ -32,7 +32,7 @@ class PlayerView : public SdlObject {
                SdlWindow &window);
     PlayerView(std::string const &path, int animation_frames, SdlWindow &window,
                PlayerProxy *player);
-    PlayerView(BodyType type, SdlWindow &window, PlayerProxy *player);
+    PlayerView(SdlWindow &window, PlayerProxy *player);
 
     ~PlayerView();
 

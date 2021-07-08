@@ -6,12 +6,15 @@
 
 #include "Logger.h"
 
+static BodyType teamIDtoBodyType(const char *teamID);
+static BodyType teamIDtoBodyType(TeamID id);
+
 ModeloProxy::ModeloProxy(std::string const &host, std::string const &service,
                          const char *teamID)
     : protocolo(),
       bodyProxy(),
       staticsProxy(),
-      player(),
+      player(teamIDtoBodyType(teamID)),
       roundResult(0),
       skt() {
     using namespace CPlusPlusLogging;
@@ -136,3 +139,19 @@ int ModeloProxy::getWidth() { return 26; }
 int ModeloProxy::getHeight() { return 26; }
 
 uint8_t ModeloProxy::getRoundState() { return roundResult; }
+
+inline BodyType teamIDtoBodyType(const char *teamID) {
+    int idAux = strtol(teamID, nullptr, 10);
+    if (idAux != 1 && idAux != 2) {
+        throw std::runtime_error("TeamId invalido");
+    }
+
+    return teamIDtoBodyType((TeamID)idAux);
+}
+
+inline BodyType teamIDtoBodyType(TeamID id) {
+    if (id == TEAM_A) {
+        return CT2_TYPE;
+    }
+    return TT1_TYPE;
+}

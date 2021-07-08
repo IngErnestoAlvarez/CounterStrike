@@ -5,8 +5,8 @@
 
 #include "Logger.h"
 
-PlayerView::PlayerView(BodyType type, SdlWindow &window, PlayerProxy *player)
-    : SdlObject("assets/sprites/ct2.png", 1, window),
+PlayerView::PlayerView(SdlWindow &window, PlayerProxy *player)
+    : SdlObject(player->getType(), window),
       player(player),
       animation_pos(0),
       stencil(window),

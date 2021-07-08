@@ -58,8 +58,8 @@ void Renderizables::renderLose() {
 }
 
 void Renderizables::createPlayer(PlayerProxy *player) {
-    this->player = std::move(
-        std::unique_ptr<PlayerView>(new PlayerView(CT2_TYPE, *window, player)));
+    this->player =
+        std::move(std::unique_ptr<PlayerView>(new PlayerView(*window, player)));
 }
 
 void Renderizables::createStatics(bodyVector::iterator it,
@@ -73,7 +73,9 @@ void Renderizables::createStatics(bodyVector::iterator it,
 
 void Renderizables::createObject(BodyType type) {
     using up = std::unique_ptr<SdlObject>;
-    objects[type] = up(new SdlObject(type, *window));
+    if (objects[type].get() == nullptr) {
+        objects[type] = up(new SdlObject(type, *window));
+    }
 }
 
 void Renderizables::camFilter(Uint8 r, Uint8 g, Uint8 b) {
