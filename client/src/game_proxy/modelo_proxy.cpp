@@ -8,6 +8,7 @@
 
 static BodyType teamIDtoBodyType(const char *teamID);
 static BodyType teamIDtoBodyType(TeamID id);
+static TeamID strToTeamID(const char *teamId);
 
 ModeloProxy::ModeloProxy(std::string const &host, std::string const &service,
                          const char *teamID)
@@ -23,11 +24,7 @@ ModeloProxy::ModeloProxy(std::string const &host, std::string const &service,
 
     skt.connect(host.c_str(), service.c_str());
 
-    int teamIDaux = strtol(teamID, nullptr, 10);
-    if (teamIDaux != 1 && teamIDaux != 2) {
-        throw std::runtime_error("No es valido el equipo elegido");
-    }
-    protocolo.send_login(&skt, (TeamID)teamIDaux);
+    protocolo.send_login(&skt, strToTeamID(teamID));
 
     log->info("Conexion exitosa");
 }
@@ -141,11 +138,7 @@ int ModeloProxy::getHeight() { return 26; }
 uint8_t ModeloProxy::getRoundState() { return roundResult; }
 
 inline BodyType teamIDtoBodyType(const char *teamID) {
-    int idAux = strtol(teamID, nullptr, 10);
-    if (idAux != 1 && idAux != 2) {
-        throw std::runtime_error("TeamId invalido");
-    }
-
+    int idAux = strToTeamID(teamID);
     return teamIDtoBodyType((TeamID)idAux);
 }
 
@@ -154,4 +147,12 @@ inline BodyType teamIDtoBodyType(TeamID id) {
         return CT2_TYPE;
     }
     return TT1_TYPE;
+}
+
+inline TeamID strToTeamID(const char *teamId) {
+    int idAux = strtol(teamId, nullptr, 10);
+    if (idAux != 1 && idAux != 2) {
+        throw std::runtime_error("TeamId invalido");
+    }
+    return (TeamID)idAux;
 }
