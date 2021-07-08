@@ -34,8 +34,8 @@ void Renderizables::renderObjects(bodyVector::iterator it,
 
 void Renderizables::renderFloor(bodyVector::iterator it,
                                 bodyVector::iterator end) {
-    using namespace CPlusPlusLogging;
-    Logger *log = Logger::getInstance();
+    // using namespace CPlusPlusLogging;
+    // Logger *log = Logger::getInstance();
     floor.render();
     for (; it != end; it++) {
         if (objects[it->tipo].get() == nullptr) {
@@ -90,10 +90,10 @@ void Renderizables::camFilter(Uint8 r, Uint8 g, Uint8 b) {
 
 void Renderizables::shootWeapon() { this->player->shootWeapon(); }
 
-void Renderizables::modifyTextures(uint8_t roundState) {
+void Renderizables::modifyTextures(TeamID roundState) {
     const SDL_Color aliveColors{255, 255, 255, 255};
     const SDL_Color deadColors{60, 50, 50, 255};
-    if (roundState != 0) {
+    if (roundState != NONE) {
         camFilter(deadColors.r, deadColors.g, deadColors.b);
         return;
     }

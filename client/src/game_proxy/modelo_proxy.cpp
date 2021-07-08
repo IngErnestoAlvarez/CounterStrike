@@ -12,11 +12,12 @@ static TeamID strToTeamID(const char *teamId);
 
 ModeloProxy::ModeloProxy(std::string const &host, std::string const &service,
                          const char *teamID)
-    : protocolo(),
+    : myTeam(strToTeamID(teamID)),
+      protocolo(),
       bodyProxy(),
       staticsProxy(),
       player(teamIDtoBodyType(teamID)),
-      roundResult(0),
+      roundResult(),
       skt() {
     using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();
@@ -78,8 +79,14 @@ bodyVector::iterator ModeloProxy::getStaticEnd() {
 void ModeloProxy::chargeBodies() {
     char *result;
     size_t size;
+    uint8_t roundWinner;
 
-    protocolo.recv_state(&result, &size, &roundResult, &skt);
+    protocolo.recv_state(&result, &size, &roundWinner, &skt);
+
+    if (roundWinner != 1 && roundWinner != 2) {
+        throw std::runtime_error("Error con el TeamID recibido del servidor");
+    }
+    roundResult = (TeamID)roundWinner;
 
     bodyProxy.setBodies(result, size);
     delete (result);
@@ -135,7 +142,9 @@ int ModeloProxy::getWidth() { return 26; }
 
 int ModeloProxy::getHeight() { return 26; }
 
-uint8_t ModeloProxy::getRoundState() { return roundResult; }
+TeamID ModeloProxy::getRoundState() { return roundResult; }
+
+TeamID ModeloProxy::getMyTeam() { return myTeam; }
 
 inline BodyType teamIDtoBodyType(const char *teamID) {
     int idAux = strToTeamID(teamID);

@@ -158,9 +158,9 @@ void ModeloIO::render() {
                                     modelo.getStaticEnd());
     this->renderizables.renderObjects(modelo.getBodyIterator(),
                                       modelo.getBodyEnd());
-    if (modelo.getRoundState() == 0) {
+    if (modelo.getRoundState() == NONE) {
         this->renderizables.renderPlayer();
-    } else if (modelo.getRoundState() == 1) {
+    } else if (modelo.getRoundState() == modelo.getMyTeam()) {
         renderizables.renderWin();
     } else {
         renderizables.renderLose();

@@ -7,14 +7,16 @@
 #include "body_proxy.h"
 #include "player_proxy.h"
 #include "protocolo.h"
+#include "types.h"
 
 class ModeloProxy {
    private:
+    TeamID myTeam;
     Protocolo protocolo;
     BodyProxy bodyProxy;
     BodyProxy staticsProxy;
     PlayerProxy player;
-    uint8_t roundResult;
+    TeamID roundResult;
     socket_t skt;
 
    public:
@@ -53,7 +55,8 @@ class ModeloProxy {
     int getWidth();
     int getHeight();
 
-    uint8_t getRoundState();
+    TeamID getRoundState();
+    TeamID getMyTeam();
 
    private:
     void chargeBodies();

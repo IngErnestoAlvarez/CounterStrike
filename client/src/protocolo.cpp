@@ -53,8 +53,10 @@ void Protocolo::recv_config(char **result, size_t *size, socket_t *skt) {
     // descomentar esto (lo comento para evitar error de compilacion por
     // variables no usadas)
 
-    uint16_t stencil_angle = this->receive_two_bytes(skt);
-    uint16_t stencil_radius = this->receive_two_bytes(skt);
+    uint16_t stencil_angle __attribute__((unused)) =
+        this->receive_two_bytes(skt);
+    uint16_t stencil_radius __attribute__((unused)) =
+        this->receive_two_bytes(skt);
     uint16_t cell_count = this->receive_two_bytes(skt);
     cell_count = ::ntohs(cell_count);
     *size = cell_count;

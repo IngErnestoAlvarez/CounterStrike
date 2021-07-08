@@ -12,6 +12,7 @@
 #include "game_io/sdl/text/SdlText.h"
 #include "game_proxy/body_proxy.h"
 #include "game_proxy/player_proxy.h"
+#include "types.h"
 
 class Renderizables {
    private:
@@ -38,7 +39,7 @@ class Renderizables {
 
     void createStatics(bodyVector::iterator it, bodyVector::iterator end);
 
-    void modifyTextures(uint8_t roundState);
+    void modifyTextures(TeamID roundState);
 
    private:
     void createPlayer(PlayerProxy *player);
