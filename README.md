@@ -54,10 +54,10 @@ Desde la carpeta principal del proyecto, despues de haber instalado las dependen
 ### Cliente:
 
 ``` 
-./build/CounterStrike_run <TeamID> 
+./build/CounterStrike_run <hostname> <port/service> <TeamID> 
 ```
 
-Donde \<TeamID\> es el equipo a elegir. (1 o 2)
+Donde \<TeamID\> es el equipo a elegir. (1 o 2), \<hostname\> es la direccion del host del servidor y \<port/service\> es el puerto para el juego.
 
 # Controles:
 
