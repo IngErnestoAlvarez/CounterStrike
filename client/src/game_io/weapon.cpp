@@ -11,12 +11,14 @@ WeaponView::WeaponView(std::string const &path, int animation_frames,
       window(&window),
       prevWeapon(weapon->getBodyType()),
       shootSound("assets/sounds/SHOT.wav"),
-      noBulletSound("assets/sounds/w_empty.wav") {
+      noBulletSound("assets/sounds/w_empty.wav"),
+      ammo(window, weapon->getAmmo()) {
     center = {16, 32};
     sprite_clips[0].x = 0;
     sprite_clips[0].y = 0;
     sprite_clips[0].w = 32;
     sprite_clips[0].h = 32;
+    ammo.set_pos(550, 500);
 }
 
 WeaponView::WeaponView(SdlWindow &window, WeaponProxy *weapon)
@@ -25,7 +27,8 @@ WeaponView::WeaponView(SdlWindow &window, WeaponProxy *weapon)
       window(&window),
       prevWeapon(weapon->getBodyType()),
       shootSound("assets/sounds/SHOT.wav"),
-      noBulletSound("assets/sounds/w_empty.wav") {
+      noBulletSound("assets/sounds/w_empty.wav"),
+      ammo(window, weapon->getAmmo()) {
     using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();
     log->debug("Comienza WeaponView constructor");
@@ -34,6 +37,7 @@ WeaponView::WeaponView(SdlWindow &window, WeaponProxy *weapon)
     sprite_clips[0].y = 0;
     sprite_clips[0].w = 32;
     sprite_clips[0].h = 32;
+    ammo.set_pos(550, 500);
     log->debug("Finaliza WeaponView constructor");
 }
 WeaponView::~WeaponView() {}
@@ -43,6 +47,9 @@ void WeaponView::render(int x, int y, float angle) {
     // const int deviation = 8;
     float auxangle = angle + 180.0;
     this->image.render(x, y - 16, auxangle, center, &sprite_clips[0]);
+    if (prevWeapon != KNIFE_TYPE) {
+        ammo.render(std::to_string(getAmmo()));
+    }
 }
 
 void WeaponView::shoot() {

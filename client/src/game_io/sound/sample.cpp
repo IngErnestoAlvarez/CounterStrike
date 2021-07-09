@@ -11,14 +11,43 @@ Sample::Sample(const std::string &filepath) {
     }
 }
 
+Sample &Sample::operator=(Sample &&other) {
+    if (this == &other) return *this;
+    this->empty();
+    this->chunk = other.chunk;
+    other.chunk = nullptr;
+}
+
 Sample::Sample(const std::string &filepath, int volume) : Sample(filepath) {
     Mix_VolumeChunk(chunk, volume);
 }
 
-Sample::~Sample() { Mix_FreeChunk(this->chunk); }
+Sample::~Sample() { empty(); }
 
-void Sample::play() { Mix_PlayChannel(-1, this->chunk, 0); }
+void Sample::play() {
+    checkIfEmpty();
+    Mix_PlayChannel(-1, this->chunk, 0);
+}
 
-void Sample::play(int times) { Mix_PlayChannel(-1, this->chunk, times - 1); }
+void Sample::play(int times) {
+    checkIfEmpty();
+    Mix_PlayChannel(-1, this->chunk, times - 1);
+}
 
-void Sample::set_volume(int volume) { Mix_VolumeChunk(this->chunk, volume); }
+void Sample::set_volume(int volume) {
+    checkIfEmpty();
+    Mix_VolumeChunk(this->chunk, volume);
+}
+
+void Sample::empty() {
+    if (this->chunk != nullptr) {
+        Mix_FreeChunk(this->chunk);
+        chunk = nullptr;
+    }
+}
+
+void Sample::checkIfEmpty() {
+    if (chunk == nullptr) {
+        throw std::logic_error("El sample esta vacio");
+    }
+}

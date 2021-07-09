@@ -23,7 +23,6 @@ class PlayerView : public SdlObject {
     Stencil stencil;
     WeaponView primaryWeapon;
     lifeView life;
-    AmmoView ammo;
     MoneyView money;
     SdlText killNotice;
 

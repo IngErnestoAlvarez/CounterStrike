@@ -1,6 +1,7 @@
 #ifndef __WEAPONVIEW_H__
 #define __WEAPONVIEW_H__
 
+#include "game_io/ammo_view.h"
 #include "game_io/sdl/SdlObject.h"
 #include "game_io/sound/sample.h"
 #include "game_proxy/weapon_proxy.h"
@@ -12,6 +13,7 @@ class WeaponView : public SdlObject {
     BodyType prevWeapon;
     Sample shootSound;
     Sample noBulletSound;
+    AmmoView ammo;
 
    public:
     WeaponView(std::string const &path, int animation_frames, SdlWindow &window,
