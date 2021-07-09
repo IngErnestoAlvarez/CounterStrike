@@ -16,7 +16,7 @@ Player::Player(Game& game,
                int team_id,
                float x,
                float y)
-    : Body(game.getWorld(), CT2_TYPE, x, y, 0,
+    : Body(game.getWorld(), TT1_TYPE, x, y, 0,
            game.getConfig().getPlayerSpeed()),
       game(game),
       player_id(player_id),

@@ -159,6 +159,7 @@ void ModeloIO::render() {
     this->renderizables.renderObjects(modelo.getBodyIterator(),
                                       modelo.getBodyEnd());
     if (modelo.getRoundState() == 0) {
+        log->debug("Entra a renderizar el player");
         this->renderizables.renderPlayer();
     } else if (modelo.getRoundState() == modelo.getMyTeam()) {
         renderizables.renderWin();

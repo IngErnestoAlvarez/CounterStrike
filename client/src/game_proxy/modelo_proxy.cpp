@@ -152,6 +152,10 @@ inline BodyType teamIDtoBodyType(const char *teamID) {
 }
 
 inline BodyType teamIDtoBodyType(TeamID id) {
+    using namespace CPlusPlusLogging;
+    Logger *log = Logger::getInstance();
+    log->debug("Este es el id que toco: ");
+    log->debug(std::to_string(id).c_str());
     if (id == TEAM_A) {
         return CT2_TYPE;
     }

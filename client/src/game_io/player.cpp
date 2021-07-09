@@ -14,6 +14,7 @@ PlayerView::PlayerView(SdlWindow &window, PlayerProxy *player)
       life(window, player->getLife()),
       money(window, player->getMoney()),
       killNotice(window, "Fuiste asesinado", RED, 50) {
+    this->center = {16, 16};
     using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();
     log->debug("Comienza constructor PlayerView");
