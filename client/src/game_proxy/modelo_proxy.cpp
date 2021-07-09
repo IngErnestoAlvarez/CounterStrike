@@ -83,7 +83,7 @@ void ModeloProxy::chargeBodies() {
 
     protocolo.recv_state(&result, &size, &roundWinner, &skt);
 
-    if (roundWinner != 1 && roundWinner != 2) {
+    if (roundWinner != 0 && roundWinner != 1 && roundWinner != 2) {
         throw std::runtime_error("Error con el TeamID recibido del servidor");
     }
     roundResult = (TeamID)roundWinner;

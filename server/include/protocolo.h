@@ -122,7 +122,7 @@ class Protocolo {
 
     void recv_player(char **result, size_t *size, socket_t *skt);
 
-    void recv_login(socket_t *skt);
+    TeamID recv_login(socket_t *skt);
 
    private:
 };

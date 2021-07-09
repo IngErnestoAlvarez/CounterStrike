@@ -1,6 +1,4 @@
 #include <iostream>
-
-#include <Box2D/Box2D.h>
 #include <cmath>
 
 #include "game_logic/body.h"
@@ -13,30 +11,36 @@ Body::Body(World& world,
            float angle,
            float velocity)
     : world(world),
+      id(world.bodies.size()),
       type(type),
       velocity(velocity),
-      to_be_destroyed(false) {
-    b2BodyDef b2_body_def;
-    b2_body_def.position.Set(x, y);
+      to_be_destroyed(false),
+      x(x),
+      y(y),
+      angle(angle),
+      initial_x(x),
+      initial_y(y) {
+    this->initializeBody();
+    this->world.bodies.push_back(this);
+}
+
+Body::~Body() {
+    if (!this->isDestroyed()) {
+        this->world.bodies[this->id] = nullptr;
+        this->destroy();
+    }
+}
+
+void Body::initializeBody() {
+    b2_body_def.position.Set(initial_x, initial_y);
     b2_body_def.angle = angle;
     b2_body_def.type = velocity > 0 ? b2_dynamicBody : b2_staticBody;
     b2_body_def.allowSleep = velocity > 0;
     b2_body_def.fixedRotation = true;
     b2_body_def.userData = this;
     this->b2_body = this->world.b2_world->CreateBody(&b2_body_def);
-
-    b2PolygonShape b2_polygon_shape;
     b2_polygon_shape.SetAsBox(10, 10);
     this->b2_body->CreateFixture(&b2_polygon_shape, 1);
-
-    // this->world.bodies.push_back(this);
-}
-
-Body::~Body() {
-    if (!this->isDestroyed()) {
-        // this->world.bodies[this->id] = nullptr;
-        this->destroy();
-    }
 }
 
 BodyType Body::getType() const {
@@ -44,7 +48,6 @@ BodyType Body::getType() const {
 }
 
 void Body::setAngle(float angle) {
-    std::cout << "setAngle: " << angle << std::endl;
     this->b2_body->SetTransform(this->b2_body->GetPosition(), angle);
 }
 
@@ -100,17 +103,22 @@ bool Body::toBeDestroyed() const {
 }
 
 float Body::getX() const {
-    return this->b2_body->GetPosition().x;
+    return this->x;
 }
 
 float Body::getY() const {
-    return this->b2_body->GetPosition().y;
+    return this->y;
 }
 
 float Body::getAngle() const {
-    float angle = this->b2_body->GetAngle();
-    std::cout << "angle: " << angle << std::endl;
-    return angle;
+    return this->angle;
 }
 
-void Body::update() {}
+void Body::update() {
+    if (this->isDestroyed())
+        return;
+
+    this->x = this->b2_body->GetPosition().x;
+    this->y = this->b2_body->GetPosition().y;
+    this->angle = this->b2_body->GetAngle();
+}

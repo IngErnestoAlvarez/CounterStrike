@@ -2,8 +2,9 @@
 #include "game_logic/game.h"
 #include "game_logic/player.h"
 
-Team::Team(Game& game, Role team_role)
+Team::Team(Game& game, TeamID team_id, Role team_role)
 	: game(game),
+	  team_id(team_id),
 	  team_role(team_role),
 	  wins(0) {}
 
@@ -22,7 +23,7 @@ bool Team::hasPlayersAlive() {
 }
 
 void Team::update() {
-	if (this->game.getWinnerTeam() == this->team_role)
+	if (this->game.getWinnerTeam() == this->team_id)
 		this->wins++;
 }
 
@@ -39,4 +40,18 @@ void Team::switchRole() {
 
 Role Team::getRole() {
 	return this->team_role;
+}
+
+bool Team::isFull() const {
+	return this->players.size() == 1;
+}
+
+void Team::initialize() {
+	if (this->players.size() == 0)
+		return;
+
+	if (this->team_role == COUNTER_TERRORIST) {
+		int index = rand() % this->players.size();
+		this->players[index]->receiveBomb();
+	}
 }

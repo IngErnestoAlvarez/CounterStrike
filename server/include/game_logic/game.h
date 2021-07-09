@@ -28,7 +28,7 @@ class Game {
     int final_round = 10;
     int round;
     Phase phase;
-    Role winner_team;
+    TeamID winner_team;
     bool has_finished;
 
     std::unordered_map<int, Player*> players;
@@ -40,16 +40,17 @@ class Game {
 
     Player *player = nullptr; // eliminar
 
-    void assignBombToRandomPlayer();
+    void initializeTeams();
+    bool canPlayerExecuteCommands(int player_id);
     void movePlayerUp(int player_id);
     void movePlayerDown(int player_id);
     void movePlayerLeft(int player_id);
     void movePlayerRight(int player_id);
+    void setPlayerAngle(int player_id, float angle);
     void stopPlayer(int player_id);
     void usePlayerWeapon(int player_id);
     void setWeaponToMelee(int player_id);
     void setWeaponToRange(int player_id);
-    void setPlayerAim(int player_id, int x, int y);
     void checkBombState();
     void checkTeamsState();
     void goToNextRound();
@@ -59,14 +60,15 @@ class Game {
          const std::string &map_filepath);
     ~Game();
 
+    bool isInTeamsFormingPhase();
     bool isRunning();
-    void addPlayer(TeamID team_id, int peer_id);
+    bool addPlayer(TeamID team_id, int peer_id);
     void start();
     void executeCommand(Command& command);
     bool hasBombBeenDeactivated();
     bool hasBombExploded();
-    Role getWinnerTeam();
-    std::vector<Body*>& getBodies();
+    TeamID getWinnerTeam();
+    std::vector<Body*> getBodies();
 
     void createBlock(float x, float y);
     void createBomb(float x, float y);

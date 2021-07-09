@@ -147,7 +147,7 @@ void Protocolo::send_login(socket_t *skt, TeamID team_id) {
 void Protocolo::send_angle(float angle, socket_t *skt) {
     std::cout << "Protocolo::send_angle(" << angle << ")" << std::endl;
     this->send_comando(AIM, skt);
-    uint16_t aux = angle;
+    uint16_t aux = angle - 90;
     aux = aux % 360;
     if (aux < 0) aux += 360;
     aux = htons(aux);

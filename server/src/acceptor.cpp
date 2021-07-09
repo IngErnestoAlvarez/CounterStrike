@@ -5,10 +5,24 @@
 #include <cassert>
 #include <unistd.h>
 #include <ctime>
+#include "Logger.h"
 
-#define LOOP_TIME 16 // milisegundos
+#define LOOP_TIME 30 // milisegundos
+
+inline int getTimeLeft(int next_time);
+inline int getTime();
+inline void sleep(int time);
 
 inline int timeLeft(int next_time);
+
+inline int timeLeft(int next_time) {
+	std::time_t result = std::time(nullptr);
+	int time = result * 1000;
+	if (time > next_time)
+		return 0;
+	return next_time - time;
+}
+
 
 Acceptor::Acceptor(const std::string& config_filepath)
 	: game(config_filepath, "assets/maps/map.yaml"),
@@ -30,42 +44,90 @@ Acceptor::~Acceptor() {
 
 void Acceptor::run() {
 	try {
-		this->accept();
-		// this->accept();
+		this->acceptPeers();
+		this->gameStart();
 
-		this->game.start();
+		for (Peer* peer : this->peers)
+			peer->start();
 
-		while (this->is_running && this->game.isRunning()) {
-			std::time_t result = std::time(nullptr);
-			int next_time = result * 1000 + LOOP_TIME;
+		while (this->is_running) {
+			int next_time = getTime() + LOOP_TIME;
 
-			this->game.step();
+			// std::time_t result = std::time(nullptr);
+			// int next_time = result * 1000 + LOOP_TIME;
 
-			for (Peer* peer : this->peers)
-				peer->sendState();
+			this->gameStep();
+			this->sendStateToPeers();
+			this->executePeerCommands();
 
-			// Command command(STOP, 0);
-			// this->command_queue_monitor.pop(command);
-			// this->game.executeCommand(command);
-			for (int i = 0; i < 10; i++) {
-				Command command = this->cmd_queue.pop();
-				if (command.getCode() == NO_COMMAND) {
-					std::cout << "empty queue" << std::endl;
-					break;
-				}
+			sleep(getTimeLeft(next_time));
 
-				std::cout << "Command { code = " << command.getCode() << ", peer_id = " << command.getPeerID() << "}" << std::endl;
-				this->game.executeCommand(command);
-			}
-
-			usleep(timeLeft(next_time) * 1000);
+			// usleep(timeLeft(next_time) * 1000);
 		}
 	} catch (...) {
 
 	}
 }
 
-inline int timeLeft(int next_time) {
+void Acceptor::stop() {
+	this->is_running = false;
+}
+
+void Acceptor::acceptPeers() {
+	using namespace CPlusPlusLogging;
+	Logger *log = Logger::getInstance();
+
+	TeamID team_id;
+	int peer_id;
+
+	while (this->game.isInTeamsFormingPhase()) {
+    	log->debug("Esperando nuevo peer");
+		socket_t peer_socket;
+		this->socket.accept(&peer_socket);
+		log->debug("Nuevo peer aceptado");
+		team_id = this->protocol.recv_login(&peer_socket);
+		std::string debug = "Se recibio login - team_id = " + std::to_string(team_id);
+		log->debug(debug);
+		peer_id = this->peers.size();
+
+		if (!this->game.addPlayer(team_id, peer_id)) {
+			continue;
+		}
+
+		Peer* peer = new Peer(this->peers.size(),
+						peer_socket,
+						this->protocol,
+						this->command_queue_monitor,
+						this->cmd_queue);
+		log->debug("Se crea peer");
+		this->peers.push_back(peer);
+		// peer->start();
+	}
+}
+
+void Acceptor::sendStateToPeers() {
+	for (Peer* peer : this->peers)
+		peer->sendState();
+}
+
+void Acceptor::gameStart() {
+	this->game.start();
+}
+
+void Acceptor::gameStep() {
+	this->game.step();
+}
+
+void Acceptor::executePeerCommands() {
+	for (int i = 0; i < 10; i++) {
+		Command command = this->cmd_queue.pop();
+		if (command.getCode() == NO_COMMAND)
+			break;
+		this->game.executeCommand(command);
+	}
+}
+
+inline int getTimeLeft(int next_time) {
 	std::time_t result = std::time(nullptr);
 	int time = result * 1000;
 	if (time > next_time)
@@ -73,19 +135,10 @@ inline int timeLeft(int next_time) {
 	return next_time - time;
 }
 
-void Acceptor::stop() {
-	this->is_running = false;
+inline int getTime() {
+	return std::time(nullptr) * 1000;
 }
 
-void Acceptor::accept() {
-	socket_t peer_socket;
-	this->socket.accept(&peer_socket);
-	Peer* peer = new Peer(this->peers.size(),
-						  peer_socket,
-				   		  this->protocol,
-		   				  this->command_queue_monitor,
-		   				  this->cmd_queue);
-	this->peers.push_back(peer);
-	this->game.addPlayer(TEAM_A, peer->getPeerID());
-	peer->start();
+inline void sleep(int time) {
+	usleep(time * 1000);
 }

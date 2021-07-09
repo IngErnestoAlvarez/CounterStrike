@@ -25,7 +25,11 @@ private:
 	QueueMonitor<Command> command_queue_monitor;
 	CommandQueue cmd_queue;
 	bool is_running;
-	void accept();
+	void acceptPeers();
+	void sendStateToPeers();
+	void gameStart();
+	void gameStep();
+	void executePeerCommands();
 
 public:
 	Acceptor(const std::string& config_filepath);

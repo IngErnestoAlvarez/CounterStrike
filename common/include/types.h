@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-enum TeamID : char {
+enum TeamID : uint8_t {
     NONE = 0,
     TEAM_A = 1,
     TEAM_B = 2,
@@ -34,7 +34,7 @@ enum BodyType : uint8_t {
     GLOCK_TYPE = 8,
     KNIFE_TYPE = 9,
     BOMB_D_TYPE = 10,
-    TT1_TYPE = 11
+    TT1_TYPE = 11,
 };
 
 #endif

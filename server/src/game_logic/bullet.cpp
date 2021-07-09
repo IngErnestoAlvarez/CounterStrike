@@ -16,14 +16,12 @@ Bullet::Bullet(Game& game,
 			   Weapon* weapon)
 	: Body(game.getWorld(),
 		   NO_BODY_TYPE,
-		   player.getX() + 20 * cos(player.getAngle()),
-		   player.getY() + 20 * sin(player.getAngle()),
+		   player.getX() + 50 * cos(player.getAngle()),
+		   player.getY() + 50 * sin(player.getAngle()),
 		   player.getAngle(),
 		   game.getConfig().getBulletSpeed()),
 	  player(player),
-	  weapon(weapon),
-	  initial_x(player.getX()),
-	  initial_y(player.getY()) {}
+	  weapon(weapon) {}
 
 Bullet::Bullet(Game& game,
 			   Player& player,
@@ -31,14 +29,12 @@ Bullet::Bullet(Game& game,
 			   float angle_offset)
 	: Body(game.getWorld(),
 		   NO_BODY_TYPE,
-		   player.getX() + 20 * cos(player.getAngle() + angle_offset),
-		   player.getY() + 20 * sin(player.getAngle() + angle_offset),
+		   player.getX() + 50 * cos(player.getAngle() + angle_offset),
+		   player.getY() + 50 * sin(player.getAngle() + angle_offset),
 		   player.getAngle() + angle_offset,
 		   game.getConfig().getBulletSpeed()),
 	  player(player),
-	  weapon(weapon),
-	  initial_x(player.getX()),
-	  initial_y(player.getY()) {}
+	  weapon(weapon) {}
 
 void Bullet::handleCollision(Body* body) {
 	body->handleCollision(this);
@@ -57,7 +53,10 @@ float Bullet::getDamage() const {
 }
 
 void Bullet::handleCollision(Player* player) {
-	if (true) {
+	if (this->toBeDestroyed())
+		return;
+
+	if (player->getTeamID() != this->player.getTeamID()) {
 		player->takeDamage(this->getDamage());
 
 		if (!player->isAlive())
@@ -93,7 +92,6 @@ bool Bullet::isOutOfRange() const {
 }
 
 void Bullet::update() {
-	std::cout << "bullet position: " << this->getX() << ", " << this->getY() << std::endl;
-	if (!this->isDestroyed() && this->isOutOfRange())
-		this->setToBeDestroyed();
+	// if (!this->isDestroyed() && this->isOutOfRange())
+	// 	this->setToBeDestroyed();
 }

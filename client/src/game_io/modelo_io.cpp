@@ -44,7 +44,7 @@ void ModeloIO::check_actions() {
     log->debug("Comienza check_actions");
     this->check_events();
     this->check_keyboard();
-    // this->check_mouse();
+    this->check_mouse();
     log->debug("Finaliza check_actions");
 }
 
@@ -120,8 +120,8 @@ void ModeloIO::check_keyboard() {
     }
 
     else if (!any_key_pressed) {
-        // this->modelo.stopPlayer();
-        this->check_mouse();
+        this->modelo.stopPlayer();
+        // this->check_mouse();
     }
 }
 
@@ -158,7 +158,7 @@ void ModeloIO::render() {
                                     modelo.getStaticEnd());
     this->renderizables.renderObjects(modelo.getBodyIterator(),
                                       modelo.getBodyEnd());
-    if (modelo.getRoundState() == NONE) {
+    if (modelo.getRoundState() == 0) {
         this->renderizables.renderPlayer();
     } else if (modelo.getRoundState() == modelo.getMyTeam()) {
         renderizables.renderWin();

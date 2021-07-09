@@ -21,55 +21,63 @@ Game::Game(const std::string &config_filepath, const std::string &map_filepath)
       map(*this, map_filepath),
       round(0),
       phase(TEAMS_FORMING_PHASE),
-      winner_team(NO_ROLE),
+      winner_team(NONE),
       has_finished(false),
-      team_a(*this, COUNTER_TERRORIST),
-      team_b(*this, TERRORIST) {}
+      team_a(*this, TEAM_A, COUNTER_TERRORIST),
+      team_b(*this, TEAM_B, TERRORIST) {}
 
 void Game::start() {
     this->phase = MAIN_PHASE;
-    this->assignBombToRandomPlayer();
+    this->initializeTeams();
 }
 
-bool Game::isRunning() { return this->phase != TEAMS_FORMING_PHASE; }
+bool Game::isInTeamsFormingPhase() {
+    return this->phase == TEAMS_FORMING_PHASE;
+}
 
-void Game::addPlayer(TeamID team_id, int peer_id) {
-    if (this->phase != TEAMS_FORMING_PHASE) return;
+bool Game::isRunning() { return this->phase == MAIN_PHASE; }
 
-    // Cell& cell = (team_id == TEAM_A)
-    //            ? this->map.getStartingCellAntiterrorists()
-    //            : this->map.getStartingCellTerrorists();
+bool Game::addPlayer(TeamID team_id, int peer_id) {
+    Team& team = (team_id == TEAM_A)
+        ? this->team_a
+        : this->team_b;
 
-    Player *player = new Player(*this, peer_id, team_id, 400, 400);
+    if (team.isFull())
+        return false;
+
+    Cell& cell = (team_id == TEAM_A)
+        ? this->map.getStartingCellCounterterrorists()
+        : this->map.getStartingCellTerrorists();
+
+    Player *player = new Player(
+        *this, peer_id, team_id, cell.getWorldX(), cell.getWorldY());
+
+    team.addPlayer(player);
     this->players[peer_id] = player;
     this->bodies.push_back(player);
 
-    if (team_id == TEAM_A)
-        this->team_a.addPlayer(player);
-    else
-        this->team_b.addPlayer(player);
+    if (this->team_a.isFull() && this->team_b.isFull())
+        this->phase = PREPARATION_PHASE;
 
-    // testing
-    this->player = player;
+    return true;
 }
 
-void Game::assignBombToRandomPlayer() {
-    // std::vector<Player*> terrorists;
-    // std::copy_if(this->players.begin(),
-    //              this->players.end(),
-    //              std::back_inserter(terrorists),
-    //              [](const Player* p) {
-    //                 return p->isTerrorist();
-    //             });
-
-    // int index = rand() % terrorists.size();
-    // terrorists[index]->receiveBomb();
+void Game::initializeTeams() {
+    this->team_a.initialize();
+    this->team_b.initialize();
 }
+
+bool Game::canPlayerExecuteCommands(int player_id) {
+    return this->players[player_id]->isAlive();
+} 
 
 void Game::executeCommand(Command &command) {
     Comando code = command.getCode();
     int player_id = command.getPeerID();
-    uint16_t angle;
+
+    if (!this->canPlayerExecuteCommands(player_id))
+        return;
+
     switch (code) {
         case UP:
             this->movePlayerUp(player_id);
@@ -96,11 +104,8 @@ void Game::executeCommand(Command &command) {
             this->setWeaponToMelee(player_id);
             break;
         case AIM:
-            // assert(false);
-            angle = command.getArg("angle");
-            // angle = 1.5708;
-            std::cout << "Player::setAngle(" << angle << ")" << std::endl;
-            this->players[player_id]->setAngle(angle * 3.1416 / 180);
+            this->setPlayerAngle(player_id,
+                command.getArg("angle") * 3.1416 / 180);
             break;
         default:
             break;
@@ -121,20 +126,8 @@ void Game::movePlayerRight(int player_id) {
     this->players[player_id]->moveRight();
 }
 
-void Game::setPlayerAim(int player_id, int x, int y) {
-    this->players[player_id]->setAngle(
-        (atan2(this->players[player_id]->getY() - y,
-               this->players[player_id]->getX() - x) *
-         180.0000) /
-            3.1416 +
-        90);
-
-    this->players[player_id]->setAngle(
-        atan2(this->players[player_id]->getY() - y,
-              this->players[player_id]->getX() - x));
-
-    std::cout << "setPlayerAim: " << this->players[player_id]->getAngle()
-              << std::endl;
+void Game::setPlayerAngle(int player_id, float angle) {
+    this->players[player_id]->setAngle(angle);
 }
 
 void Game::stopPlayer(int player_id) { this->players[player_id]->stopMoving(); }
@@ -171,7 +164,15 @@ void Game::createBlock(float x, float y) {
     this->bodies.push_back(new Block(*this, x, y));
 }
 
-std::vector<Body *> &Game::getBodies() { return this->bodies; }
+std::vector<Body *> Game::getBodies() {
+    std::vector<Body*> bodies;
+
+    for (Body* body : this->bodies)
+        if (!body->isDestroyed())
+            bodies.push_back(body);
+
+    return bodies;
+}
 
 int Game::getX() { return int(this->player->getX()); }
 
@@ -194,38 +195,47 @@ bool Game::hasBombExploded() {
 }
 
 void Game::checkBombState() {
+    TeamID counter_terrorists = this->team_a.getRole() == COUNTER_TERRORIST
+        ? TEAM_A
+        : TEAM_B;
+    TeamID terrorists = counter_terrorists == TEAM_A ? TEAM_B : TEAM_A;
+
     if (this->hasBombBeenDeactivated()) {
-        this->winner_team = COUNTER_TERRORIST;
+        this->winner_team = counter_terrorists;
     } else if (this->hasBombExploded()) {
-        this->winner_team = TERRORIST;
+        this->winner_team = terrorists;
     }
 }
 
 void Game::checkTeamsState() {
     if (!this->team_a.hasPlayersAlive())
-        this->winner_team = this->team_b.getRole();
+        this->winner_team = TEAM_B;
     else if (!this->team_b.hasPlayersAlive())
-        this->winner_team = this->team_a.getRole();
+        this->winner_team = TEAM_A;
 }
 
 void Game::goToNextRound() {
     this->round++;
-    this->phase = PREPARATION_PHASE;
-    this->winner_team = NO_ROLE;
+    this->phase = MAIN_PHASE;
+    this->winner_team = NONE;
 
     if (this->round == int(this->final_round / 2)) {
         this->team_a.switchRole();
         this->team_b.switchRole();
     }
+
+    for (auto& player : this->players)
+        player.second->reset();
 }
 
 void Game::step() {
-    if (this->has_finished) return;
+    if (this->has_finished)
+        return;
 
-    // if (this->winner_team) {
-    //     this->nextRound();
-    //     return;
-    // }
+    if (this->winner_team != NONE) {
+        this->goToNextRound();
+        return;
+    }
 
     this->world.step();
     this->checkBombState();
@@ -233,18 +243,13 @@ void Game::step() {
 
     this->team_a.update();
     this->team_b.update();
-
-    // if (this->round > this->final_round)
-    //     this->has_finished = true;
 }
 
-Role Game::getWinnerTeam() { return this->winner_team; }
+TeamID Game::getWinnerTeam() { return this->winner_team; }
 
 Game::~Game() {
-    // if (this->player != nullptr)
-    //     delete this->player;
-
-    for (Body *body : this->bodies) delete body;
+    for (Body *body : this->bodies)
+        delete body;
 }
 
 Player *Game::getPlayer(int player_id) { return this->players[player_id]; }

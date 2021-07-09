@@ -53,9 +53,9 @@ uint32_t Protocolo::receive_four_bytes(socket_t *skt) {
 }
 
 void Protocolo::send_config(socket_t *skt) {
-    using namespace CPlusPlusLogging;
-    Logger *log = Logger::getInstance();
-    log->debug("Se envia config");
+    // using namespace CPlusPlusLogging;
+    // Logger *log = Logger::getInstance();
+    // log->debug("Se envia config");
     Map &map = this->game->getMap();
 
     uint16_t stencil_angle = 45;
@@ -102,6 +102,9 @@ void Protocolo::send_state(socket_t *skt) {
     using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();
     log->debug("Se envia estado");
+
+    uint8_t winner_team_id = this->game->getWinnerTeam();
+    this->send_one_byte(skt, &winner_team_id);
     std::vector<Body *> bodies = this->game->getBodies();
     uint16_t body_count = bodies.size();
 
@@ -209,9 +212,9 @@ void Protocolo::send_player(socket_t *skt, int peer_id) {
     uint16_t y = ::htons(uint16_t(player.getY()));
     float angleAux = player.getAngle();
     uint32_t angle = ::htonl(*(uint32_t *)&angleAux);
-    uint8_t actualWeapon = AK47_TYPE;
+    uint8_t actualWeapon = player.getEquippedWeaponType();
     uint8_t time = 60;
-    uint8_t gotBomb = uint8_t(false);
+    uint8_t gotBomb = uint8_t(player.hasBomb());
     log->debug("Comienza el envio de datos en send_player");
 
     send_one_byte(skt, &ammo);
@@ -223,4 +226,8 @@ void Protocolo::send_player(socket_t *skt, int peer_id) {
     send_one_byte(skt, &actualWeapon);
     send_one_byte(skt, &time);
     send_one_byte(skt, &gotBomb);
+}
+
+TeamID Protocolo::recv_login(socket_t* skt) {
+    return TeamID(this->receive_one_byte(skt));
 }

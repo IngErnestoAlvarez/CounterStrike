@@ -27,19 +27,16 @@ World::~World() {
     delete this->contact_listener;
 }
 
-// cambiar esto
-Block *World::createBody(float x, float y) {
-    return new Block(this->game, x, y);
-}
-
 void World::step() {
     for (Body* body : this->bodies) {
+        if (body == nullptr)
+            continue;
         body->update();
         if (body->toBeDestroyed()) {
             body->destroy();
         }
     }
-    // revisar estos valores
+
     this->b2_world->Step(120, 8, 3);
 }
 

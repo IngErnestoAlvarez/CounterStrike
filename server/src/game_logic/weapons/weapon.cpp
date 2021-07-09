@@ -7,6 +7,7 @@
 #include "configuration.h"
 
 Weapon::Weapon(const std::string& name,
+               BodyType type,
                Game& game,
                Player& player)
              : name(name),
@@ -62,4 +63,8 @@ void Weapon::deleteInactiveBullets() {
 
 float Weapon::getDamage(float distance) const {
     return 10;
+}
+
+BodyType Weapon::getType() {
+    return this->type;
 }

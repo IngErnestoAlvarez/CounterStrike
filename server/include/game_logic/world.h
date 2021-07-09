@@ -22,7 +22,6 @@ class World {
    public:
     World(Game& game);
     ~World();
-    Block *createBody(float x, float y);
     void step();
     std::vector<Body *> &getBodies();
 };

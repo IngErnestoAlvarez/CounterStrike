@@ -20,8 +20,8 @@ Map::Map(Game& game, const std::string &map_filepath) : world(game.getWorld()) {
     this->height = std::stoi(map_object["height"].as<std::string>());
     this->starting_x_terrorists = map_object["starting_x_terrorists"].as<int>();
     this->starting_y_terrorists = map_object["starting_y_terrorists"].as<int>();
-    this->starting_x_antiterrorists = map_object["starting_x_antiterrorists"].as<int>();
-    this->starting_y_antiterrorists = map_object["starting_y_antiterrorists"].as<int>();
+    this->starting_x_counterterrorists = map_object["starting_x_counterterrorists"].as<int>();
+    this->starting_y_counterterrorists = map_object["starting_y_counterterrorists"].as<int>();
 
     for (int i = 0; i < this->width; i++) {
         for (int j = 0; j < this->height; j++) {
@@ -52,9 +52,9 @@ Cell& Map::getStartingCellTerrorists() {
                            this->starting_y_terrorists);
 }
 
-Cell& Map::getStartingCellAntiterrorists() {
-    return this->getCellAt(this->starting_x_antiterrorists,
-                           this->starting_y_antiterrorists);
+Cell& Map::getStartingCellCounterterrorists() {
+    return this->getCellAt(this->starting_x_counterterrorists,
+                           this->starting_y_counterterrorists);
 }
 
 std::vector<Cell>::iterator Map::begin() { return this->grid.begin(); }

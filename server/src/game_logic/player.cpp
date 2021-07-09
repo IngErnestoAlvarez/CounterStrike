@@ -59,6 +59,10 @@ Weapon* Player::getEquippedWeapon() {
     return this->equipped_weapon;
 }
 
+BodyType Player::getEquippedWeaponType() {
+    return this->equipped_weapon->getType();
+}
+
 void Player::changeToDMeleeWeapon() {
     this->equipped_weapon = this->default_melee_weapon;
 }
@@ -87,6 +91,10 @@ void Player::useWeapon() {
     return this->equipped_weapon->use();
 }
 
+bool Player::hasBomb() {
+    return this->has_bomb;
+}
+
 void Player::receiveBomb() {
     this->has_bomb = true;
 }
@@ -108,6 +116,12 @@ void Player::takeDamage(float damage) {
     this->health -= damage;
     if (!this->isAlive())
         this->setToBeDestroyed();
+}
+
+void Player::reset() {
+    this->has_bomb = false;
+    if (this->isDestroyed())
+        this->initializeBody();
 }
 
 void Player::handleEnemyKilled() {

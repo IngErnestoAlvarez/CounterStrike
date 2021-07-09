@@ -13,8 +13,6 @@ class Bullet : public Body {
 private:
 	Player& player;
 	Weapon* weapon;
-	float initial_x;
-	float initial_y;
 
 public:
 	Bullet(Game& game, Player& player, Weapon* weapon);

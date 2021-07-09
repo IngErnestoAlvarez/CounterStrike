@@ -2,8 +2,8 @@
 #define BODY_H
 
 #include "types.h"
+#include <Box2D/Box2D.h>
 
-class b2Body;
 class Block;
 class Bomb;
 class BombDrop;
@@ -16,12 +16,22 @@ class Body {
 private:
     b2Body* b2_body;
     World& world;
+    int id;
     BodyType type;
     float velocity;
     bool to_be_destroyed;
+    float x;
+    float y;
+    float angle;
+    b2BodyDef b2_body_def;
+    b2PolygonShape b2_polygon_shape;
     void move(float x_velocity, float y_velocity);
-
     friend class World;
+
+protected:
+    float initial_x;
+    float initial_y;
+    void initializeBody();
 
 public:
     Body(World& world,

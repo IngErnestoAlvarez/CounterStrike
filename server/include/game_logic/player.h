@@ -52,10 +52,13 @@ public:
     void handleEnemyKilled();
     void receiveBomb();
     void activateBomb();
+    bool hasBomb();
     void addWeapon(Weapon* weapon);
     Weapon* getEquippedWeapon();
+    BodyType getEquippedWeaponType();
     void changeToDMeleeWeapon();
     void changeToDRangeWeapon();
+    void reset();
     void registerTeam(Team* team);
 
     void handleCollision(Body* body) override;

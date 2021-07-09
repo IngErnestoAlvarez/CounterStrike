@@ -9,10 +9,10 @@
 int main(int argc, char *argv[]) {
     using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();
-    // log->enableConsoleLogging();
-    // log->enaleLog();
-    log->disableLog();
-    log->info("server");
+    log->enableConsoleLogging();
+    log->enaleLog();
+    // log->disableLog();
+    log->debug("Server");
 
     if (argc != 2) {
         std::cout << USAGE << std::endl;

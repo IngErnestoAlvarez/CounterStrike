@@ -3,6 +3,7 @@
 
 #include <string>
 #include <unordered_set>
+#include "types.h"
 
 class Game;
 class Player;
@@ -12,6 +13,7 @@ class World;
 class Weapon {
 protected:
     std::string name;
+    BodyType type;
     Game& game;
     World& world;
     Player& player;
@@ -23,6 +25,7 @@ protected:
 
 public:
     Weapon(const std::string& name,
+           BodyType type,
            Game& game,
            Player& player);
     virtual ~Weapon();
@@ -34,6 +37,7 @@ public:
     void createBullet();
     void createBullet(float angle);
     void deleteInactiveBullets();
+    BodyType getType(); 
 };
 
 #endif
