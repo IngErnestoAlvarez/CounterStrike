@@ -14,7 +14,7 @@ class StencilCreator {
     StencilCreator(unsigned int screenWidth, unsigned int screenHeight);
     ~StencilCreator();
 
-    void create();
+    void create(int circleRadius, int viewRange);
 };
 
 #endif  // __STENCIL_CREATOR_H__
