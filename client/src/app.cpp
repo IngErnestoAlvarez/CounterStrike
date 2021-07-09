@@ -10,7 +10,7 @@
 #include "game_io/sdl/SdlImage.h"
 #include "game_io/sdl/SdlObject.h"
 
-#define RATE 14
+#define DELAY 14
 
 App::App(std::string const &host, std::string const &service,
          const char *teamID)
@@ -22,14 +22,15 @@ void App::load_media() { proxy.initialize(); }
 
 void App::main_loop() {
     bool playing = true;
-    this->next_time = SDL_GetTicks() + RATE;
+    this->next_time = SDL_GetTicks() + DELAY;
     while (playing) {
         proxy.update();
         playing = view.update();
+
         Uint32 time_left = this->time_left();
         std::cout << "time_left: " << time_left << std::endl;
         SDL_Delay(time_left);
-        this->next_time += RATE;
+        this->next_time += DELAY;
     }
 }
 

@@ -22,7 +22,14 @@ class ModeloIO {
     Music music;
 
    public:
-    // ModeloIO();
+    /**
+     * @brief Construccion del ModeloIO, es estrictamente necesario la creacion
+    de un
+     * ModeloProxy conectado a un servidor adecuado para poder funcionar
+    correctamente.
+     *
+     * @param logica ModeloProxy conectado a un servidor.
+     */
     ModeloIO(ModeloProxy &logica);
 
     ~ModeloIO();
