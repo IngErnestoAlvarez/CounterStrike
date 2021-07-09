@@ -91,7 +91,7 @@ class Protocolo {
     // 1 = gana equipo 1
     // 2 = gana equipo 2
     // 2bytes con cant de bodies (1 tipo, 2 posx, 2 posy, 4 angle)
-    void send_state(socket_t *skt);
+    void send_state(socket_t *skt, int peer_id);
 
     // CLIENTE
     void recv_state(char **result, size_t *size, socket_t *skt);

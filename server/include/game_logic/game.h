@@ -49,8 +49,10 @@ class Game {
     void setPlayerAngle(int player_id, float angle);
     void stopPlayer(int player_id);
     void usePlayerWeapon(int player_id);
+    void setWeaponToPrimary(int player_id);
     void setWeaponToMelee(int player_id);
     void setWeaponToRange(int player_id);
+    void activateBomb(int player_id);
     void checkBombState();
     void checkTeamsState();
     void goToNextRound();
@@ -68,7 +70,7 @@ class Game {
     bool hasBombBeenDeactivated();
     bool hasBombExploded();
     TeamID getWinnerTeam();
-    std::vector<Body*> getBodies();
+    std::vector<Body*> getBodies(int peer_id);
 
     void createBlock(float x, float y);
     void createBomb(float x, float y);

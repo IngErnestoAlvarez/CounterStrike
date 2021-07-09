@@ -44,7 +44,7 @@ void Peer::run() {
 }
 
 void Peer::sendState() {
-    this->protocol.send_state(&this->socket);
+    this->protocol.send_state(&this->socket, this->id);
     this->protocol.send_player(&this->socket, this->id);
 }
 

@@ -47,22 +47,14 @@ void Acceptor::run() {
 		this->acceptPeers();
 		this->gameStart();
 
-		for (Peer* peer : this->peers)
-			peer->start();
-
 		while (this->is_running) {
 			int next_time = getTime() + LOOP_TIME;
-
-			// std::time_t result = std::time(nullptr);
-			// int next_time = result * 1000 + LOOP_TIME;
 
 			this->gameStep();
 			this->sendStateToPeers();
 			this->executePeerCommands();
 
 			sleep(getTimeLeft(next_time));
-
-			// usleep(timeLeft(next_time) * 1000);
 		}
 	} catch (...) {
 
@@ -101,7 +93,6 @@ void Acceptor::acceptPeers() {
 						this->cmd_queue);
 		log->debug("Se crea peer");
 		this->peers.push_back(peer);
-		// peer->start();
 	}
 }
 
@@ -112,6 +103,9 @@ void Acceptor::sendStateToPeers() {
 
 void Acceptor::gameStart() {
 	this->game.start();
+
+	for (Peer* peer : this->peers)
+		peer->start();
 }
 
 void Acceptor::gameStep() {

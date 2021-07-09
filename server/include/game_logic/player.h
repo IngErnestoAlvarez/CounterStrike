@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-
+#include "types.h"
 #include "body.h"
 
 class Block;
@@ -56,10 +56,12 @@ public:
     void addWeapon(Weapon* weapon);
     Weapon* getEquippedWeapon();
     BodyType getEquippedWeaponType();
+    void changeToPrimaryWeapon();
     void changeToDMeleeWeapon();
     void changeToDRangeWeapon();
     void reset();
     void registerTeam(Team* team);
+    void setRole(Role role);
 
     void handleCollision(Body* body) override;
     void handleCollision(Bullet* bullet) override;

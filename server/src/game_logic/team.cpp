@@ -1,6 +1,7 @@
 #include "game_logic/team.h"
 #include "game_logic/game.h"
 #include "game_logic/player.h"
+#include "Logger.h"
 
 Team::Team(Game& game, TeamID team_id, Role team_role)
 	: game(game),
@@ -47,11 +48,18 @@ bool Team::isFull() const {
 }
 
 void Team::initialize() {
+	using namespace CPlusPlusLogging;
+    Logger *log = Logger::getInstance();
+
 	if (this->players.size() == 0)
 		return;
 
-	if (this->team_role == COUNTER_TERRORIST) {
+	for (Player* player : this->players)
+		player->setRole(this->team_role);
+
+	if (this->team_role == TERRORIST) {
 		int index = rand() % this->players.size();
+		log->debug("Se asigno la bomba a un terrorista");
 		this->players[index]->receiveBomb();
 	}
 }

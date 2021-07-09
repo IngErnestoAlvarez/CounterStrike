@@ -63,6 +63,12 @@ BodyType Player::getEquippedWeaponType() {
     return this->equipped_weapon->getType();
 }
 
+void Player::changeToPrimaryWeapon() {
+    this->equipped_weapon = (this->primary_weapon != nullptr)
+        ? this->primary_weapon
+        : this->default_melee_weapon;
+}
+
 void Player::changeToDMeleeWeapon() {
     this->equipped_weapon = this->default_melee_weapon;
 }
@@ -122,6 +128,13 @@ void Player::reset() {
     this->has_bomb = false;
     if (this->isDestroyed())
         this->initializeBody();
+}
+
+void Player::setRole(Role role) {
+    if (role == COUNTER_TERRORIST)
+        this->setType(CT2_TYPE);
+    else
+        this->setType(TT1_TYPE);
 }
 
 void Player::handleEnemyKilled() {

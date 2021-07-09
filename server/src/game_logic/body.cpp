@@ -43,8 +43,16 @@ void Body::initializeBody() {
     this->b2_body->CreateFixture(&b2_polygon_shape, 1);
 }
 
+int Body::getID() const {
+    return this->id;
+}
+
 BodyType Body::getType() const {
     return this->type;
+}
+
+void Body::setType(BodyType type) {
+    this->type = type;
 }
 
 void Body::setAngle(float angle) {

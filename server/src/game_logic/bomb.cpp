@@ -1,13 +1,17 @@
 #include "game_logic/bomb.h"
 #include "game_logic/game.h"
 #include "types.h"
+#include "Logger.h"
 
 Bomb::Bomb(Game& game, float x, float y)
 	: Body(game.getWorld(), AK47_D_TYPE, x, y, 0, 0),
 	  active(true),
 	  has_exploded(false),
-	  max_steps(10000), // obtener de configuracion
+	  max_steps(20), // obtener de configuracion
 	  steps(0) {
+	using namespace CPlusPlusLogging;
+    Logger *log = Logger::getInstance();
+    log->debug("Se planta la bomba");
 }
 
 void Bomb::update() {
@@ -16,8 +20,14 @@ void Bomb::update() {
 
 	this->steps++;
 
-	if (this->steps == max_steps)
+	using namespace CPlusPlusLogging;
+    Logger *log = Logger::getInstance();
+    log->debug("Se actualiza la bomba");
+
+	if (this->steps == max_steps) {
+		log->debug("Explota la bomba");
 		this->explode();
+	}
 }
 
 void Bomb::explode() {

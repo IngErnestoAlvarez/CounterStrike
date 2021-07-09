@@ -98,14 +98,14 @@ void Protocolo::recv_config(socket_t *skt) {
     }
 }
 
-void Protocolo::send_state(socket_t *skt) {
+void Protocolo::send_state(socket_t *skt, int peer_id) {
     using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();
     log->debug("Se envia estado");
 
     uint8_t winner_team_id = this->game->getWinnerTeam();
     this->send_one_byte(skt, &winner_team_id);
-    std::vector<Body *> bodies = this->game->getBodies();
+    std::vector<Body *> bodies = this->game->getBodies(peer_id);
     uint16_t body_count = bodies.size();
 
     log->debug("Se enviaran esta cantidad de bodies: ");

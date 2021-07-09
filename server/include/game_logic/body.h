@@ -32,6 +32,7 @@ protected:
     float initial_x;
     float initial_y;
     void initializeBody();
+    void setType(BodyType type);
 
 public:
     Body(World& world,
@@ -53,6 +54,7 @@ public:
     void destroy();
     void setToBeDestroyed();
 
+    int getID() const;
     BodyType getType() const;
     float getX() const;
     float getY() const;

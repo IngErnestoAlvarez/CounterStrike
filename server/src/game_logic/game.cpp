@@ -72,6 +72,9 @@ bool Game::canPlayerExecuteCommands(int player_id) {
 } 
 
 void Game::executeCommand(Command &command) {
+    using namespace CPlusPlusLogging;
+    Logger *log = Logger::getInstance();
+
     Comando code = command.getCode();
     int player_id = command.getPeerID();
 
@@ -97,11 +100,18 @@ void Game::executeCommand(Command &command) {
         case STOP:
             this->stopPlayer(player_id);
             break;
+        case CW1:
+            this->setWeaponToPrimary(player_id);
+            break;
         case CW2:
             this->setWeaponToRange(player_id);
             break;
         case CW3:
             this->setWeaponToMelee(player_id);
+            break;
+        case CB:
+            log->debug("Se recibe comando para activar la bomba");
+            this->activateBomb(player_id);
             break;
         case AIM:
             this->setPlayerAngle(player_id,
@@ -136,12 +146,20 @@ void Game::usePlayerWeapon(int player_id) {
     this->players[player_id]->useWeapon();
 }
 
+void Game::setWeaponToPrimary(int player_id) {
+    this->players[player_id]->changeToPrimaryWeapon();
+}
+
 void Game::setWeaponToMelee(int player_id) {
     this->players[player_id]->changeToDMeleeWeapon();
 }
 
 void Game::setWeaponToRange(int player_id) {
     this->players[player_id]->changeToDRangeWeapon();
+}
+
+void Game::activateBomb(int player_id) {
+    this->players[player_id]->activateBomb();
 }
 
 void Game::createBomb(float x, float y) {
@@ -164,11 +182,12 @@ void Game::createBlock(float x, float y) {
     this->bodies.push_back(new Block(*this, x, y));
 }
 
-std::vector<Body *> Game::getBodies() {
+std::vector<Body *> Game::getBodies(int peer_id) {
+    Player* player = this->players[peer_id];
     std::vector<Body*> bodies;
 
     for (Body* body : this->bodies)
-        if (!body->isDestroyed())
+        if (!body->isDestroyed() && body->getID() != player->getID())
             bodies.push_back(body);
 
     return bodies;
