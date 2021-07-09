@@ -4,10 +4,10 @@
 #include "Logger.h"
 
 Bomb::Bomb(Game& game, float x, float y)
-	: Body(game.getWorld(), AK47_D_TYPE, x, y, 0, 0),
+	: Body(game.getWorld(), BOMB_D_TYPE, x, y, 0, 0),
 	  active(true),
 	  has_exploded(false),
-	  max_steps(20), // obtener de configuracion
+	  max_steps(100000), // obtener de configuracion
 	  steps(0) {
 	using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();
@@ -15,6 +15,8 @@ Bomb::Bomb(Game& game, float x, float y)
 }
 
 void Bomb::update() {
+	this->has_exploded = false;
+
 	if (this->hasBeenDeactivated())
 		return;
 

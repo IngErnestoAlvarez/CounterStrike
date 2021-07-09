@@ -50,8 +50,6 @@ uint32_t Protocolo::receive_four_bytes(socket_t *skt) {
 void Protocolo::recv_config(char **result, size_t *size, socket_t *skt) {
     using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();
-    // descomentar esto (lo comento para evitar error de compilacion por
-    // variables no usadas)
 
     uint16_t stencil_angle __attribute__((unused)) =
         this->receive_two_bytes(skt);

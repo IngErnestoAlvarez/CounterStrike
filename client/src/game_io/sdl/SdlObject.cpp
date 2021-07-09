@@ -14,6 +14,7 @@ SdlObject::SdlObject(BodyType type, SdlWindow &window)
     sprite_clips[0].y = 0;
     sprite_clips[0].w = 32;
     sprite_clips[0].h = 32;
+    center = {16, 16};
 }
 SdlObject::SdlObject(std::string const &path, int animation_frames,
                      SdlWindow &window)

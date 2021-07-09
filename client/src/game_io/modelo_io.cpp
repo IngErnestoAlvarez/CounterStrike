@@ -77,49 +77,49 @@ void ModeloIO::check_keyboard() {
         this->modelo.movePlayerLeft();
     }
 
-    else if (state[SDL_SCANCODE_W]) {
+    if (state[SDL_SCANCODE_W]) {
         any_key_pressed = true;
         log->debug("Move Up");
         this->modelo.movePlayerUp();
     }
 
-    else if (state[SDL_SCANCODE_D]) {
+    if (state[SDL_SCANCODE_D]) {
         any_key_pressed = true;
         log->debug("Move Right");
         this->modelo.movePlayerRight();
     }
 
-    else if (state[SDL_SCANCODE_S]) {
+    if (state[SDL_SCANCODE_S]) {
         any_key_pressed = true;
         log->debug("Move Down");
         this->modelo.movePlayerDown();
     }
 
-    else if (state[SDL_SCANCODE_1]) {
+    if (state[SDL_SCANCODE_1]) {
         any_key_pressed = true;
         log->debug("Change to weapon 1");
         this->modelo.changeToW1();
     }
 
-    else if (state[SDL_SCANCODE_2]) {
+    if (state[SDL_SCANCODE_2]) {
         any_key_pressed = true;
         log->debug("Change to weapon 2");
         this->modelo.changeToW2();
     }
 
-    else if (state[SDL_SCANCODE_3]) {
+    if (state[SDL_SCANCODE_3]) {
         any_key_pressed = true;
         log->debug("Change to weapon 3");
         this->modelo.changeToW3();
     }
 
-    else if (state[SDL_SCANCODE_4]) {
+    if (state[SDL_SCANCODE_4]) {
         any_key_pressed = true;
         log->debug("Change to bomb");
         this->modelo.changeToBomb();
     }
 
-    else if (!any_key_pressed) {
+    if (!any_key_pressed) {
         this->modelo.stopPlayer();
         // this->check_mouse();
     }

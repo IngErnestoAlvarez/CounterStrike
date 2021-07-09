@@ -84,9 +84,6 @@ void Protocolo::send_config(socket_t *skt) {
 }
 
 void Protocolo::recv_config(socket_t *skt) {
-    // descomentar esto (lo comento para evitar error de compilacion por
-    // variables no usadas)
-
     // uint16_t stencil_angle = this->receive_two_bytes(skt);
     // uint16_t stencil_radius = this->receive_two_bytes(skt);
     uint16_t cell_count = this->receive_two_bytes(skt);

@@ -126,8 +126,9 @@ void Player::takeDamage(float damage) {
 
 void Player::reset() {
     this->has_bomb = false;
-    if (this->isDestroyed())
-        this->initializeBody();
+    this->destroy();
+    this->initializeBody();
+    this->health = this->game.getConfig().getPlayerHealth();
 }
 
 void Player::setRole(Role role) {

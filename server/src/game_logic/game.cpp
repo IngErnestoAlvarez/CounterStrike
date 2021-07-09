@@ -68,7 +68,7 @@ void Game::initializeTeams() {
 }
 
 bool Game::canPlayerExecuteCommands(int player_id) {
-    return this->players[player_id]->isAlive();
+    return !this->players[player_id]->isDestroyed() && this->players[player_id]->isAlive();
 } 
 
 void Game::executeCommand(Command &command) {
@@ -214,14 +214,19 @@ bool Game::hasBombExploded() {
 }
 
 void Game::checkBombState() {
+    using namespace CPlusPlusLogging;
+    Logger *log = Logger::getInstance();
+
     TeamID counter_terrorists = this->team_a.getRole() == COUNTER_TERRORIST
         ? TEAM_A
         : TEAM_B;
     TeamID terrorists = counter_terrorists == TEAM_A ? TEAM_B : TEAM_A;
 
     if (this->hasBombBeenDeactivated()) {
+        log->debug("La bomba fue desactivada");
         this->winner_team = counter_terrorists;
     } else if (this->hasBombExploded()) {
+        log->debug("La bomba exploto");
         this->winner_team = terrorists;
     }
 }
@@ -245,10 +250,12 @@ void Game::goToNextRound() {
 
     for (auto& player : this->players)
         player.second->reset();
+
+    this->initializeTeams();
 }
 
 void Game::step() {
-    if (this->has_finished)
+    if (!this->isRunning())
         return;
 
     if (this->winner_team != NONE) {

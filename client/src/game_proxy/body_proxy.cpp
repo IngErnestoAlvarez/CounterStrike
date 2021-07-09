@@ -41,7 +41,7 @@ void BodyProxy::setWithBiggerData(char *data, size_t n) {
         bodies[i].tipo = BodyType(uint8_t(data[pos]));
         bodies[i].posx = ::ntohs(*(uint16_t *)&data[pos + 1]);
         bodies[i].posy = ::ntohs(*(uint16_t *)&data[pos + 3]);
-        bodies[i].angle = float(::ntohl(*(uint32_t *)&data[pos + 5]));
+        bodies[i].angle = float(::ntohl(*(uint32_t *)&data[pos + 5])) * 180 / 3.141592 + 90;
     }
 
     for (size_t i = bodies.size(); i < n; i++) {
@@ -50,7 +50,7 @@ void BodyProxy::setWithBiggerData(char *data, size_t n) {
         aux.tipo = BodyType(uint8_t(data[pos]));
         aux.posx = ::ntohs(*(uint16_t *)&data[pos + 1]);
         aux.posy = ::ntohs(*(uint16_t *)&data[pos + 3]);
-        aux.angle = float(::ntohl(*(uint32_t *)&data[pos + 5]));
+        aux.angle = float(::ntohl(*(uint32_t *)&data[pos + 5])) * 180 / 3.141592 + 90;
         bodies.push_back(aux);
     }
 }
@@ -61,7 +61,7 @@ void BodyProxy::setWithSmallerData(char *data, size_t n) {
         bodies[i].tipo = BodyType(uint8_t(data[pos]));
         bodies[i].posx = ::ntohs(*(uint16_t *)&data[pos + 1]);
         bodies[i].posy = ::ntohs(*(uint16_t *)&data[pos + 3]);
-        bodies[i].angle = float(::ntohl(*(uint32_t *)&data[pos + 5]));
+        bodies[i].angle = float(::ntohl(*(uint32_t *)&data[pos + 5])) * 180 / 3.141592 + 90;
     }
 
     for (size_t i = 0; i < (bodies.size() - n); i++) {

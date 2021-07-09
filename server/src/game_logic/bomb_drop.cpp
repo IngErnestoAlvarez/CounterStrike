@@ -2,7 +2,7 @@
 #include "game_logic/game.h"
 
 BombDrop::BombDrop(Game& game, float x, float y)
-	: Body(game.getWorld(), AK47_D_TYPE, x, y, 0, 0) {}
+	: Body(game.getWorld(), BOMB_D_TYPE, x, y, 0, 0) {}
 
 void BombDrop::update() {}
 
