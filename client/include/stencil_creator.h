@@ -3,7 +3,7 @@
 
 #include <CImg.h>
 
-#define cimg_display 0
+// #define cimg_display 0
 
 class StencilCreator {
    private:
