@@ -16,6 +16,7 @@ Sample &Sample::operator=(Sample &&other) {
     this->empty();
     this->chunk = other.chunk;
     other.chunk = nullptr;
+    return *this;
 }
 
 Sample::Sample(const std::string &filepath, int volume) : Sample(filepath) {
