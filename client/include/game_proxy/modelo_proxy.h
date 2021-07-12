@@ -39,9 +39,13 @@ class ModeloProxy {
 
     bodyVector::iterator getBodyIterator();
     bodyVector::iterator getBodyEnd();
+    void lockBodies();
+    void unlockBodies();
 
     bodyVector::iterator getStaticIterator();
     bodyVector::iterator getStaticEnd();
+    void lockStatics();
+    void unlockStatics();
 
     int getPlayerX();
     int getPlayerY();

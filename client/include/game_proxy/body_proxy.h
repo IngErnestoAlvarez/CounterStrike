@@ -1,6 +1,7 @@
 #ifndef __BODY_PROXY_H__
 #define __BODY_PROXY_H__
 
+#include <mutex>
 #include <string>
 #include <vector>
 
@@ -11,6 +12,7 @@ typedef std::vector<BodyContainer> bodyVector;
 class BodyProxy {
    private:
     std::vector<BodyContainer> bodies;
+    std::mutex mutex;
 
    public:
     BodyProxy();
@@ -20,6 +22,10 @@ class BodyProxy {
     bodyVector::iterator getIterator();
 
     bodyVector::iterator getEnd();
+
+    void lock();
+
+    void unlock();
 
     void setBodies(char *data, size_t n);
 

@@ -154,10 +154,14 @@ void ModeloIO::render() {
     log->debug("Comienza el render del floor");
 
     this->renderizables.modifyTextures(modelo.getRoundState());
+    modelo.lockStatics();
     this->renderizables.renderFloor(modelo.getStaticIterator(),
                                     modelo.getStaticEnd());
+    modelo.unlockStatics();
+    modelo.lockBodies();
     this->renderizables.renderObjects(modelo.getBodyIterator(),
                                       modelo.getBodyEnd());
+    modelo.unlockBodies();
     if (modelo.getRoundState() == 0) {
         log->debug("Entra a renderizar el player");
         this->renderizables.renderPlayer();

@@ -68,6 +68,10 @@ bodyVector::iterator ModeloProxy::getBodyIterator() {
 
 bodyVector::iterator ModeloProxy::getBodyEnd() { return bodyProxy.getEnd(); }
 
+void ModeloProxy::lockBodies() { bodyProxy.lock(); }
+
+void ModeloProxy::unlockBodies() { bodyProxy.unlock(); }
+
 bodyVector::iterator ModeloProxy::getStaticIterator() {
     return staticsProxy.getIterator();
 }
@@ -75,6 +79,10 @@ bodyVector::iterator ModeloProxy::getStaticIterator() {
 bodyVector::iterator ModeloProxy::getStaticEnd() {
     return staticsProxy.getEnd();
 }
+
+void ModeloProxy::lockStatics() { staticsProxy.lock(); }
+
+void ModeloProxy::unlockStatics() { staticsProxy.unlock(); }
 
 void ModeloProxy::chargeBodies() {
     char *result;

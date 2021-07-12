@@ -104,7 +104,6 @@ void Protocolo::send_mouse(int x, int y, socket_t *skt) {
     using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();
     log->debug("Se enviara lo siguiente a traves del send mouse: ");
-    char message[4];
     assert(x < 65536);
     assert(y < 65536);
     uint16_t xaux = x;
@@ -114,8 +113,6 @@ void Protocolo::send_mouse(int x, int y, socket_t *skt) {
     this->send_comando(AIM, skt);
     send_two_bytes(skt, &xaux);
     send_two_bytes(skt, &yaux);
-
-    log->debug(message);
 }
 
 void Protocolo::recv_player(char **result, size_t *size, socket_t *skt) {
