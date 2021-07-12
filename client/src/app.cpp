@@ -14,17 +14,21 @@
 
 App::App(std::string const &host, std::string const &service,
          const char *teamID)
-    : proxy(host, service, teamID), view(proxy) {}
+    : playing(true),
+      proxy(host, service, teamID),
+      view(proxy),
+      proxyUpdater(&proxy, &playing) {}
 
-App::~App() {}
+App::~App() { proxyUpdater.join(); }
 
 void App::load_media() { proxy.initialize(); }
 
 void App::main_loop() {
-    bool playing = true;
+    playing = true;
     this->next_time = SDL_GetTicks() + DELAY;
+    // proxy.update();
+    proxyUpdater.start();
     while (playing) {
-        proxy.update();
         playing = view.update();
 
         Uint32 time_left = this->time_left();
