@@ -1,6 +1,7 @@
 #ifndef __PLAYER_PROXY_H__
 #define __PLAYER_PROXY_H__
 
+#include <mutex>
 #include <string>
 
 #include "weapon_proxy.h"
@@ -16,6 +17,7 @@ class PlayerProxy {
     float angle;
     int time;
     bool gotBomb;
+    std::mutex mutex;
 
    public:
     PlayerProxy(BodyType type);
