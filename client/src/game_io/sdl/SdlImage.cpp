@@ -12,6 +12,7 @@
 
 const SDL_Color WHITE = {0xFF, 0xFF, 0xFF};
 const SDL_Color BLACK = {0x00, 0x00, 0x00};
+const SDL_Color PINK = {0xff, 0x00, 0xff};
 
 SdlImage::SdlImage(SdlWindow &window) : SdlTexture(window) {}
 
@@ -56,9 +57,9 @@ void SdlImage::load_from_file(std::string const &path, SDL_Color color) {
     if (loadedSurface == NULL) {
         throw std::runtime_error("Unable to load image ! SDL_image Error:");
     } else {
-        SDL_SetColorKey(
-            loadedSurface, SDL_TRUE,
-            SDL_MapRGB(loadedSurface->format, color.r, color.b, color.g));
+        Uint32 map =
+            SDL_MapRGB(loadedSurface->format, color.r, color.g, color.b);
+        SDL_SetColorKey(loadedSurface, SDL_TRUE, map);
 
         newTexture = SDL_CreateTextureFromSurface(this->window->getRendered(),
                                                   loadedSurface);
@@ -113,6 +114,9 @@ std::string SdlImage::getBodyPath(BodyType type) {
         case TT1_TYPE:
             return std::string("assets/sprites/t1.png");
             break;
+        case AK47_M_TYPE:
+            return std::string("assets/sprites/ak47_m.png");
+            break;
     }
     throw std::logic_error("BodyType erroneo");
     return std::string("");
@@ -153,6 +157,9 @@ SDL_Color SdlImage::getBodyBG(BodyType type) {
             break;
         case TT1_TYPE:
             return BLACK;
+            break;
+        case AK47_M_TYPE:
+            return PINK;
             break;
     }
     return WHITE;

@@ -54,6 +54,10 @@ void SdlObject::render(int posx, int posy, float angle) {
     this->image.render(posx, posy, angle, center, sprite_clips);
 }
 
+void SdlObject::renderAbsolute(int posx, int posy, float angle) {
+    this->image.renderAbsolute(posx, posy, angle, center, sprite_clips);
+}
+
 void SdlObject::setColorMod(Uint8 r, Uint8 g, Uint8 b) {
     this->image.setColorMod(r, g, b);
 }

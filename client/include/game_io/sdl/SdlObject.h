@@ -33,6 +33,8 @@ class SdlObject {
 
     virtual void render(int posx, int posy, float angle);
 
+    virtual void renderAbsolute(int posx, int posy, float angle);
+
     void setColorMod(Uint8 r, Uint8 g, Uint8 b);
 };
 

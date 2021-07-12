@@ -101,6 +101,28 @@ void SdlTexture::render(SDL_Point &pos) {
     }
 }
 
+void SdlTexture::renderAbsolute(int x, int y, float angle, SDL_Point &center,
+                                SDL_Rect *clip, SDL_Rect *renderQuad) {
+    SDL_Rect rectaux;
+    if (this->texture == nullptr) throw std::logic_error("No hay textura");
+    if (renderQuad == nullptr) {
+        renderQuad = &rectaux;
+        if (clip != nullptr) {
+            renderQuad->w = clip->w;
+            renderQuad->h = clip->h;
+        }
+    }
+
+    renderQuad->x = x;
+    renderQuad->y = y;
+    SDL_RendererFlip flip = SDL_FLIP_NONE;
+
+    if (SDL_RenderCopyEx(window->getRendered(), this->texture, clip, renderQuad,
+                         angle, &center, flip)) {
+        throw std::runtime_error("Error RenderCopyEx");
+    }
+}
+
 void SdlTexture::set_blendMode(SDL_BlendMode mode) {
     SDL_SetTextureBlendMode(this->texture, mode);
 }
