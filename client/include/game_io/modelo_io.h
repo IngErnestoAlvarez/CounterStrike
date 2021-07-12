@@ -43,8 +43,9 @@ class ModeloIO {
 
     SdlWindow &getWindow();
 
-   private:
     void check_actions();
+
+   private:
     void check_events();
     void check_keyboard();
     void check_mouse();

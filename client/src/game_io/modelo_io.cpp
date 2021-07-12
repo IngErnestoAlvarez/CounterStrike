@@ -32,7 +32,7 @@ ModeloIO::~ModeloIO() {}
 
 bool ModeloIO::update() {
     this->window.clear_renderer();
-    this->check_actions();
+    // this->check_actions();
     this->window.fill();
     this->render();
     return this->active;

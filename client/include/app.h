@@ -6,6 +6,7 @@
 
 #include "game_io/modelo_io.h"
 #include "game_proxy/modelo_proxy.h"
+#include "proxy_sender.h"
 #include "proxy_updater.h"
 
 class App {
@@ -15,6 +16,7 @@ class App {
     ModeloProxy proxy;
     ModeloIO view;
     ProxyUpdater proxyUpdater;
+    ProxySender proxySender;
 
    public:
     App(std::string const &host, std::string const &service,
