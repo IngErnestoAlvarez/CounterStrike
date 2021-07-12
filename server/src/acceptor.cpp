@@ -113,7 +113,7 @@ void Acceptor::gameStep() {
 }
 
 void Acceptor::executePeerCommands() {
-	for (int i = 0; i < 10; i++) {
+	while (!this->cmd_queue.isEmpty()) {
 		Command command = this->cmd_queue.pop();
 		if (command.getCode() == NO_COMMAND)
 			break;

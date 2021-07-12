@@ -3,19 +3,21 @@
 
 #include <mutex>
 #include <queue>
+
 #include "command.h"
 
 class CommandQueue {
-private:
-	std::mutex mutex;
-	std::queue<Command> queue;
+   private:
+    std::mutex mutex;
+    std::queue<Command> queue;
 
-public:
-	CommandQueue();
-	~CommandQueue();
+   public:
+    CommandQueue();
+    ~CommandQueue();
 
-	void push(Command command);
-	Command pop();
+    void push(Command command);
+    Command pop();
+    bool isEmpty();
 };
 
 #endif
