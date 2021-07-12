@@ -1,6 +1,7 @@
 #ifndef __MODELO_PROXY_H__
 #define __MODELO_PROXY_H__
 
+#include <mutex>
 #include <string>
 #include <vector>
 
@@ -18,6 +19,7 @@ class ModeloProxy {
     PlayerProxy player;
     TeamID roundResult;
     socket_t skt;
+    std::mutex mutex;
 
    public:
     ModeloProxy(std::string const &host, std::string const &service,
@@ -28,7 +30,6 @@ class ModeloProxy {
     void movePlayerDown();
     void movePlayerLeft();
     void movePlayerRight();
-    void setPlayerAim(int x, int y);
     void setPlayerAngle(float angle);
     void stopPlayer();
     void usePlayerWeapon();

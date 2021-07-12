@@ -10,6 +10,8 @@ static BodyType teamIDtoBodyType(const char *teamID);
 static BodyType teamIDtoBodyType(TeamID id);
 static TeamID strToTeamID(const char *teamId);
 
+typedef std::lock_guard<std::mutex> guard;
+
 ModeloProxy::ModeloProxy(std::string const &host, std::string const &service,
                          const char *teamID)
     : myTeam(strToTeamID(teamID)),
@@ -39,12 +41,6 @@ void ModeloProxy::movePlayerDown() { protocolo.send_comando(DOWN, &skt); }
 void ModeloProxy::movePlayerLeft() { protocolo.send_comando(LEFT, &skt); }
 
 void ModeloProxy::movePlayerRight() { protocolo.send_comando(RIGHT, &skt); }
-
-void ModeloProxy::setPlayerAim(int x, int y) {
-    std::cout << "x: " << x << std::endl;
-    std::cout << "y: " << y << std::endl;
-    protocolo.send_mouse(x, y, &skt);
-}
 
 void ModeloProxy::setPlayerAngle(float angle) {
     protocolo.send_angle(angle, &skt);
@@ -94,7 +90,10 @@ void ModeloProxy::chargeBodies() {
     if (roundWinner != 0 && roundWinner != 1 && roundWinner != 2) {
         throw std::runtime_error("Error con el TeamID recibido del servidor");
     }
-    roundResult = (TeamID)roundWinner;
+    {
+        guard guard(mutex);
+        roundResult = (TeamID)roundWinner;
+    }
 
     bodyProxy.setBodies(result, size);
     delete (result);
@@ -150,7 +149,10 @@ int ModeloProxy::getWidth() { return 26; }
 
 int ModeloProxy::getHeight() { return 26; }
 
-TeamID ModeloProxy::getRoundState() { return roundResult; }
+TeamID ModeloProxy::getRoundState() {
+    guard guard(mutex);
+    return roundResult;
+}
 
 TeamID ModeloProxy::getMyTeam() { return myTeam; }
 
