@@ -1,6 +1,7 @@
 #ifndef __WEAPON_PROXY_H__
 #define __WEAPON_PROXY_H__
 
+#include <mutex>
 #include <string>
 
 #include "types.h"
@@ -10,6 +11,7 @@ class WeaponProxy {
     BodyType weapon;
     int ammo;
     int maxammo;
+    std::mutex mutex;
 
    public:
     WeaponProxy();
