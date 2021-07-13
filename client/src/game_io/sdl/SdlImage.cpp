@@ -117,6 +117,18 @@ std::string SdlImage::getBodyPath(BodyType type) {
         case AK47_M_TYPE:
             return std::string("assets/sprites/ak47_m.png");
             break;
+        case AWP_TYPE:
+            return std::string("assets/sprites/awp.png");
+            break;
+        case AWP_M_TYPE:
+            return std::string("assets/sprites/awp_m.png");
+            break;
+        case M3_TYPE:
+            return std::string("assets/sprites/m3.png");
+            break;
+        case M3_M_TYPE:
+            return std::string("assets/sprites/m3_m.png");
+            break;
     }
     throw std::logic_error("BodyType erroneo");
     return std::string("");
@@ -159,6 +171,18 @@ SDL_Color SdlImage::getBodyBG(BodyType type) {
             return BLACK;
             break;
         case AK47_M_TYPE:
+            return PINK;
+            break;
+        case AWP_TYPE:
+            return BLACK;
+            break;
+        case AWP_M_TYPE:
+            return PINK;
+            break;
+        case M3_TYPE:
+            return BLACK;
+            break;
+        case M3_M_TYPE:
             return PINK;
             break;
     }
