@@ -6,6 +6,7 @@
 
 #include "command.h"
 #include "command_queue.h"
+#include "configuration.h"
 #include "my_thread.h"
 #include "game_logic/game.h"
 #include "protocolo.h"
@@ -16,6 +17,7 @@ class Peer;
 class Acceptor : public Thread {
 private:
 	bool is_running;
+	Configuration config;
 	Game game;
 	socket_t socket;
 	Protocolo protocol;

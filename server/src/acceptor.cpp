@@ -25,9 +25,10 @@ inline int timeLeft(int next_time) {
 
 Acceptor::Acceptor(const std::string& config_filepath)
 	: is_running(true),
-	  game(config_filepath, "assets/maps/map.yaml"),
+	  config(config_filepath),
+	  game(config, "assets/maps/map.yaml"),
 	  protocol(&game) {
-	this->socket.bind_and_listen(nullptr, "8000", 20);
+	this->socket.bind_and_listen(nullptr, config.getPort().c_str(), 20);
 }
 
 Acceptor::~Acceptor() {

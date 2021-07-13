@@ -15,8 +15,9 @@
 #include "game_logic/player.h"
 #include "game_logic/weapon_drop.h"
 
-Game::Game(const std::string &config_filepath, const std::string &map_filepath)
-    : config(config_filepath),
+Game::Game(Configuration& config,
+           const std::string &map_filepath)
+    : config(config),
       world(*this),
       map(*this, map_filepath),
       round(0),

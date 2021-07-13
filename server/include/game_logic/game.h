@@ -21,7 +21,7 @@ class Command;
 
 class Game {
    private:
-    Configuration config;
+    Configuration& config;
     World world;
     Map map;
 
@@ -58,7 +58,7 @@ class Game {
     void goToNextRound();
 
    public:
-    Game(const std::string &config_filepath,
+    Game(Configuration& config,
          const std::string &map_filepath);
     ~Game();
 
