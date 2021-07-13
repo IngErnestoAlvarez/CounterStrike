@@ -28,6 +28,7 @@ public:
 	void run() override;
 	void sendState();
 	void stop();
+	bool isRunning();
 };
 
 #endif

@@ -97,8 +97,10 @@ void Acceptor::acceptPeers() {
 }
 
 void Acceptor::sendStateToPeers() {
-	for (Peer* peer : this->peers)
-		peer->sendState();
+	for (Peer* peer : this->peers) {
+		if (peer->isRunning())
+			peer->sendState();
+	}
 }
 
 void Acceptor::gameStart() {
@@ -113,7 +115,7 @@ void Acceptor::gameStep() {
 }
 
 void Acceptor::executePeerCommands() {
-	while (!this->cmd_queue.isEmpty()) {
+	while (true) {
 		Command command = this->cmd_queue.pop();
 		if (command.getCode() == NO_COMMAND)
 			break;

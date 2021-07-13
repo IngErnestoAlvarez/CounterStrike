@@ -26,7 +26,7 @@ int Peer::getPeerID() const { return this->id; }
 
 void Peer::run() {
     try {
-        while (this->is_running) {
+        while (true) {
             Comando code = this->protocol.recv_comando(&this->socket);
             Command command(code, this->id);
             if (code == AIM) {
@@ -41,6 +41,8 @@ void Peer::run() {
     } catch (...) {
         std::cerr << UNEXPECTED_ERROR_PEER;
     }
+
+    this->stop();
 }
 
 void Peer::sendState() {
@@ -54,6 +56,10 @@ void Peer::stop() {
     this->is_running = false;
     this->socket.shutdown();
     this->socket.close();
+}
+
+bool Peer::isRunning() {
+    return this->is_running;
 }
 
 Peer::~Peer() {

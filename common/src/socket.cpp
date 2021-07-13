@@ -108,8 +108,7 @@ int socket_t::send(char const *buffer, size_t n) {
         int estado = ::send(this->fd, &(buffer[bytes_enviados]),
                             n - bytes_enviados, MSG_NOSIGNAL);
         if (estado == -1) {
-            fprintf(stderr, "Error con el skt: %s\n", strerror(errno));
-            return 1;
+            throw SocketClosed("Error con el skt: " + std::string(strerror(errno)));
         } else {
             bytes_enviados += estado;
         }
