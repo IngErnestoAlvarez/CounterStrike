@@ -107,7 +107,7 @@ void Player::receiveBomb() {
 
 void Player::activateBomb() {
     if (this->has_bomb)
-        this->game.createBomb(this->getX(), this->getY());
+        this->game.createBomb(this->getX() + 20, this->getY() + 20);
 }
 
 void Player::registerTeam(Team* team) {
@@ -165,14 +165,14 @@ void Player::handleCollision(WeaponDrop* weapon_drop) {
 }
 
 void Player::handleCollision(BombDrop* bomb_drop) {
-    if (this->team->getRole() == 1) {
+    if (this->team->getRole() == TERRORIST) {
         this->receiveBomb();
         bomb_drop->setToBeDestroyed();
     }
 }
 
 void Player::handleCollision(Bomb* bomb) {
-    if (this->team->getRole() == 2) {
-        bomb->setToBeDestroyed();
+    if (this->team->getRole() == COUNTER_TERRORIST) {
+        bomb->deactivate();
     }
 }

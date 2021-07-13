@@ -86,10 +86,13 @@ class Protocolo {
     void recv_config(socket_t *skt);
 
     // SERVIDOR
+    // 1 byte con fase (types.h)
     // 1byte con equipo ganador
     // 0 = la partida sigue
     // 1 = gana equipo 1
     // 2 = gana equipo 2
+    // 1byte con rondas ganadas equipo a
+    // 1byte con rondas ganadas equipo b
     // 2bytes con cant de bodies (1 tipo, 2 posx, 2 posy, 4 angle)
     void send_state(socket_t *skt, int peer_id);
 
