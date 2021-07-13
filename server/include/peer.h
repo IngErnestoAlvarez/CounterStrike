@@ -1,10 +1,9 @@
 #ifndef PEER_H
 #define PEER_H
 
+#include "command.h"
 #include "my_thread.h"
 #include "socket.h"
-#include "command.h"
-#include "queue_monitor.h"
 
 class Protocolo;
 class CommandQueue;
@@ -12,17 +11,16 @@ class CommandQueue;
 class Peer : public Thread {
 private:
 	int id;
+	bool is_running;
 	socket_t socket;
 	Protocolo& protocol;
-	QueueMonitor<Command>& command_queue;
-	CommandQueue& cmd_queue;
-	bool is_running;
+	CommandQueue& command_queue;
 
 public:
 	Peer(int id,
 		 socket_t& socket,
 		 Protocolo& protocol,
-		 QueueMonitor<Command>& command_queue, CommandQueue& cmd_queue);
+		 CommandQueue& command_queue);
 	~Peer();
 	int getPeerID() const;
 	void run() override;

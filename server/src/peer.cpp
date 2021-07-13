@@ -1,21 +1,20 @@
-#include "peer.h"
 #include <arpa/inet.h>
 #include <iostream>
 
-#include "Logger.h"
-#include "protocolo.h"
 #include "command_queue.h"
+#include "Logger.h"
+#include "peer.h"
+#include "protocolo.h"
 
 #define UNEXPECTED_ERROR_PEER "Se ha producido un error inesperado en peer"
 
 Peer::Peer(int id, socket_t &socket, Protocolo &protocol,
-           QueueMonitor<Command> &command_queue, CommandQueue& cmd_queue)
+           CommandQueue& command_queue)
     : id(id),
+      is_running(true),
       socket(std::move(socket)),
       protocol(protocol),
-      command_queue(command_queue),
-      cmd_queue(cmd_queue),
-      is_running(true) {
+      command_queue(command_queue) {
     using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();
     log->debug("Se envia config");
@@ -34,7 +33,7 @@ void Peer::run() {
                 angle = ::ntohs(angle);
                 command.setArg("angle", angle);
             }
-            this->cmd_queue.push(command);
+            this->command_queue.push(command);
         }
     } catch (const std::exception &e) {
         std::cerr << e.what();

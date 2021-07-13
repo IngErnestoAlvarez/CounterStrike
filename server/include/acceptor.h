@@ -3,28 +3,24 @@
 
 #include <string>
 #include <vector>
-#include <queue>
 
 #include "command.h"
-#include "my_thread.h"
-#include "queue_monitor.h"
-#include "socket.h"
-#include "protocolo.h"
-#include "game_logic/game.h"
 #include "command_queue.h"
+#include "my_thread.h"
+#include "game_logic/game.h"
+#include "protocolo.h"
+#include "socket.h"
 
 class Peer;
 
 class Acceptor : public Thread {
 private:
-	socket_t socket;
+	bool is_running;
 	Game game;
+	socket_t socket;
 	Protocolo protocol;
 	std::vector<Peer*> peers;
-	std::queue<Command> command_queue;
-	QueueMonitor<Command> command_queue_monitor;
-	CommandQueue cmd_queue;
-	bool is_running;
+	CommandQueue command_queue;
 	void acceptPeers();
 	void sendStateToPeers();
 	void gameStart();

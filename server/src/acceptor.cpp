@@ -23,14 +23,10 @@ inline int timeLeft(int next_time) {
 	return next_time - time;
 }
 
-
 Acceptor::Acceptor(const std::string& config_filepath)
-	: game(config_filepath, "assets/maps/map.yaml"),
-	  protocol(&game),
-	  command_queue(),
-	  command_queue_monitor(&command_queue),
-	  cmd_queue(),
-	  is_running(true) {
+	: is_running(true),
+	  game(config_filepath, "assets/maps/map.yaml"),
+	  protocol(&game) {
 	this->socket.bind_and_listen(nullptr, "8000", 20);
 }
 
@@ -89,8 +85,7 @@ void Acceptor::acceptPeers() {
 		Peer* peer = new Peer(this->peers.size(),
 						peer_socket,
 						this->protocol,
-						this->command_queue_monitor,
-						this->cmd_queue);
+						this->command_queue);
 		log->debug("Se crea peer");
 		this->peers.push_back(peer);
 	}
@@ -116,7 +111,7 @@ void Acceptor::gameStep() {
 
 void Acceptor::executePeerCommands() {
 	while (true) {
-		Command command = this->cmd_queue.pop();
+		Command command = this->command_queue.pop();
 		if (command.getCode() == NO_COMMAND)
 			break;
 		this->game.executeCommand(command);
