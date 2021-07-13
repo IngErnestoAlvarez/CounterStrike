@@ -23,7 +23,8 @@ ModeloIO::ModeloIO(ModeloProxy &modelo)
       modelo(modelo),
       active(true),
       renderizables(window, modelo.getPlayer()),
-      music("assets/music/menu.wav", 50) {
+      music("assets/music/menu.wav", 50),
+      shop(window) {
     SDL_SetRenderDrawColor(window.getRendered(), 0xFF, 0xFF, 0xFF, 0xFF);
     music.play();
 }

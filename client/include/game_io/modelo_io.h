@@ -8,6 +8,7 @@
 #include "game_io/sdl/SdlWindow.h"
 #include "game_io/sdl/initializer.h"
 #include "game_io/sdl/text/SdlText.h"
+#include "game_io/shopping.h"
 #include "game_io/sound/music.h"
 #include "game_proxy/body_proxy.h"
 #include "game_proxy/modelo_proxy.h"
@@ -20,6 +21,7 @@ class ModeloIO {
     bool active;
     Renderizables renderizables;
     Music music;
+    Shopping shop;
 
    public:
     /**
