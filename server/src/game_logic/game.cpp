@@ -166,7 +166,7 @@ void Game::activateBomb(int player_id) {
 void Game::createBomb(float x, float y) {
     Bomb *bomb = new Bomb(*this, x, y);
     this->bomb = bomb;
-    this->bodies.push_back(bomb);
+    // this->bodies.push_back(bomb);
 }
 
 void Game::createWeaponDrop(float x, float y, Weapon *weapon) {
@@ -190,6 +190,10 @@ std::vector<Body *> Game::getBodies(int peer_id) {
     for (Body* body : this->bodies)
         if (!body->isDestroyed() && body->getID() != player->getID())
             bodies.push_back(body);
+
+
+    if (this->bomb != nullptr)
+        bodies.push_back(this->bomb);
 
     return bodies;
 }
@@ -253,6 +257,12 @@ void Game::goToNextRound() {
         player.second->reset();
 
     this->initializeTeams();
+
+    if (this->bomb != nullptr) {
+        // delete this->bomb;
+    }
+
+    this->bomb = nullptr;
 }
 
 void Game::step() {
@@ -277,6 +287,9 @@ TeamID Game::getWinnerTeam() { return this->winner_team; }
 Game::~Game() {
     for (Body *body : this->bodies)
         delete body;
+
+    if (this->bomb != nullptr)
+        delete this->bomb;
 }
 
 Player *Game::getPlayer(int player_id) { return this->players[player_id]; }

@@ -32,11 +32,11 @@ enum Comando : unsigned char {
     LEFT = 0x6C,
     RIGHT = 0x72,
     SHOOT = 0x73,
-    CW1 = 0x63,
-    CW2 = 0x65,
-    CW3 = 0x66,
+    CW1 = 0x63, // AK47
+    CW2 = 0x65, // AWP
+    CW3 = 0x66, // M3
     // Change to bomb
-    CB = 0x67,
+    CB = 0x67, // Balas
     BW = 0x62,
     USE = 0x79,  // desactivar bomba
     STOP = 0x7A,
