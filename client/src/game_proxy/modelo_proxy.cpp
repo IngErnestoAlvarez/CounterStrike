@@ -86,11 +86,11 @@ void ModeloProxy::chargeBodies() {
     char *result;
     size_t size;
     uint8_t roundWinner;
-    uint8_t AMoney;
-    uint8_t BMoney;
+    uint8_t AWins;
+    uint8_t BWins;
 
-    protocolo.recv_state(&result, &size, &roundWinner, &this->phase, &AMoney,
-                         &BMoney, &skt);
+    protocolo.recv_state(&result, &size, &roundWinner, &this->phase, &AWins,
+                         &BWins, &skt);
 
     if (roundWinner != 0 && roundWinner != 1 && roundWinner != 2) {
         throw std::runtime_error("Error con el TeamID recibido del servidor");
@@ -98,8 +98,8 @@ void ModeloProxy::chargeBodies() {
     {
         guard guard(mutex);
         roundResult = (TeamID)roundWinner;
-        this->teamAMoney = AMoney;
-        this->teamBMoney = BMoney;
+        this->teamAWins = AWins;
+        this->teamBWins = BWins;
     }
 
     bodyProxy.setBodies(result, size);

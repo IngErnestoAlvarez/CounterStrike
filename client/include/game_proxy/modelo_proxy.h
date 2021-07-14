@@ -19,8 +19,8 @@ class ModeloProxy {
     PlayerProxy player;
     TeamID roundResult;
     Phase phase;
-    uint8_t teamAMoney;
-    uint8_t teamBMoney;
+    uint8_t teamAWins;
+    uint8_t teamBWins;
     socket_t skt;
     std::mutex mutex;
 
