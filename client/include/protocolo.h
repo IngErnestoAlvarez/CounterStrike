@@ -32,11 +32,11 @@ enum Comando : unsigned char {
     LEFT = 0x6C,
     RIGHT = 0x72,
     SHOOT = 0x73,
-    CW1 = 0x63, // AK47
-    CW2 = 0x65, // AWP
-    CW3 = 0x66, // M3
+    CW1 = 0x63,  // AK47
+    CW2 = 0x65,  // AWP
+    CW3 = 0x66,  // M3
     // Change to bomb
-    CB = 0x67, // Balas
+    CB = 0x67,  // Balas
     BW = 0x62,
     USE = 0x79,  // desactivar bomba
     STOP = 0x7A,
@@ -83,6 +83,7 @@ class Protocolo {
 
     // CLIENTE
     void recv_state(char **result, size_t *size, uint8_t *roundResult,
+                    Phase *gamePhase, uint8_t *teamAMoney, uint8_t *teamBMoney,
                     socket_t *skt);
 
     // CLIENTE

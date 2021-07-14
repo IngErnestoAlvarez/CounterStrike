@@ -10,6 +10,9 @@
 
 #include "Logger.h"
 
+#define BodyWithNOAngleSize 5
+#define BodyWithAngleSize 9
+
 Protocolo::Protocolo() {}
 
 Protocolo::~Protocolo() {}
@@ -59,9 +62,9 @@ void Protocolo::recv_config(char **result, size_t *size, socket_t *skt) {
     cell_count = ::ntohs(cell_count);
     *size = cell_count;
     log->debug(std::to_string(cell_count).c_str());
-    (*result) = new char[cell_count * 5];
+    (*result) = new char[cell_count * BodyWithNOAngleSize];
     for (uint16_t i = 0; i < cell_count; i++) {
-        int pos = i * 5;
+        int pos = i * BodyWithNOAngleSize;
         uint8_t type = this->receive_one_byte(skt);
         memcpy(&((*result)[pos]), &type, 1);
         uint16_t x = this->receive_two_bytes(skt);
@@ -73,24 +76,33 @@ void Protocolo::recv_config(char **result, size_t *size, socket_t *skt) {
 }
 
 void Protocolo::recv_state(char **result, size_t *size, uint8_t *roundResult,
-                           socket_t *skt) {
+                           Phase *gamePhase, uint8_t *teamAMoney,
+                           uint8_t *teamBMoney, socket_t *skt) {
     using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();
     size_t rllyReceived;
     uint16_t aux;
+    uint8_t phaseAux;
 
+    // 1 byte for game phase
+    phaseAux = receive_one_byte(skt);
+    *gamePhase = Phase(phaseAux);
+
+    // 1 byte for round state
     *roundResult = receive_one_byte(skt);
 
+    // 2 bytes for bodies.size()
     aux = receive_two_bytes(skt);
     aux = ::ntohs(aux);
+
     (*size) = aux;
-    (*result) = new char[(*size) * 9];
+    (*result) = new char[(*size) * BodyWithAngleSize];
     log->debug("Se recibio como size en el recv_state: ");
     log->debug(std::to_string(*size).c_str());
 
-    skt->receive(*result, (*size) * 9, rllyReceived);
+    skt->receive(*result, (*size) * BodyWithAngleSize, rllyReceived);
 
-    if (rllyReceived != ((*size) * 9)) {
+    if (rllyReceived != ((*size) * BodyWithAngleSize)) {
         throw std::runtime_error(
             "Problemas al recibir el stream entero en recv_state");
     }

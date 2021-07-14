@@ -20,7 +20,9 @@ ModeloProxy::ModeloProxy(std::string const &host, std::string const &service,
       staticsProxy(),
       player(teamIDtoBodyType(teamID)),
       roundResult(),
-      skt() {
+      phase(TEAMS_FORMING_PHASE),
+      skt(),
+      mutex() {
     using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();
     log->info("Conectando con el servidor");
@@ -84,8 +86,11 @@ void ModeloProxy::chargeBodies() {
     char *result;
     size_t size;
     uint8_t roundWinner;
+    uint8_t AMoney;
+    uint8_t BMoney;
 
-    protocolo.recv_state(&result, &size, &roundWinner, &skt);
+    protocolo.recv_state(&result, &size, &roundWinner, &this->phase, &AMoney,
+                         &BMoney, &skt);
 
     if (roundWinner != 0 && roundWinner != 1 && roundWinner != 2) {
         throw std::runtime_error("Error con el TeamID recibido del servidor");
@@ -93,6 +98,8 @@ void ModeloProxy::chargeBodies() {
     {
         guard guard(mutex);
         roundResult = (TeamID)roundWinner;
+        this->teamAMoney = AMoney;
+        this->teamBMoney = BMoney;
     }
 
     bodyProxy.setBodies(result, size);
