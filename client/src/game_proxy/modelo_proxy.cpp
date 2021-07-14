@@ -163,6 +163,10 @@ TeamID ModeloProxy::getRoundState() {
 
 TeamID ModeloProxy::getMyTeam() { return myTeam; }
 
+Phase ModeloProxy::getPhase() const {
+    { return phase; }
+}
+
 inline BodyType teamIDtoBodyType(const char *teamID) {
     int idAux = strToTeamID(teamID);
     return teamIDtoBodyType((TeamID)idAux);

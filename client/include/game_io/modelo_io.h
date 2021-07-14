@@ -12,6 +12,7 @@
 #include "game_io/sound/music.h"
 #include "game_proxy/body_proxy.h"
 #include "game_proxy/modelo_proxy.h"
+#include "types.h"
 
 class ModeloIO {
    private:
@@ -54,7 +55,11 @@ class ModeloIO {
 
     void clearRenderer();
 
-    void render();
+    void renderPhase(Phase phase);
+
+    void renderWaiting();
+    void renderPreparing();
+    void renderPlaying();
 };
 
 #endif  // __MODELOIO_H__

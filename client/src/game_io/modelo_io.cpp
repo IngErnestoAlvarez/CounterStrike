@@ -35,7 +35,7 @@ bool ModeloIO::update() {
     this->window.clear_renderer();
     // this->check_actions();
     this->window.fill();
-    this->render();
+    this->renderPhase(modelo.getPhase());
     return this->active;
 }
 
@@ -142,7 +142,51 @@ SdlWindow &ModeloIO::getWindow() { return this->window; }
 
 void ModeloIO::clearRenderer() { this->window.clear_renderer(); }
 
-void ModeloIO::render() {
+void ModeloIO::renderPhase(Phase phase) {
+    switch (phase) {
+        case TEAMS_FORMING_PHASE:
+            renderWaiting();
+            break;
+
+        case PREPARATION_PHASE:
+            renderPreparing();
+            break;
+
+        case MAIN_PHASE:
+            renderPlaying();
+            break;
+
+        default:
+            throw std::logic_error(
+                "La Phase fue mal invocada en ModeloIO::renderPhase()");
+            break;
+    }
+}
+
+void ModeloIO::renderWaiting() {
+    SdlText informativeText(this->window, "ESPERANDO A LOS DEMAS JUGADORES",
+                            WHITE, 50);
+    informativeText.set_pos(50, 300);
+    informativeText.render();
+}
+
+void ModeloIO::renderPreparing() {
+    this->window.set_camera_pos(modelo.getPlayerX(), modelo.getPlayerY(),
+                                modelo.getWidth() * 32,
+                                modelo.getHeight() * 32);
+    modelo.lockStatics();
+    this->renderizables.renderFloor(modelo.getStaticIterator(),
+                                    modelo.getStaticEnd());
+    modelo.unlockStatics();
+    modelo.lockBodies();
+    this->renderizables.renderObjects(modelo.getBodyIterator(),
+                                      modelo.getBodyEnd());
+    modelo.unlockBodies();
+    this->renderizables.renderPlayer();
+    shop.render();
+}
+
+void ModeloIO::renderPlaying() {
     using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();
     log->debug("Comienza el seteo de la camara");
