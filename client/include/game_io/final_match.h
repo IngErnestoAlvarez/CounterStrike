@@ -1,12 +1,13 @@
 #ifndef __FINAL_MATCH_H__
 #define __FINAL_MATCH_H__
 
+#include "game_io/score.h"
 #include "game_io/sdl/SdlWindow.h"
 #include "game_io/sdl/text/SdlText.h"
 
 class FinalMatchScreen {
    private:
-    // Score
+    Score score;
     SdlText winner;
     SdlText looser;
 

@@ -15,4 +15,5 @@ void FinalMatchScreen::render(bool winner) {
     } else {
         this->looser.render();
     }
+    score.render();
 }
