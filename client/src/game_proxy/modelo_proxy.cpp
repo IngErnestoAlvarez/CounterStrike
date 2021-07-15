@@ -150,8 +150,8 @@ void ModeloProxy::initialize() {
 }
 
 void ModeloProxy::update() {
-    chargeBodies();
     chargePlayer();
+    chargeBodies();
 }
 
 int ModeloProxy::getWidth() { return 26; }

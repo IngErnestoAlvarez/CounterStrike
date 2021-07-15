@@ -15,6 +15,7 @@ struct BodyData {
 
 class GameState {
 public:
+	uint8_t phase;
 	uint8_t ammo;
 	uint8_t health;
 	uint16_t money;
@@ -24,8 +25,11 @@ public:
 	uint8_t weapon;
 	uint8_t time = 60;
 	uint8_t has_bomb;
+	uint8_t body_type;
 
 	uint8_t winner_team_id;
+	uint8_t team_a_wins = 0;
+	uint8_t team_b_wins = 0;
 	uint16_t body_count;
 	std::vector<struct BodyData> bodies;
 

@@ -106,8 +106,10 @@ void Player::receiveBomb() {
 }
 
 void Player::activateBomb() {
-    if (this->has_bomb)
+    if (this->has_bomb) {
         this->game.createBomb(this->getX() + 20, this->getY() + 20);
+        this->has_bomb = false;
+    }
 }
 
 void Player::registerTeam(Team* team) {

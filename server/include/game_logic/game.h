@@ -82,6 +82,7 @@ class Game {
     Map &getMap();
     const Configuration &getConfig();
     GameState getState(int player_id);
+    Phase getPhase();
 
     Player* getPlayer(int player_id);
 

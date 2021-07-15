@@ -19,6 +19,7 @@ enum Phase : char {
     TEAMS_FORMING_PHASE = 0,
     PREPARATION_PHASE = 1,
     MAIN_PHASE = 2,
+    FINAL_PHASE = 3
 };
 
 #define BodyTypeSize 17

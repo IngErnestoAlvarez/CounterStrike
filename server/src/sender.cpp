@@ -37,6 +37,7 @@ void Sender::run() {
             aux = "game_state.health = " + std::to_string(state.health);
             log->debug(aux);
 
+
             this->protocol.send_one_byte(&this->socket, &state.ammo);
             this->protocol.send_one_byte(&this->socket, &state.health);
             this->protocol.send_two_bytes(&this->socket, &state.money);
@@ -46,15 +47,18 @@ void Sender::run() {
             this->protocol.send_one_byte(&this->socket, &state.weapon);
             this->protocol.send_one_byte(&this->socket, &state.time);
             this->protocol.send_one_byte(&this->socket, &state.has_bomb);
+            // this->protocol.send_one_byte(&this->socket, &state.body_type);
 
+            this->protocol.send_one_byte(&this->socket, &state.phase);
             this->protocol.send_one_byte(&this->socket, &state.winner_team_id);
+            this->protocol.send_one_byte(&this->socket, &state.team_a_wins);
+            this->protocol.send_one_byte(&this->socket, &state.team_b_wins);
             this->protocol.send_two_bytes(&this->socket, &state.body_count);
 
             for (auto& body : state.bodies) {
                 this->protocol.send_one_byte(&this->socket, &body.type);
                 this->protocol.send_two_bytes(&this->socket, &body.x);
                 this->protocol.send_two_bytes(&this->socket, &body.y);
-                this->protocol.send_two_bytes(&this->socket, &body.x);
                 this->protocol.send_four_bytes(&this->socket, &body.angle);
             }
         }

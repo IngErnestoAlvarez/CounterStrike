@@ -2,20 +2,25 @@
 #include "game_state.h"
 #include "game_logic/game.h"
 #include "game_logic/player.h"
+#include "types.h"
 
 GameState::GameState() {}
 
 GameState::GameState(Game& game, int player_id) {
 	Player* player = game.getPlayer(player_id);
 
+	this->phase = uint8_t(MAIN_PHASE);
 	this->ammo = uint8_t(player->getAmmo());
 	this->health = uint8_t(player->getHealth());
 	this->money = ::htons(1000);
 	this->x = ::htons(uint16_t(player->getX()));
 	this->y = ::htons(uint16_t(player->getY()));
-	this->angle = ::htonl(uint32_t(player->getAngle()));
+	float angleAux = player->getAngle();
+	this->angle = ::htonl(*(uint32_t *)&angleAux);
+
 	this->weapon = uint8_t(player->getEquippedWeaponType());
 	this->has_bomb = uint8_t(player->hasBomb());
+	this->body_type = uint8_t(player->getType());
 
 	this->winner_team_id = uint8_t(game.getWinnerTeam());
 

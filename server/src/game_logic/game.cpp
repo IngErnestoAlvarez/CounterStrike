@@ -243,6 +243,10 @@ void Game::checkTeamsState() {
         this->winner_team = TEAM_A;
 }
 
+Phase Game::getPhase() {
+    return this->phase;
+}
+
 void Game::goToNextRound() {
     this->round++;
     this->phase = MAIN_PHASE;

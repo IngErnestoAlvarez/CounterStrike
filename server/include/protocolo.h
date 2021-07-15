@@ -127,6 +127,23 @@ class Protocolo {
 
     TeamID recv_login(socket_t *skt);
 
+    // equipo ganador - 1byte (TeamID)
+    // cantidad jugadores equipo a - 2bytes
+    // por cada jugador equipo a:
+    //   tamano del nombre - 1 byte
+    //   nombre - "tamano" bytes
+    //   asesinatos - 2 bytes
+    //   muertes - 2 bytes
+    //   dinero total - 2 bytes
+    // cantidad jugadores equipo b - 2bytes
+    // por cada jugador equipo b:
+    //   tamano del nombre - 1 byte
+    //   nombre - "tamano" bytes
+    //   asesinatos - 2 bytes
+    //   muertes - 2 bytes
+    //   dinero total - 2 bytes
+    void send_final(socket_t* skt);
+
    private:
 };
 

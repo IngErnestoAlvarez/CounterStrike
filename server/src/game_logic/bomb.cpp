@@ -7,7 +7,7 @@ Bomb::Bomb(Game& game, float x, float y)
 	: Body(game.getWorld(), BOMB_D_TYPE, x, y, 0, 0),
 	  active(true),
 	  has_exploded(false),
-	  max_steps(100), // obtener de configuracion
+	  max_steps(1000), // obtener de configuracion
 	  steps(0) {
 	using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();

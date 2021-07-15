@@ -161,6 +161,8 @@ void ModeloIO::renderPhase(Phase phase) {
                 "La Phase fue mal invocada en ModeloIO::renderPhase()");
             break;
     }
+
+    this->window.render();
 }
 
 void ModeloIO::renderWaiting() {
@@ -218,8 +220,6 @@ void ModeloIO::renderPlaying() {
 
     log->debug("Finaliza el render del floor");
     log->debug("Comienza el render del window");
-
-    this->window.render();
 
     log->debug("Finaliza el render del window");
 }
