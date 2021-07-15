@@ -5,63 +5,38 @@
 #include "Logger.h"
 #include "peer.h"
 #include "protocolo.h"
+#include "game_logic/game.h"
 
 #define UNEXPECTED_ERROR_PEER "Se ha producido un error inesperado en peer"
 
-Peer::Peer(int id, socket_t &socket, Protocolo &protocol,
+Peer::Peer(int id, socket_t &skt, Protocolo &protocol,
            CommandQueue& command_queue)
     : id(id),
       is_running(true),
-      socket(std::move(socket)),
+      socket(std::move(skt)),
       protocol(protocol),
-      command_queue(command_queue) {
+      command_queue(command_queue),
+      state_queue(),
+      sender(socket, protocol, state_queue),
+      receiver(id, socket, protocol, command_queue) {
     using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();
-    log->debug("Se envia config");
+    log->debug("Se enviara config a peer");
     this->protocol.send_config(&this->socket);
+    log->debug("se envio config a peer");
 }
 
-int Peer::getPeerID() const { return this->id; }
-
-void Peer::run() {
-    try {
-        while (true) {
-            Comando code = this->protocol.recv_comando(&this->socket);
-            Command command(code, this->id);
-            if (code == AIM) {
-                uint16_t angle = this->protocol.receive_two_bytes(&this->socket);
-                angle = ::ntohs(angle);
-                command.setArg("angle", angle);
-            }
-            this->command_queue.push(command);
-        }
-    } catch (const std::exception &e) {
-        std::cerr << e.what();
-    } catch (...) {
-        std::cerr << UNEXPECTED_ERROR_PEER;
-    }
-
-    this->stop();
-}
-
-void Peer::sendState() {
-    this->protocol.send_state(&this->socket, this->id);
-    this->protocol.send_player(&this->socket, this->id);
-}
-
-void Peer::stop() {
-    if (!this->is_running) return;
-
-    this->is_running = false;
+Peer::~Peer() {
     this->socket.shutdown();
     this->socket.close();
 }
 
-bool Peer::isRunning() {
-    return this->is_running;
+void Peer::start() {
+    this->sender.start();
+    this->receiver.start();
 }
 
-Peer::~Peer() {
-    this->stop();
-    this->join();
+void Peer::pushGameState(Game& game) {
+    GameState state = game.getState(this->id);
+    this->state_queue.push(state);
 }

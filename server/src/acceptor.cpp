@@ -32,11 +32,13 @@ Acceptor::Acceptor(const std::string& config_filepath)
 }
 
 Acceptor::~Acceptor() {
-	this->socket.shutdown();
-	this->socket.close();
-	this->join();
 	for (Peer* peer : this->peers)
 		delete peer;
+
+	this->socket.shutdown();
+	this->socket.close();
+
+	this->join();
 }
 
 void Acceptor::run() {
@@ -48,7 +50,12 @@ void Acceptor::run() {
 			int next_time = getTime() + LOOP_TIME;
 
 			this->gameStep();
-			this->sendStateToPeers();
+
+			// this->sendStateToPeers();
+			for (Peer* peer : this->peers) {
+				peer->pushGameState(this->game);
+			}
+
 			this->executePeerCommands();
 
 			sleep(getTimeLeft(next_time));
@@ -63,20 +70,19 @@ void Acceptor::stop() {
 }
 
 void Acceptor::acceptPeers() {
-	using namespace CPlusPlusLogging;
-	Logger *log = Logger::getInstance();
-
 	TeamID team_id;
 	int peer_id;
 
+	using namespace CPlusPlusLogging;
+    Logger *log = Logger::getInstance();
+
 	while (this->game.isInTeamsFormingPhase()) {
-    	log->debug("Esperando nuevo peer");
+		log->debug("esperando nuevo peer");
 		socket_t peer_socket;
 		this->socket.accept(&peer_socket);
-		log->debug("Nuevo peer aceptado");
+		log->debug("se acepto peer");
 		team_id = this->protocol.recv_login(&peer_socket);
-		std::string debug = "Se recibio login - team_id = " + std::to_string(team_id);
-		log->debug(debug);
+		log->debug("se recibio login");
 		peer_id = this->peers.size();
 
 		if (!this->game.addPlayer(team_id, peer_id)) {
@@ -87,16 +93,16 @@ void Acceptor::acceptPeers() {
 						peer_socket,
 						this->protocol,
 						this->command_queue);
-		log->debug("Se crea peer");
+
 		this->peers.push_back(peer);
 	}
 }
 
 void Acceptor::sendStateToPeers() {
-	for (Peer* peer : this->peers) {
-		if (peer->isRunning())
-			peer->sendState();
-	}
+	// for (Peer* peer : this->peers) {
+	// 	if (peer->isRunning())
+	// 		peer->sendState();
+	// }
 }
 
 void Acceptor::gameStart() {

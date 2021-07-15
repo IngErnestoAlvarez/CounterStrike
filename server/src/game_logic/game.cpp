@@ -282,6 +282,10 @@ void Game::step() {
     this->team_b.update();
 }
 
+GameState Game::getState(int player_id) {
+    return GameState(*this, player_id);
+}
+
 TeamID Game::getWinnerTeam() { return this->winner_team; }
 
 Game::~Game() {

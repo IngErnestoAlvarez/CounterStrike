@@ -12,6 +12,7 @@
 #include "team.h"
 #include "types.h"
 #include "world.h"
+#include "game_state.h"
 
 class Body;
 class Bomb;
@@ -80,6 +81,7 @@ class Game {
     World &getWorld();
     Map &getMap();
     const Configuration &getConfig();
+    GameState getState(int player_id);
 
     Player* getPlayer(int player_id);
 
