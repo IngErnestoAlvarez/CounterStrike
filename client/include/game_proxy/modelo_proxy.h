@@ -66,7 +66,7 @@ class ModeloProxy {
     TeamID getRoundState();
     TeamID getMyTeam();
 
-    Phase getPhase() const;
+    Phase getPhase();
 
    private:
     void chargeBodies();

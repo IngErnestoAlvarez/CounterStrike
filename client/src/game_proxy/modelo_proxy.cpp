@@ -88,8 +88,9 @@ void ModeloProxy::chargeBodies() {
     uint8_t roundWinner;
     uint8_t AWins;
     uint8_t BWins;
+    Phase auxPhase;
 
-    protocolo.recv_state(&result, &size, &roundWinner, &this->phase, &AWins,
+    protocolo.recv_state(&result, &size, &roundWinner, &auxPhase, &AWins,
                          &BWins, &skt);
 
     if (roundWinner != 0 && roundWinner != 1 && roundWinner != 2) {
@@ -100,6 +101,7 @@ void ModeloProxy::chargeBodies() {
         roundResult = (TeamID)roundWinner;
         this->teamAWins = AWins;
         this->teamBWins = BWins;
+        this->phase = auxPhase;
     }
 
     bodyProxy.setBodies(result, size);
@@ -163,8 +165,9 @@ TeamID ModeloProxy::getRoundState() {
 
 TeamID ModeloProxy::getMyTeam() { return myTeam; }
 
-Phase ModeloProxy::getPhase() const {
-    { return phase; }
+Phase ModeloProxy::getPhase() {
+    guard guard(mutex);
+    return phase;
 }
 
 inline BodyType teamIDtoBodyType(const char *teamID) {
