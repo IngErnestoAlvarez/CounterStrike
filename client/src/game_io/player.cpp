@@ -20,6 +20,7 @@ PlayerView::PlayerView(SdlWindow &window, PlayerProxy *player)
     log->debug("Comienza constructor PlayerView");
     life.set_pos(0, 500);
     killNotice.set_pos(350, 100);
+    money.set_pos(550, 30);
     log->debug("Finaliza constructor PlayerView");
 }
 
