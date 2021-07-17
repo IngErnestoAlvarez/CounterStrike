@@ -37,7 +37,7 @@ void App::main_loop() {
         playing = view.update();
 
         Uint32 time_left = this->time_left();
-        std::cout << "time_left: " << time_left << std::endl;
+        // std::cout << "time_left: " << time_left << std::endl;
         SDL_Delay(time_left);
         this->next_time += DELAY;
     }

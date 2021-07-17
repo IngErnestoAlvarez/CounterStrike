@@ -23,11 +23,13 @@ Initializer::Initializer() {
     }
 
     if (TTF_Init() < 0) {
+        IMG_Quit();
         SDL_Quit();
         throw std::runtime_error("SDL_ttf could not initialize!");
     }
 
     if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) == -1) {
+        IMG_Quit();
         SDL_Quit();
         throw std::runtime_error("SDL_Mixer could not initialize!");
     }
@@ -35,6 +37,6 @@ Initializer::Initializer() {
 
 Initializer::~Initializer() {
     IMG_Quit();
-    SDL_Quit();
     Mix_CloseAudio();
+    SDL_Quit();
 }

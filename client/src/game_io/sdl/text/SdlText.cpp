@@ -12,20 +12,26 @@
 SdlText::SdlText(SdlWindow &window, std::string const &text,
                  std::string const &fontname, size_t font_size)
     : font(fontname, font_size), texture(window), text(text), window(&window) {
+    pos = {0, 0};
     SdlSurface surf;
     surf = TTF_RenderText_Solid(this->font.font, text.c_str(), GREEN);
     this->texture = surf.transform_to_texture(window);
+    this->color = GREEN;
 }
 
 SdlText::SdlText(SdlWindow &window, std::string const &text,
                  std::string const &fontname)
-    : SdlText(window, text, fontname, 30) {}
+    : SdlText(window, text, fontname, 30) {
+    this->color = GREEN;
+}
 
 SdlText::SdlText(SdlWindow &window, std::string const &text)
     : font(), texture(window), text(text), window(&window) {
+    pos = {0, 0};
     SdlSurface surf;
     surf = TTF_RenderText_Solid(this->font.font, text.c_str(), GREEN);
     this->texture = surf.transform_to_texture(window);
+    this->color = GREEN;
 }
 SdlText::SdlText(SdlWindow &window, std::string const &text,
                  SDL_Color const &color, size_t font_size)
@@ -33,9 +39,11 @@ SdlText::SdlText(SdlWindow &window, std::string const &text,
       texture(window),
       text(text),
       window(&window) {
+    pos = {0, 0};
     SdlSurface surf;
     surf = TTF_RenderText_Solid(this->font.font, text.c_str(), color);
     this->texture = surf.transform_to_texture(window);
+    this->color = color;
 }
 
 SdlText::SdlText(SdlText &&other)
@@ -76,9 +84,8 @@ const std::string &SdlText::getText() { return text; }
 
 void SdlText::setTexture(std::string const &text) {
     SdlSurface surf;
-    surf = TTF_RenderText_Solid(this->font.font, text.c_str(), GREEN);
+    surf = TTF_RenderText_Solid(this->font.font, text.c_str(), this->color);
 
-    std::cout << &surf << std::endl;
     this->texture = surf.transform_to_texture(*window);
 }
 

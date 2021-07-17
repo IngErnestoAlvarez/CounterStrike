@@ -15,8 +15,7 @@
 #include "game_logic/player.h"
 #include "game_logic/weapon_drop.h"
 
-Game::Game(Configuration& config,
-           const std::string &map_filepath)
+Game::Game(Configuration &config, const std::string &map_filepath)
     : config(config),
       world(*this),
       map(*this, map_filepath),
@@ -28,9 +27,7 @@ Game::Game(Configuration& config,
       team_b(*this, TEAM_B, TERRORIST),
       preparation_steps(0) {}
 
-void Game::start() {
-    this->initializeTeams();
-}
+void Game::start() { this->initializeTeams(); }
 
 bool Game::isInTeamsFormingPhase() {
     return this->phase == TEAMS_FORMING_PHASE;
@@ -39,19 +36,16 @@ bool Game::isInTeamsFormingPhase() {
 bool Game::isRunning() { return this->phase != FINAL_PHASE; }
 
 bool Game::addPlayer(TeamID team_id, int peer_id) {
-    Team& team = (team_id == TEAM_A)
-        ? this->team_a
-        : this->team_b;
+    Team &team = (team_id == TEAM_A) ? this->team_a : this->team_b;
 
-    if (team.isFull())
-        return false;
+    if (team.isFull()) return false;
 
-    Cell& cell = (team_id == TEAM_A)
-        ? this->map.getStartingCellCounterterrorists()
-        : this->map.getStartingCellTerrorists();
+    Cell &cell = (team_id == TEAM_A)
+                     ? this->map.getStartingCellCounterterrorists()
+                     : this->map.getStartingCellTerrorists();
 
-    Player *player = new Player(
-        *this, peer_id, team_id, cell.getWorldX(), cell.getWorldY());
+    Player *player =
+        new Player(*this, peer_id, team_id, cell.getWorldX(), cell.getWorldY());
 
     team.addPlayer(player);
     this->players[peer_id] = player;
@@ -69,8 +63,8 @@ void Game::initializeTeams() {
 }
 
 bool Game::canPlayerExecuteCommands(int player_id) {
-    return !this->players[player_id]->isDestroyed()
-        && this->players[player_id]->isAlive();
+    return !this->players[player_id]->isDestroyed() &&
+           this->players[player_id]->isAlive();
 }
 
 void Game::executeCommand(Command &command) {
@@ -80,8 +74,7 @@ void Game::executeCommand(Command &command) {
     Comando code = command.getCode();
     int player_id = command.getPeerID();
 
-    if (!this->canPlayerExecuteCommands(player_id))
-        return;
+    if (!this->canPlayerExecuteCommands(player_id)) return;
 
     switch (code) {
         case UP:
@@ -132,7 +125,7 @@ void Game::executeCommand(Command &command) {
             break;
         case AIM:
             this->setPlayerAngle(player_id,
-                command.getArg("angle") * 3.1416 / 180);
+                                 command.getArg("angle") * 3.1416 / 180);
             break;
         default:
             break;
@@ -216,16 +209,14 @@ void Game::createBlock(float x, float y) {
 }
 
 std::vector<Body *> Game::getBodies(int peer_id) {
-    Player* player = this->players[peer_id];
-    std::vector<Body*> bodies;
+    Player *player = this->players[peer_id];
+    std::vector<Body *> bodies;
 
-    for (Body* body : this->bodies)
+    for (Body *body : this->bodies)
         if (!body->isDestroyed() && body->getID() != player->getID())
             bodies.push_back(body);
 
-
-    if (this->bomb != nullptr)
-        bodies.push_back(this->bomb);
+    if (this->bomb != nullptr) bodies.push_back(this->bomb);
 
     return bodies;
 }
@@ -254,9 +245,8 @@ void Game::checkBombState() {
     using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();
 
-    TeamID counter_terrorists = this->team_a.getRole() == COUNTER_TERRORIST
-        ? TEAM_A
-        : TEAM_B;
+    TeamID counter_terrorists =
+        this->team_a.getRole() == COUNTER_TERRORIST ? TEAM_A : TEAM_B;
     TeamID terrorists = counter_terrorists == TEAM_A ? TEAM_B : TEAM_A;
 
     if (this->hasBombBeenDeactivated()) {
@@ -275,9 +265,7 @@ void Game::checkTeamsState() {
         this->winner_team = TEAM_A;
 }
 
-Phase Game::getPhase() {
-    return this->phase;
-}
+Phase Game::getPhase() { return this->phase; }
 
 void Game::goToNextRound() {
     this->round++;
@@ -302,19 +290,17 @@ void Game::goToNextRound() {
             this->team_b.switchRole();
         }
 
-        for (auto& player : this->players)
-            player.second->reset();
+        for (auto &player : this->players) player.second->reset();
         this->initializeTeams();
 
         if (this->bomb != nullptr)
             // delete this->bomb;
-        this->bomb = nullptr;
+            this->bomb = nullptr;
     }
 }
 
 void Game::step() {
-    if (!this->isRunning())
-        return;
+    if (!this->isRunning()) return;
 
     using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();
@@ -324,7 +310,7 @@ void Game::step() {
     switch (this->phase) {
         case PREPARATION_PHASE:
             this->preparation_steps++;
-            if (this->preparation_steps == 100) {
+            if (this->preparation_steps == 10) {
                 this->preparation_steps = 0;
                 this->phase = MAIN_PHASE;
             }
@@ -347,26 +333,18 @@ void Game::step() {
     }
 }
 
-GameState Game::getState(int player_id) {
-    return GameState(*this, player_id);
-}
+GameState Game::getState(int player_id) { return GameState(*this, player_id); }
 
 TeamID Game::getWinnerTeam() { return this->winner_team; }
 
-int Game::getTeamAWins() const {
-    return this->team_a.getWinCount();
-}
+int Game::getTeamAWins() const { return this->team_a.getWinCount(); }
 
-int Game::getTeamBWins() const {
-    return this->team_b.getWinCount();
-}
+int Game::getTeamBWins() const { return this->team_b.getWinCount(); }
 
 Game::~Game() {
-    for (Body *body : this->bodies)
-        delete body;
+    for (Body *body : this->bodies) delete body;
 
-    if (this->bomb != nullptr)
-        delete this->bomb;
+    if (this->bomb != nullptr) delete this->bomb;
 }
 
 Player *Game::getPlayer(int player_id) { return this->players[player_id]; }

@@ -66,6 +66,9 @@ class ModeloProxy {
     TeamID getRoundState();
     TeamID getMyTeam();
 
+    uint8_t getTeamARounds();
+    uint8_t getTeamBRounds();
+
     Phase getPhase();
 
    private:
