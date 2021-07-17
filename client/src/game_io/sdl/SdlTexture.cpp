@@ -22,6 +22,7 @@ SdlTexture::SdlTexture(int width, int height, SdlWindow &window)
 SdlTexture::~SdlTexture() { this->empty(); }
 
 SdlTexture &SdlTexture::operator=(SDL_Texture *texture) {
+    if (this->texture == texture) return *this;
     this->empty();
     this->texture = texture;
     int w, h;

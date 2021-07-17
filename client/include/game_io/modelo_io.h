@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "game_io/renderizables.h"
+#include "game_io/rounds.h"
 #include "game_io/sdl/SdlObject.h"
 #include "game_io/sdl/SdlWindow.h"
 #include "game_io/sdl/initializer.h"
@@ -23,6 +24,7 @@ class ModeloIO {
     Renderizables renderizables;
     Music music;
     Shopping shop;
+    RoundScore score;
 
    public:
     /**

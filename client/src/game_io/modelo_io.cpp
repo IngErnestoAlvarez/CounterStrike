@@ -24,7 +24,8 @@ ModeloIO::ModeloIO(ModeloProxy &modelo)
       active(true),
       renderizables(window, modelo.getPlayer()),
       music("assets/music/menu.wav", 50),
-      shop(window) {
+      shop(window),
+      score(window, modelo.getMyTeam()) {
     SDL_SetRenderDrawColor(window.getRendered(), 0xFF, 0xFF, 0xFF, 0xFF);
     music.play();
 }
@@ -186,6 +187,7 @@ void ModeloIO::renderPreparing() {
     modelo.unlockBodies();
     this->renderizables.renderPlayer();
     shop.render();
+    score.render(modelo.getTeamARounds(), modelo.getTeamBRounds());
 }
 
 void ModeloIO::renderPlaying() {
@@ -217,6 +219,7 @@ void ModeloIO::renderPlaying() {
     } else {
         renderizables.renderLose();
     }
+    score.render(modelo.getTeamARounds(), modelo.getTeamBRounds());
 
     log->debug("Finaliza el render del floor");
     log->debug("Comienza el render del window");

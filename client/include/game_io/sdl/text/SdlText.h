@@ -19,6 +19,7 @@ class SdlText {
     std::string text;
     SDL_Point pos;
     SdlWindow *window;
+    SDL_Color color;
 
    public:
     SdlText();
@@ -43,12 +44,12 @@ class SdlText {
 
     virtual ~SdlText();
 
+    void setTexture(std::string const &text);
+
    protected:
     virtual void update(std::string const &text);
 
     const std::string &getText();
-
-    void setTexture(std::string const &text);
 };
 
 #endif

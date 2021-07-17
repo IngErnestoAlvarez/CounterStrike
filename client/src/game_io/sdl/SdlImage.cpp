@@ -14,7 +14,10 @@ const SDL_Color WHITE = {0xFF, 0xFF, 0xFF};
 const SDL_Color BLACK = {0x00, 0x00, 0x00};
 const SDL_Color PINK = {0xff, 0x00, 0xff};
 
-SdlImage::SdlImage(SdlWindow &window) : SdlTexture(window) {}
+SdlImage::SdlImage(SdlWindow &window) : SdlTexture(window) {
+    width = 0;
+    height = 0;
+}
 
 SdlImage::SdlImage(SdlWindow &window, std::string const &path)
     : SdlTexture(window) {

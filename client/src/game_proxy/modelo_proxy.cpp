@@ -165,6 +165,10 @@ TeamID ModeloProxy::getRoundState() {
 
 TeamID ModeloProxy::getMyTeam() { return myTeam; }
 
+uint8_t ModeloProxy::getTeamARounds() { return teamAWins; }
+
+uint8_t ModeloProxy::getTeamBRounds() { return teamBWins; }
+
 Phase ModeloProxy::getPhase() {
     guard guard(mutex);
     return phase;
