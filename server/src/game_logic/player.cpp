@@ -6,10 +6,12 @@
 #include "game_logic/map.h"
 #include "game_logic/player.h"
 #include "game_logic/team.h"
+#include "game_logic/weapons/weapon_factory.h"
 #include "game_logic/weapons/knife.h"
 #include "game_logic/weapons/glock.h"
 #include "game_logic/weapon_drop.h"
 #include "types.h"
+#include "Logger.h"
 
 Player::Player(Game& game,
                int player_id,
@@ -23,6 +25,7 @@ Player::Player(Game& game,
       team_id(team_id),
       health(game.getConfig().getPlayerHealth()),
       money(game.getConfig().getInitialMoney()),
+      ammo(30),
       kill_reward(game.getConfig().getKillReward()),
       primary_weapon(nullptr) {
     default_melee_weapon = new Knife(game, *this);
@@ -90,7 +93,11 @@ int Player::getHealth() const {
 }
 
 int Player::getAmmo() const {
-    return this->equipped_weapon->getAmmo();
+    return this->ammo;
+}
+
+void Player::useAmmo() {
+    this->ammo--;
 }
 
 void Player::useWeapon() {
@@ -138,6 +145,58 @@ void Player::setRole(Role role) {
         this->setType(CT2_TYPE);
     else
         this->setType(TT1_TYPE);
+}
+
+void Player::buyAK47() {
+    this->buyWeapon(AK47_TYPE);
+}
+
+void Player::buyAWP() {
+    this->buyWeapon(AWP_TYPE);
+}
+
+void Player::buyM3() {
+    this->buyWeapon(M3_TYPE);
+}
+
+void Player::buyWeapon(BodyType type) {
+    const Configuration& config = this->game.getConfig();
+    Weapon* dropped = this->primary_weapon;
+    std::string weapon_name;
+
+    switch (type) {
+        case AK47_TYPE:
+            weapon_name = "ak47";
+            break;
+        case AWP_TYPE:
+            weapon_name = "awp";
+            break;
+        case M3_TYPE:
+            weapon_name = "m3";
+            break;
+        default:
+            return;
+    }
+
+    int weapon_price = config.getWeaponConfigValue(weapon_name, "price");
+    if (this->money < weapon_price)
+        return;
+    this->money -= weapon_price;
+    this->primary_weapon = WeaponFactory::create(this->game,
+                                                 *this,
+                                                 weapon_name);
+    if (dropped != nullptr)
+        this->game.createWeaponDrop(this->getX(), this->getY(), dropped);
+}
+
+void Player::buyBullets() {
+    // Configuration& config = this->game.getConfig();
+    int bullet_stack_size = 10;
+    int bullet_stack_price = 0;
+    if (this->money < bullet_stack_price)
+        return;
+    this->money -= bullet_stack_price;
+    this->ammo += bullet_stack_size;
 }
 
 void Player::handleEnemyKilled() {

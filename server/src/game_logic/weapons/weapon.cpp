@@ -14,7 +14,7 @@ Weapon::Weapon(const std::string &name, BodyType type, Game &game,
     this->damage = config.getWeaponConfigValue(name, "damage");
     this->precision = config.getWeaponConfigValue(name, "precision");
     this->range = config.getWeaponConfigValue(name, "range");
-    this->ammo = config.getWeaponConfigValue(name, "initial_ammo");
+    // this->ammo = config.getWeaponConfigValue(name, "initial_ammo");
     this->type = type;
 }
 
@@ -22,7 +22,7 @@ Weapon::~Weapon() {}
 
 std::string Weapon::getName() const { return this->name; }
 
-int Weapon::getAmmo() const { return this->ammo; }
+int Weapon::getAmmo() const { return this->player.getAmmo(); }
 
 float Weapon::getRange() const { return this->range; }
 
@@ -31,11 +31,11 @@ void Weapon::createBullet() { this->createBullet(0); }
 void Weapon::createBullet(float angle) {
     Bullet *bullet = nullptr;
 
-    if (this->ammo > 0) {
+    if (this->getAmmo() > 0) {
         bullet = new Bullet(this->game, this->player, this, angle);
         this->active_bullets.insert(bullet);
         bullet->move();
-        this->ammo--;
+        this->player.useAmmo();
     }
 }
 

@@ -51,7 +51,6 @@ void Acceptor::run() {
 
 			this->gameStep();
 
-			// this->sendStateToPeers();
 			for (Peer* peer : this->peers) {
 				peer->pushGameState(this->game);
 			}

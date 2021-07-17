@@ -1,10 +1,11 @@
 #include "configuration.h"
 #include "yaml-cpp/yaml.h"
+#include "Logger.h"
 
 #define WEAPON_TYPES \
-    { "knife", "glock" }
+    { "knife", "glock", "ak47", "awp", "m3" }
 #define WEAPON_PARAMS \
-    { "damage", "precision", "range", "initial_ammo" }
+    { "damage", "precision", "range", "initial_ammo", "price" }
 
 Configuration::Configuration(const std::string &config_filepath) {
     YAML::Node config = YAML::LoadFile(config_filepath);

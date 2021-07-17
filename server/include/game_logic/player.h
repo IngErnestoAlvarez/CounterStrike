@@ -24,6 +24,7 @@ private:
     int team_id;
     int health;
     int money;
+    int ammo;
     int kill_reward;
     bool has_bomb = false;
 
@@ -62,6 +63,12 @@ public:
     void reset();
     void registerTeam(Team* team);
     void setRole(Role role);
+    void buyAK47();
+    void buyAWP();
+    void buyM3();
+    void buyWeapon(BodyType type);
+    void buyBullets();
+    void useAmmo();
 
     void handleCollision(Body* body) override;
     void handleCollision(Bullet* bullet) override;

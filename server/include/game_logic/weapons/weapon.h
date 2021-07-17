@@ -20,7 +20,7 @@ protected:
     float damage;
     float precision;
     float range;
-    int ammo;
+    // int ammo;
     std::unordered_set<Bullet*> active_bullets;
 
 public:

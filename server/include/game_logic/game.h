@@ -38,7 +38,7 @@ class Game {
     Team team_a;
     Team team_b;
     Bomb* bomb = nullptr;
-    int preparation_steps = 0;
+    int preparation_steps;
 
     Player *player = nullptr; // eliminar
 
@@ -55,6 +55,10 @@ class Game {
     void setWeaponToMelee(int player_id);
     void setWeaponToRange(int player_id);
     void activateBomb(int player_id);
+    void buyPlayerAK47(int player_id);
+    void buyPlayerAWP(int player_id);
+    void buyPlayerM3(int player_id);
+    void buyPlayerBullets(int player_id);
     void checkBombState();
     void checkTeamsState();
     void goToNextRound();

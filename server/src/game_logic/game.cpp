@@ -25,7 +25,8 @@ Game::Game(Configuration& config,
       winner_team(NONE),
       has_finished(false),
       team_a(*this, TEAM_A, COUNTER_TERRORIST),
-      team_b(*this, TEAM_B, TERRORIST) {}
+      team_b(*this, TEAM_B, TERRORIST),
+      preparation_steps(0) {}
 
 void Game::start() {
     this->initializeTeams();
@@ -73,8 +74,8 @@ bool Game::canPlayerExecuteCommands(int player_id) {
 }
 
 void Game::executeCommand(Command &command) {
-    // using namespace CPlusPlusLogging;
-    // Logger *log = Logger::getInstance();
+    using namespace CPlusPlusLogging;
+    Logger *log = Logger::getInstance();
 
     Comando code = command.getCode();
     int player_id = command.getPeerID();
@@ -102,16 +103,32 @@ void Game::executeCommand(Command &command) {
             this->stopPlayer(player_id);
             break;
         case CW1:
-            this->setWeaponToPrimary(player_id);
+            log->debug("se recibio comando cw1");
+            if (this->phase == PREPARATION_PHASE)
+                this->buyPlayerAK47(player_id);
+            else
+                this->setWeaponToPrimary(player_id);
             break;
         case CW2:
-            this->setWeaponToRange(player_id);
+            log->debug("se recibio comando cw2");
+            if (this->phase == PREPARATION_PHASE)
+                this->buyPlayerAWP(player_id);
+            else
+                this->setWeaponToRange(player_id);
             break;
         case CW3:
-            this->setWeaponToMelee(player_id);
+            log->debug("se recibio comando cw3");
+            if (this->phase == PREPARATION_PHASE)
+                this->buyPlayerM3(player_id);
+            else
+                this->setWeaponToMelee(player_id);
             break;
         case CB:
-            this->activateBomb(player_id);
+            log->debug("se recibio comando cb");
+            if (this->phase == PREPARATION_PHASE)
+                this->buyPlayerBullets(player_id);
+            else
+                this->activateBomb(player_id);
             break;
         case AIM:
             this->setPlayerAngle(player_id,
@@ -160,6 +177,22 @@ void Game::setWeaponToRange(int player_id) {
 
 void Game::activateBomb(int player_id) {
     this->players[player_id]->activateBomb();
+}
+
+void Game::buyPlayerAK47(int player_id) {
+    this->players[player_id]->buyAK47();
+}
+
+void Game::buyPlayerAWP(int player_id) {
+    this->players[player_id]->buyAWP();
+}
+
+void Game::buyPlayerM3(int player_id) {
+    this->players[player_id]->buyM3();
+}
+
+void Game::buyPlayerBullets(int player_id) {
+    this->players[player_id]->buyBullets();
 }
 
 void Game::createBomb(float x, float y) {
@@ -283,10 +316,15 @@ void Game::step() {
     if (!this->isRunning())
         return;
 
+    using namespace CPlusPlusLogging;
+    Logger *log = Logger::getInstance();
+    std::string aux = "preparation_steps = " + std::to_string(this->preparation_steps);
+    log->debug(aux);
+
     switch (this->phase) {
         case PREPARATION_PHASE:
             this->preparation_steps++;
-            if (this->preparation_steps == 1000) {
+            if (this->preparation_steps == 100) {
                 this->preparation_steps = 0;
                 this->phase = MAIN_PHASE;
             }
