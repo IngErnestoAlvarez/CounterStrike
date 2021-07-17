@@ -28,7 +28,6 @@ Game::Game(Configuration& config,
       team_b(*this, TEAM_B, TERRORIST) {}
 
 void Game::start() {
-    this->phase = MAIN_PHASE;
     this->initializeTeams();
 }
 
@@ -36,7 +35,7 @@ bool Game::isInTeamsFormingPhase() {
     return this->phase == TEAMS_FORMING_PHASE;
 }
 
-bool Game::isRunning() { return this->phase == MAIN_PHASE; }
+bool Game::isRunning() { return this->phase != FINAL_PHASE; }
 
 bool Game::addPlayer(TeamID team_id, int peer_id) {
     Team& team = (team_id == TEAM_A)
@@ -69,12 +68,13 @@ void Game::initializeTeams() {
 }
 
 bool Game::canPlayerExecuteCommands(int player_id) {
-    return !this->players[player_id]->isDestroyed() && this->players[player_id]->isAlive();
-} 
+    return !this->players[player_id]->isDestroyed()
+        && this->players[player_id]->isAlive();
+}
 
 void Game::executeCommand(Command &command) {
-    using namespace CPlusPlusLogging;
-    Logger *log = Logger::getInstance();
+    // using namespace CPlusPlusLogging;
+    // Logger *log = Logger::getInstance();
 
     Comando code = command.getCode();
     int player_id = command.getPeerID();
@@ -111,7 +111,6 @@ void Game::executeCommand(Command &command) {
             this->setWeaponToMelee(player_id);
             break;
         case CB:
-            log->debug("Se recibe comando para activar la bomba");
             this->activateBomb(player_id);
             break;
         case AIM:
@@ -249,41 +248,65 @@ Phase Game::getPhase() {
 
 void Game::goToNextRound() {
     this->round++;
-    this->phase = MAIN_PHASE;
-    this->winner_team = NONE;
 
-    if (this->round == int(this->final_round / 2)) {
-        this->team_a.switchRole();
-        this->team_b.switchRole();
+    if (this->round == this->final_round) {
+        this->phase = FINAL_PHASE;
+        int team_a_win_count = this->team_a.getWinCount();
+        int team_b_win_count = this->team_b.getWinCount();
+
+        if (team_a_win_count == team_b_win_count)
+            this->winner_team = NONE;
+        else if (team_a_win_count > team_b_win_count)
+            this->winner_team = TEAM_A;
+        else
+            this->winner_team = TEAM_B;
+    } else {
+        this->phase = PREPARATION_PHASE;
+        this->winner_team = NONE;
+
+        if (this->round == int(this->final_round / 2)) {
+            this->team_a.switchRole();
+            this->team_b.switchRole();
+        }
+
+        for (auto& player : this->players)
+            player.second->reset();
+        this->initializeTeams();
+
+        if (this->bomb != nullptr)
+            // delete this->bomb;
+        this->bomb = nullptr;
     }
-
-    for (auto& player : this->players)
-        player.second->reset();
-
-    this->initializeTeams();
-
-    if (this->bomb != nullptr) {
-        // delete this->bomb;
-    }
-
-    this->bomb = nullptr;
 }
 
 void Game::step() {
     if (!this->isRunning())
         return;
 
-    if (this->winner_team != NONE) {
-        this->goToNextRound();
-        return;
+    switch (this->phase) {
+        case PREPARATION_PHASE:
+            this->preparation_steps++;
+            if (this->preparation_steps == 1000) {
+                this->preparation_steps = 0;
+                this->phase = MAIN_PHASE;
+            }
+            break;
+        case MAIN_PHASE:
+            if (this->winner_team != NONE) {
+                this->goToNextRound();
+            } else {
+                this->world.step();
+                this->checkBombState();
+                this->checkTeamsState();
+                this->team_a.update();
+                this->team_b.update();
+            }
+            break;
+        case FINAL_PHASE:
+            break;
+        default:
+            break;
     }
-
-    this->world.step();
-    this->checkBombState();
-    this->checkTeamsState();
-
-    this->team_a.update();
-    this->team_b.update();
 }
 
 GameState Game::getState(int player_id) {
@@ -291,6 +314,14 @@ GameState Game::getState(int player_id) {
 }
 
 TeamID Game::getWinnerTeam() { return this->winner_team; }
+
+int Game::getTeamAWins() const {
+    return this->team_a.getWinCount();
+}
+
+int Game::getTeamBWins() const {
+    return this->team_b.getWinCount();
+}
 
 Game::~Game() {
     for (Body *body : this->bodies)

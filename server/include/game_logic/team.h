@@ -22,7 +22,7 @@ public:
 	Role getRole();
 	bool hasPlayersAlive();
 	void update();
-	int getWinCount();
+	int getWinCount() const;
 	bool isFull() const;
 	void initialize();
 };

@@ -28,7 +28,7 @@ void Team::update() {
 		this->wins++;
 }
 
-int Team::getWinCount() {
+int Team::getWinCount() const {
 	return this->wins;
 }
 

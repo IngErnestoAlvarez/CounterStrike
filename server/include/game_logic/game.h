@@ -38,6 +38,7 @@ class Game {
     Team team_a;
     Team team_b;
     Bomb* bomb = nullptr;
+    int preparation_steps = 0;
 
     Player *player = nullptr; // eliminar
 
@@ -71,6 +72,8 @@ class Game {
     bool hasBombBeenDeactivated();
     bool hasBombExploded();
     TeamID getWinnerTeam();
+    int getTeamAWins() const;
+    int getTeamBWins() const;
     std::vector<Body*> getBodies(int peer_id);
 
     void createBlock(float x, float y);

@@ -9,7 +9,6 @@ GameState::GameState() {}
 GameState::GameState(Game& game, int player_id) {
 	Player* player = game.getPlayer(player_id);
 
-	this->phase = uint8_t(MAIN_PHASE);
 	this->ammo = uint8_t(player->getAmmo());
 	this->health = uint8_t(player->getHealth());
 	this->money = ::htons(1000);
@@ -22,8 +21,10 @@ GameState::GameState(Game& game, int player_id) {
 	this->has_bomb = uint8_t(player->hasBomb());
 	this->body_type = uint8_t(player->getType());
 
+	this->phase = uint8_t(game.getPhase());
 	this->winner_team_id = uint8_t(game.getWinnerTeam());
-
+	this->team_a_wins = uint8_t(game.getTeamAWins());
+	this->team_b_wins = uint8_t(game.getTeamBWins());
     std::vector<Body *> bodies = game.getBodies(player_id);
 	this->body_count = ::htons(uint16_t(bodies.size()));
 
