@@ -26,7 +26,7 @@ class Game {
     World world;
     Map map;
 
-    int final_round = 10;
+    int final_round = 1;
     int round;
     Phase phase;
     TeamID winner_team;
@@ -76,6 +76,10 @@ class Game {
     bool hasBombBeenDeactivated();
     bool hasBombExploded();
     TeamID getWinnerTeam();
+    int getTeamASize();
+    int getTeamBSize();
+    std::vector<Player*>& getTeamAPlayers();
+    std::vector<Player*>& getTeamBPlayers();
     int getTeamAWins() const;
     int getTeamBWins() const;
     std::vector<Body*> getBodies(int peer_id);

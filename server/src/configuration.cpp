@@ -6,7 +6,7 @@
 #define WEAPON_TYPES \
     { "knife", "glock", "ak47", "m3", "awp" }
 #define WEAPON_PARAMS \
-    { "damage", "precision", "range", "initial_ammo" }
+    { "damage", "precision", "range", "initial_ammo", "price" }
 
 Configuration::Configuration(const std::string &config_filepath) {
     using namespace CPlusPlusLogging;

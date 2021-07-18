@@ -11,23 +11,30 @@ game_settings:
       range: 1
       precision: 1
       initial_ammo: 0
+      price: 0
     glock:
       damage: 10
       range: 5
       precision: 0.7
       initial_ammo: 20
+      price: 0
     ak47:
       damage: 8
       range: 5
       precision: 0.6
       initial_ammo: 60
+      price: 50
     m3:
       damage: 5
       range: 3
       precision: 0.5
       initial_ammo: 60
+      price: 75
     awp:
       damage: 20
       range: 10
       precision: 0.7
       initial_ammo: 10
+      price: 105
+  bullet_stack_size: 10
+  bullet_stack_price: 30

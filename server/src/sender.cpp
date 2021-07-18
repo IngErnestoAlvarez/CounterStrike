@@ -19,6 +19,12 @@ Sender::Sender(
       state_queue(state_queue) {}
 
 Sender::~Sender() {
+    if (this->is_running)
+        this->stop();
+}
+
+void Sender::stop() {
+    this->is_running = false;
     this->state_queue.kill();
     this->join();
 }
@@ -27,7 +33,7 @@ void Sender::run() {
     using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();
     try {
-        while (true) {
+        while (is_running) {
             GameState state;
             log->debug("Esperando un nuevo game_state");
             this->state_queue.pop(state); // bloqueante
@@ -69,4 +75,8 @@ void Sender::run() {
     }
 
     log->debug("termina Sender::run");
+}
+
+void Sender::sendFinal() {
+    this->protocol.send_final(&this->socket);
 }

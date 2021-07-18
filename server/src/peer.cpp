@@ -40,3 +40,11 @@ void Peer::pushGameState(Game& game) {
     GameState state = game.getState(this->id);
     this->state_queue.push(state);
 }
+
+void Peer::stop() {
+    this->sender.stop();
+}
+
+void Peer::sendFinal() {
+    this->sender.sendFinal();
+}

@@ -39,6 +39,8 @@ public:
 	bool isRunning();
 	void start();
 	void pushGameState(Game& game);
+	void stop();
+	void sendFinal();
 };
 
 #endif

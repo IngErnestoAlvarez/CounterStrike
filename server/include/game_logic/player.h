@@ -27,6 +27,9 @@ private:
     int ammo;
     int kill_reward;
     bool has_bomb = false;
+    int kills;
+    int deaths;
+    int earned_money;
 
     Weapon* default_melee_weapon;
     Weapon* default_range_weapon;
@@ -47,6 +50,9 @@ public:
     int getHealth() const;
     int getAmmo() const;
     bool isTerrorist() const;
+    int getKills() const;
+    int getDeaths() const;
+    int getEarnedMoney() const;
 
     void useWeapon();
     void takeDamage(float damage);

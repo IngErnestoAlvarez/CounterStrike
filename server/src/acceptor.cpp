@@ -55,8 +55,16 @@ void Acceptor::run() {
 
             this->gameStep();
 
-            for (Peer *peer : this->peers) {
-                peer->pushGameState(this->game);
+            if (this->game.isRunning()) {
+                for (Peer *peer : this->peers) {
+                    peer->pushGameState(this->game);
+                }
+            } else {
+                for (Peer* peer : this->peers) {
+                    peer->stop();
+                    peer->sendFinal();
+                }
+                break;
             }
 
             this->executePeerCommands();

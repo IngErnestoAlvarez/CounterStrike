@@ -21,6 +21,8 @@ public:
       StateQueue& state_queue);
 	~Sender();
 	void run() override;
+	void stop();
+	void sendFinal();
 };
 
 #endif

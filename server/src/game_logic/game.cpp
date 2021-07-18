@@ -349,6 +349,22 @@ Game::~Game() {
 
 Player *Game::getPlayer(int player_id) { return this->players[player_id]; }
 
+int Game::getTeamASize() {
+    return this->team_a.getSize();
+}
+
+int Game::getTeamBSize() {
+    return this->team_b.getSize();
+}
+
+std::vector<Player*>& Game::getTeamAPlayers() {
+    return this->team_a.getPlayers();
+}
+
+std::vector<Player*>& Game::getTeamBPlayers() {
+    return this->team_b.getPlayers();
+}
+
 // ----------- estos metodos se eliminarian ------------
 
 Player *Game::createPlayer(float x, float y) {

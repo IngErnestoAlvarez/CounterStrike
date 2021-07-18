@@ -27,6 +27,9 @@ Player::Player(Game& game,
       money(game.getConfig().getInitialMoney()),
       ammo(30),
       kill_reward(game.getConfig().getKillReward()),
+      kills(0),
+      deaths(0),
+      earned_money(money),
       primary_weapon(nullptr) {
     default_melee_weapon = new Knife(game, *this);
     default_range_weapon = new Glock(game, *this);
@@ -129,8 +132,10 @@ bool Player::isTerrorist() const {
 
 void Player::takeDamage(float damage) {
     this->health -= damage;
-    if (!this->isAlive())
+    if (!this->isAlive()) {
+        this->deaths++;
         this->setToBeDestroyed();
+    }
 }
 
 void Player::reset() {
@@ -199,8 +204,22 @@ void Player::buyBullets() {
     this->ammo += bullet_stack_size;
 }
 
+int Player::getKills() const {
+    return this->kills;
+}
+
+int Player::getDeaths() const {
+    return this->deaths;
+}
+
+int Player::getEarnedMoney() const {
+    return this->earned_money;
+}
+
 void Player::handleEnemyKilled() {
     this->money += this->kill_reward;
+    this->earned_money += this->kill_reward;
+    this->kills++;
 }
 
 void Player::handleCollision(Body* body) {

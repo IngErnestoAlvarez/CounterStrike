@@ -63,3 +63,11 @@ void Team::initialize() {
 		this->players[index]->receiveBomb();
 	}
 }
+
+int Team::getSize() {
+	return this->players.size();
+}
+
+std::vector<Player*>& Team::getPlayers() {
+	return this->players;
+}

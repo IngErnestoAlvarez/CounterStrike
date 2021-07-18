@@ -25,6 +25,8 @@ public:
 	int getWinCount() const;
 	bool isFull() const;
 	void initialize();
+	int getSize();
+	std::vector<Player*>& getPlayers();
 };
 
 #endif
