@@ -80,6 +80,7 @@ void ModeloIO::check_keyboard() {
     Logger *log = Logger::getInstance();
     const Uint8 *state = SDL_GetKeyboardState(NULL);
     bool any_key_pressed = false;
+    SDL_Event event;
     if (state[SDL_SCANCODE_A]) {
         any_key_pressed = true;
         log->debug("Move Left");
@@ -104,33 +105,35 @@ void ModeloIO::check_keyboard() {
         this->modelo.movePlayerDown();
     }
 
-    if (state[SDL_SCANCODE_1]) {
-        any_key_pressed = true;
-        log->debug("Change to weapon 1");
-        this->modelo.changeToW1();
-    }
-
-    if (state[SDL_SCANCODE_2]) {
-        any_key_pressed = true;
-        log->debug("Change to weapon 2");
-        this->modelo.changeToW2();
-    }
-
-    if (state[SDL_SCANCODE_3]) {
-        any_key_pressed = true;
-        log->debug("Change to weapon 3");
-        this->modelo.changeToW3();
-    }
-
-    if (state[SDL_SCANCODE_4]) {
-        any_key_pressed = true;
-        log->debug("Change to bomb");
-        this->modelo.changeToBomb();
-    }
-
     if (!any_key_pressed) {
         this->modelo.stopPlayer();
         // this->check_mouse();
+    }
+
+    while (SDL_PollEvent(&event)) {
+        if (event.type == SDL_KEYDOWN) {
+            switch (event.key.keysym.sym) {
+                case SDLK_1:
+                    log->debug("Change to weapon 1");
+                    this->modelo.changeToW1();
+                    break;
+                case SDLK_2:
+                    log->debug("Change to weapon 2");
+                    this->modelo.changeToW2();
+                    break;
+                case SDLK_3:
+                    log->debug("Change to weapon 3");
+                    this->modelo.changeToW3();
+                    break;
+                case SDLK_4:
+                    log->debug("Change to bomb");
+                    this->modelo.changeToBomb();
+                    break;
+
+                default:
+                    break;
+            }
+        }
     }
 }
 
