@@ -26,7 +26,8 @@ ModeloIO::ModeloIO(ModeloProxy &modelo)
       music("assets/music/menu.wav", 50),
       shop(window),
       score(window, modelo.getMyTeam()),
-      pauser(200) {
+      pauser(200),
+      fms(window, modelo.getFinalScores(), modelo.getMyTeam()) {
     SDL_SetRenderDrawColor(window.getRendered(), 0xFF, 0xFF, 0xFF, 0xFF);
     music.play();
 }
@@ -236,4 +237,13 @@ void ModeloIO::renderPlaying() {
     log->debug("Comienza el render del window");
 
     log->debug("Finaliza el render del window");
+}
+
+void ModeloIO::renderFinal() {
+    this->window.clear_renderer();
+    this->window.fill();
+    fms.update(modelo.getFinalScores()->getPlayersA(),
+               modelo.getFinalScores()->getPlayersB());
+    fms.render();
+    this->window.render();
 }

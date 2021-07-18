@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "body_proxy.h"
+#include "game_proxy/final_scores.h"
 #include "player_proxy.h"
 #include "protocolo.h"
 #include "types.h"
@@ -23,6 +24,7 @@ class ModeloProxy {
     uint8_t teamBWins;
     socket_t skt;
     std::mutex mutex;
+    FinalScores finalScores;
 
    public:
     ModeloProxy(std::string const &host, std::string const &service,
@@ -60,6 +62,8 @@ class ModeloProxy {
 
     void update();
 
+    void finally();
+
     int getWidth();
     int getHeight();
 
@@ -68,6 +72,8 @@ class ModeloProxy {
 
     uint8_t getTeamARounds();
     uint8_t getTeamBRounds();
+
+    FinalScores *getFinalScores();
 
     Phase getPhase();
 

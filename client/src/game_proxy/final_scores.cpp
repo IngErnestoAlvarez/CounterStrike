@@ -6,6 +6,8 @@ FinalScores::~FinalScores() {}
 
 void FinalScores::setWinnerTeam(TeamID team) { winnerTeam = team; }
 
+TeamID FinalScores::getWinnerTeam() { return winnerTeam; }
+
 void FinalScores::addPlayerA(std::string const &name, int kills, int deaths,
                              int total_money) {
     addPlayer(name, kills, deaths, total_money, playersA);

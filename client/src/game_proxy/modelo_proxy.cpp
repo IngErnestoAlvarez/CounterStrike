@@ -154,6 +154,8 @@ void ModeloProxy::update() {
     chargeBodies();
 }
 
+void ModeloProxy::finally() { protocolo.recv_final(finalScores, &skt); }
+
 int ModeloProxy::getWidth() { return 26; }
 
 int ModeloProxy::getHeight() { return 26; }
@@ -168,6 +170,8 @@ TeamID ModeloProxy::getMyTeam() { return myTeam; }
 uint8_t ModeloProxy::getTeamARounds() { return teamAWins; }
 
 uint8_t ModeloProxy::getTeamBRounds() { return teamBWins; }
+
+FinalScores *ModeloProxy::getFinalScores() { return &finalScores; }
 
 Phase ModeloProxy::getPhase() {
     guard guard(mutex);

@@ -25,6 +25,8 @@ class FinalScores {
 
     void setWinnerTeam(TeamID team);
 
+    TeamID getWinnerTeam();
+
     void addPlayerA(std::string const &name, int kills, int deaths,
                     int total_money);
 

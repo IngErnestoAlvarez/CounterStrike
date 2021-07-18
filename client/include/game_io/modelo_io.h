@@ -3,6 +3,7 @@
 
 #include <vector>
 
+#include "game_io/final_match.h"
 #include "game_io/pauser.h"
 #include "game_io/renderizables.h"
 #include "game_io/rounds.h"
@@ -27,6 +28,7 @@ class ModeloIO {
     Shopping shop;
     RoundScore score;
     Pauser pauser;
+    FinalMatchScreen fms;
 
    public:
     /**
@@ -51,6 +53,8 @@ class ModeloIO {
     SdlWindow &getWindow();
 
     void check_actions();
+
+    void renderFinal();
 
    private:
     void check_events();
