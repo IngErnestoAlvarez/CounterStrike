@@ -25,7 +25,8 @@ ModeloIO::ModeloIO(ModeloProxy &modelo)
       renderizables(window, modelo.getPlayer()),
       music("assets/music/menu.wav", 50),
       shop(window),
-      score(window, modelo.getMyTeam()) {
+      score(window, modelo.getMyTeam()),
+      pauser(200) {
     SDL_SetRenderDrawColor(window.getRendered(), 0xFF, 0xFF, 0xFF, 0xFF);
     music.play();
 }
@@ -33,14 +34,20 @@ ModeloIO::ModeloIO(ModeloProxy &modelo)
 ModeloIO::~ModeloIO() {}
 
 bool ModeloIO::update() {
+    pauser.update();
+    if (pauser.load()) return this->active;
     this->window.clear_renderer();
     // this->check_actions();
     this->window.fill();
     this->renderPhase(modelo.getPhase());
+    if (modelo.getRoundState() != NONE) {
+        pauser.pause();
+    }
     return this->active;
 }
 
 void ModeloIO::check_actions() {
+    if (pauser.load()) return;
     using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();
     log->debug("Comienza check_actions");

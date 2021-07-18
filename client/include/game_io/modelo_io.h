@@ -3,6 +3,7 @@
 
 #include <vector>
 
+#include "game_io/pauser.h"
 #include "game_io/renderizables.h"
 #include "game_io/rounds.h"
 #include "game_io/sdl/SdlObject.h"
@@ -25,6 +26,7 @@ class ModeloIO {
     Music music;
     Shopping shop;
     RoundScore score;
+    Pauser pauser;
 
    public:
     /**

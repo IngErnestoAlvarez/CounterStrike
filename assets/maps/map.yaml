@@ -678,7 +678,7 @@ grid:
   - 1
 width: 26.0
 height: 26.0
-starting_x_terrorists: 24
-starting_y_terrorists: 24
+starting_x_terrorists: 3
+starting_y_terrorists: 3
 starting_x_counterterrorists: 1
 starting_y_counterterrorists: 1
