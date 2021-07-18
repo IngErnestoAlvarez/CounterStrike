@@ -18,13 +18,12 @@ int main(int argc, char *argv[]) {
     }
 
     std::string config_filepath = argv[1];
-    bool debug = (argc == 3)
-              && (std::string(argv[2]) == "-debug");
+    bool debug = (argc == 3) && (std::string(argv[2]) == std::string("-debug"));
 
-    if (debug)
-        log->enaleLog();
+    if (debug) log->enaleLog();
 
     try {
+        log->debug("Comienza el server");
         Server server(argv[1]);
         server.run();
     } catch (const std::exception &e) {
