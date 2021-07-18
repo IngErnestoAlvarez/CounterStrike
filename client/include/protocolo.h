@@ -3,6 +3,7 @@
 
 #include <string>
 
+#include "game_proxy/final_scores.h"
 #include "socket.h"
 #include "types.h"
 
@@ -114,6 +115,8 @@ class Protocolo {
 
     // team_id 1byte (1 = team_a, 2 = team_b)
     void send_login(socket_t *skt, TeamID team_id);
+
+    void recv_final(FinalScores &fScores, socket_t *skt);
 
    private:
 };

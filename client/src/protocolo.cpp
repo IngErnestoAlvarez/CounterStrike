@@ -156,6 +156,55 @@ void Protocolo::send_login(socket_t *skt, TeamID team_id) {
     send_one_byte(skt, (uint8_t *)&team_id);
 }
 
+void Protocolo::recv_final(FinalScores &fScores, socket_t *skt) {
+    TeamID team = TeamID(receive_one_byte(skt));
+    fScores.setWinnerTeam(team);
+
+    size_t teamAsize = size_t(::ntohs(receive_two_bytes(skt)));
+    for (size_t i = 0; i < teamAsize; i++) {
+        uint8_t nameSize = receive_one_byte(skt);
+
+        char *name = new char[nameSize];
+        size_t received;
+        skt->receive(name, nameSize, received);
+
+        if (received != nameSize) {
+            delete name;
+            throw std::runtime_error(
+                "No se recibieron la cant de bytes necesarios. recv_final()");
+        }
+        uint16_t kills = ::ntohs(receive_two_bytes(skt));
+        uint16_t deaths = ::ntohs(receive_two_bytes(skt));
+        uint16_t totMoney = ::ntohs(receive_two_bytes(skt));
+
+        fScores.addPlayerA(name, kills, deaths, totMoney);
+
+        delete name;
+    }
+
+    size_t teamBsize = size_t(::ntohs(receive_two_bytes(skt)));
+    for (size_t i = 0; i < teamAsize; i++) {
+        uint8_t nameSize = receive_one_byte(skt);
+
+        char *name = new char[nameSize];
+        size_t received;
+        skt->receive(name, nameSize, received);
+
+        if (received != nameSize) {
+            delete name;
+            throw std::runtime_error(
+                "No se recibieron la cant de bytes necesarios. recv_final()");
+        }
+        uint16_t kills = ::ntohs(receive_two_bytes(skt));
+        uint16_t deaths = ::ntohs(receive_two_bytes(skt));
+        uint16_t totMoney = ::ntohs(receive_two_bytes(skt));
+
+        fScores.addPlayerB(name, kills, deaths, totMoney);
+
+        delete name;
+    }
+}
+
 void Protocolo::send_angle(float angle, socket_t *skt) {
     std::cout << "Protocolo::send_angle(" << angle << ")" << std::endl;
     this->send_comando(AIM, skt);
