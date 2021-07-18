@@ -37,7 +37,6 @@ bool ModeloIO::update() {
     pauser.update();
     if (pauser.load()) return this->active;
     this->window.clear_renderer();
-    // this->check_actions();
     this->window.fill();
     this->renderPhase(modelo.getPhase());
     if (modelo.getRoundState() != NONE) {
@@ -63,13 +62,42 @@ void ModeloIO::check_events() {
     log->debug("Chequeando eventos");
     SDL_Event e;
     while (SDL_PollEvent(&e) != 0) {
-        if (e.type == SDL_QUIT) {
-            this->active = false;
-        }
+        switch (e.type) {
+            case SDL_QUIT:
+                this->active = false;
+                break;
 
-        if (e.type == SDL_MOUSEBUTTONDOWN) {
-            this->renderizables.shootWeapon();
-            this->modelo.usePlayerWeapon();
+            case SDL_MOUSEBUTTONDOWN:
+                this->renderizables.shootWeapon();
+                this->modelo.usePlayerWeapon();
+                break;
+
+            case SDL_KEYDOWN:
+                switch (e.key.keysym.sym) {
+                    case SDLK_1:
+                        log->debug("Change to weapon 1");
+                        this->modelo.changeToW1();
+                        break;
+                    case SDLK_2:
+                        log->debug("Change to weapon 2");
+                        this->modelo.changeToW2();
+                        break;
+                    case SDLK_3:
+                        log->debug("Change to weapon 3");
+                        this->modelo.changeToW3();
+                        break;
+                    case SDLK_4:
+                        log->debug("Change to bomb");
+                        this->modelo.changeToBomb();
+                        break;
+
+                    default:
+                        break;
+                }
+                break;
+
+            default:
+                break;
         }
     }
     log->debug("Terminaron los eventos");
@@ -80,7 +108,6 @@ void ModeloIO::check_keyboard() {
     Logger *log = Logger::getInstance();
     const Uint8 *state = SDL_GetKeyboardState(NULL);
     bool any_key_pressed = false;
-    SDL_Event event;
     if (state[SDL_SCANCODE_A]) {
         any_key_pressed = true;
         log->debug("Move Left");
@@ -108,32 +135,6 @@ void ModeloIO::check_keyboard() {
     if (!any_key_pressed) {
         this->modelo.stopPlayer();
         // this->check_mouse();
-    }
-
-    while (SDL_PollEvent(&event)) {
-        if (event.type == SDL_KEYDOWN) {
-            switch (event.key.keysym.sym) {
-                case SDLK_1:
-                    log->debug("Change to weapon 1");
-                    this->modelo.changeToW1();
-                    break;
-                case SDLK_2:
-                    log->debug("Change to weapon 2");
-                    this->modelo.changeToW2();
-                    break;
-                case SDLK_3:
-                    log->debug("Change to weapon 3");
-                    this->modelo.changeToW3();
-                    break;
-                case SDLK_4:
-                    log->debug("Change to bomb");
-                    this->modelo.changeToBomb();
-                    break;
-
-                default:
-                    break;
-            }
-        }
     }
 }
 
@@ -177,7 +178,7 @@ void ModeloIO::renderPhase(Phase phase) {
 }
 
 void ModeloIO::renderWaiting() {
-    SdlText informativeText(this->window, "ESPERANDO A LOS DEMAS JUGADORES",
+    SdlText informativeText(this->window, "ESPERANDO A LOS \nDEMAS JUGADORES",
                             WHITE, 50);
     informativeText.set_pos(50, 300);
     informativeText.render();

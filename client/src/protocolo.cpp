@@ -183,7 +183,7 @@ void Protocolo::recv_final(FinalScores &fScores, socket_t *skt) {
     }
 
     size_t teamBsize = size_t(::ntohs(receive_two_bytes(skt)));
-    for (size_t i = 0; i < teamAsize; i++) {
+    for (size_t i = 0; i < teamBsize; i++) {
         uint8_t nameSize = receive_one_byte(skt);
 
         char *name = new char[nameSize];
