@@ -157,11 +157,15 @@ void Protocolo::send_login(socket_t *skt, TeamID team_id) {
 }
 
 void Protocolo::recv_final(FinalScores &fScores, socket_t *skt) {
+    // teamID 1
     TeamID team = TeamID(receive_one_byte(skt));
     fScores.setWinnerTeam(team);
 
+    // teamAsize 2
     size_t teamAsize = size_t(::ntohs(receive_two_bytes(skt)));
+    std::cout << "Se recibe el team size: " << teamAsize << std::endl;
     for (size_t i = 0; i < teamAsize; i++) {
+        // namesize 1
         uint8_t nameSize = receive_one_byte(skt);
 
         char *name = new char[nameSize];

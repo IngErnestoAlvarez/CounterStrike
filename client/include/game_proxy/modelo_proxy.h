@@ -62,6 +62,8 @@ class ModeloProxy {
 
     void update();
 
+    void close();
+
     void finally();
 
     int getWidth();

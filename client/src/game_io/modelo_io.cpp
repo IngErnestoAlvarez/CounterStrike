@@ -47,7 +47,7 @@ bool ModeloIO::update() {
 }
 
 void ModeloIO::check_actions() {
-    if (pauser.load()) return;
+    if (pauser.load() || !this->active) return;
     using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();
     log->debug("Comienza check_actions");
@@ -167,6 +167,10 @@ void ModeloIO::renderPhase(Phase phase) {
 
         case MAIN_PHASE:
             renderPlaying();
+            break;
+
+        case FINAL_PHASE:
+            this->active = false;
             break;
 
         default:

@@ -90,6 +90,7 @@ void ModeloProxy::chargeBodies() {
     uint8_t BWins;
     Phase auxPhase;
 
+    if (this->phase == FINAL_PHASE) return;
     protocolo.recv_state(&result, &size, &roundWinner, &auxPhase, &AWins,
                          &BWins, &skt);
 
@@ -152,6 +153,11 @@ void ModeloProxy::initialize() {
 void ModeloProxy::update() {
     chargePlayer();
     chargeBodies();
+}
+
+void ModeloProxy::close() {
+    this->skt.shutdown();
+    this->skt.close();
 }
 
 void ModeloProxy::finally() { protocolo.recv_final(finalScores, &skt); }

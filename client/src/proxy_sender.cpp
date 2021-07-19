@@ -6,7 +6,12 @@ ProxySender::ProxySender(ModeloIO *modelo, std::atomic_bool *playing)
 ProxySender::~ProxySender() {}
 
 void ProxySender::run() {
-    while (playing->load() == true) {
-        modelo->check_actions();
+    try {
+        while (playing->load() == true) {
+            modelo->check_actions();
+        }
+    } catch (socket_t::SocketClosed &e) {
+    } catch (std::exception &e) {
+        std::cout << e.what() << std::endl;
     }
 }

@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <syslog.h>
+#include <unistd.h>
 
 #include <iostream>
 #include <stdexcept>
@@ -37,11 +38,16 @@ void App::main_loop() {
         SDL_Delay(time_left);
         this->next_time += DELAY;
     }
+    std::cout << "Llega a proxy.close" << std::endl;
     proxySender.join();
     proxyUpdater.join();
-
+    std::cout << "Llega al finally" << std::endl;
     proxy.finally();
     view.renderFinal();
+    playing = false;
+    proxy.close();
+    std::cout << "Llega al sleep" << std::endl;
+    sleep(4);
 }
 
 Uint32 App::time_left() {

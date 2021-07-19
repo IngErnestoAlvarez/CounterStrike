@@ -6,7 +6,12 @@ ProxyUpdater::ProxyUpdater(ModeloProxy *proxy, std::atomic_bool *playing)
 ProxyUpdater::~ProxyUpdater() {}
 
 void ProxyUpdater::run() {
-    while ((*playing).load() == true) {
-        proxy->update();
+    try {
+        while ((*playing).load() == true) {
+            proxy->update();
+        }
+    } catch (socket_t::SocketClosed &e) {
+    } catch (std::exception &e) {
+        std::cout << e.what() << std::endl;
     }
 }

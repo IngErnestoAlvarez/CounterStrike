@@ -4,8 +4,8 @@ FinalMatchScreen::FinalMatchScreen(SdlWindow &window, FinalScores *fs,
                                    TeamID myTeam)
     : myTeam(myTeam),
       score(window),
-      winner(window, "TU EQUIPO HA GANADO", BLUE, 60),
-      looser(window, "TU EQUIPO HA PERDIDO", RED, 60),
+      winner(window, "VICTORIA", BLUE, 60),
+      looser(window, "DERROTA", RED, 60),
       fs(fs) {
     winner.set_pos(50, 100);
     looser.set_pos(50, 100);
@@ -20,7 +20,7 @@ void FinalMatchScreen::update(std::vector<PlayerScore> teamA,
 
 void FinalMatchScreen::render() {
     TeamID winner = fs->getWinnerTeam();
-    if (winner == myTeam) {
+    if (winner != myTeam) {
         this->winner.render();
     } else {
         this->looser.render();
