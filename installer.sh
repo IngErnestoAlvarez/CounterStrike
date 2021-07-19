@@ -1,5 +1,17 @@
 #!/bin/bash
 
+dependencies (){
+    echo "Installing SDL2";
+    apt-get install libsdl2-image-dev libsdl2-ttf-dev libsdl2-mixer-dev;
+    apt-get install libsdl2;
+    echo "Installing yaml dependecy";
+    apt-get install libyaml-cpp-dev;
+    echo "Installing box2d";
+    apt-get install libbox2d-dev;
+    echo "Installing cimg";
+    apt-get install cimg-dev;
+}
+
 start (){
     echo "Where do you want to install the bins?\n If you dont pass anything it will install it on /usr/bin"
     read BIN
@@ -53,6 +65,7 @@ Assets (){
     cp -a assets/. $ASSETS;
 }
 
+dependencies
 start
 Config
 Assets
