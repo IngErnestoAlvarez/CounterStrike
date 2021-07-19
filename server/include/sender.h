@@ -2,6 +2,7 @@
 #define SENDER_H
 
 #include "my_thread.h"
+#include <atomic>
 
 class socket_t;
 class Protocolo;
@@ -9,7 +10,7 @@ class StateQueue;
 
 class Sender : public Thread {
 private:
-	bool is_running;
+	std::atomic<bool> is_running;
 	socket_t& socket;
 	Protocolo& protocol;
 	StateQueue& state_queue;
@@ -22,7 +23,6 @@ public:
 	~Sender();
 	void run() override;
 	void stop();
-	void sendFinal();
 };
 
 #endif

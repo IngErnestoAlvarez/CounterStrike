@@ -6,7 +6,6 @@
 #include <cstdlib>
 #include <iostream>
 
-#include "Logger.h"
 #include "command.h"
 #include "game_logic/block.h"
 #include "game_logic/body.h"
@@ -68,9 +67,6 @@ bool Game::canPlayerExecuteCommands(int player_id) {
 }
 
 void Game::executeCommand(Command &command) {
-    using namespace CPlusPlusLogging;
-    Logger *log = Logger::getInstance();
-
     Comando code = command.getCode();
     int player_id = command.getPeerID();
 
@@ -96,28 +92,24 @@ void Game::executeCommand(Command &command) {
             this->stopPlayer(player_id);
             break;
         case CW1:
-            log->debug("se recibio comando cw1");
             if (this->phase == PREPARATION_PHASE)
                 this->buyPlayerAK47(player_id);
             else
                 this->setWeaponToPrimary(player_id);
             break;
         case CW2:
-            log->debug("se recibio comando cw2");
             if (this->phase == PREPARATION_PHASE)
                 this->buyPlayerAWP(player_id);
             else
                 this->setWeaponToRange(player_id);
             break;
         case CW3:
-            log->debug("se recibio comando cw3");
             if (this->phase == PREPARATION_PHASE)
                 this->buyPlayerM3(player_id);
             else
                 this->setWeaponToMelee(player_id);
             break;
         case CB:
-            log->debug("se recibio comando cb");
             if (this->phase == PREPARATION_PHASE)
                 this->buyPlayerBullets(player_id);
             else
@@ -242,18 +234,13 @@ bool Game::hasBombExploded() {
 }
 
 void Game::checkBombState() {
-    using namespace CPlusPlusLogging;
-    Logger *log = Logger::getInstance();
-
     TeamID counter_terrorists =
         this->team_a.getRole() == COUNTER_TERRORIST ? TEAM_A : TEAM_B;
     TeamID terrorists = counter_terrorists == TEAM_A ? TEAM_B : TEAM_A;
 
     if (this->hasBombBeenDeactivated()) {
-        log->debug("La bomba fue desactivada");
         this->winner_team = counter_terrorists;
     } else if (this->hasBombExploded()) {
-        log->debug("La bomba exploto");
         this->winner_team = terrorists;
     }
 }
@@ -301,11 +288,6 @@ void Game::goToNextRound() {
 
 void Game::step() {
     if (!this->isRunning()) return;
-
-    using namespace CPlusPlusLogging;
-    Logger *log = Logger::getInstance();
-    std::string aux = "preparation_steps = " + std::to_string(this->preparation_steps);
-    log->debug(aux);
 
     switch (this->phase) {
         case PREPARATION_PHASE:

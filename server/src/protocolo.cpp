@@ -234,11 +234,11 @@ void Protocolo::send_final(socket_t *skt) {
     this->send_one_byte(skt, &winner_team_id);
 
     uint16_t team_a_size = ::htons(uint16_t(this->game->getTeamASize()));
-    std::cout << "Se envia el team size: " << team_a_size << std::endl;
+    std::cout << "Se envia el team size: " << this->game->getTeamASize() << std::endl;
     this->send_two_bytes(skt, &team_a_size);
 
     for (Player *player : this->game->getTeamAPlayers()) {
-        uint8_t name_size = (1);
+        uint8_t name_size = 1;
         uint8_t name = player->getID();
         uint16_t kills = ::htons(player->getKills());
         uint16_t deaths = ::htons(player->getDeaths());
@@ -255,8 +255,8 @@ void Protocolo::send_final(socket_t *skt) {
     this->send_two_bytes(skt, &team_b_size);
 
     for (Player *player : this->game->getTeamBPlayers()) {
-        uint8_t name_size = (1);
-        uint8_t name = (player->getID());
+        uint8_t name_size = 1;
+        uint8_t name = player->getID();
         uint16_t kills = ::htons(player->getKills());
         uint16_t deaths = ::htons(player->getDeaths());
         uint16_t earned_money = ::htons(player->getEarnedMoney());

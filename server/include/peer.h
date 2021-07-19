@@ -14,14 +14,10 @@ class Protocolo;
 class Peer {
 private:
 	int id;
-	bool is_running;
-
 	socket_t socket;
 	Protocolo& protocol;
-
 	CommandQueue& command_queue;
 	StateQueue state_queue;
-
 	Sender sender;
 	Receiver receiver;
 
@@ -33,14 +29,8 @@ public:
 	~Peer();
 
 	int getPeerID() const;
-	// void run() override;
-	// void sendState();
-	// void stop();
-	bool isRunning();
 	void start();
 	void pushGameState(Game& game);
-	void stop();
-	void sendFinal();
 };
 
 #endif

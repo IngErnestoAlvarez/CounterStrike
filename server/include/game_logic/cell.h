@@ -15,6 +15,7 @@ private:
 
 public:
     explicit Cell(Game& game, BodyType type, float world_x, float world_y);
+    Cell(Cell&& other);
     ~Cell();
     bool canBeAccesed();
     float getWorldX();

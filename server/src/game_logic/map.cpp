@@ -1,14 +1,11 @@
-#include "game_logic/map.h"
-
 #include <unordered_map>
-
-#include "game_logic/world.h"
-#include "game_logic/block.h"
 #include "yaml-cpp/yaml.h"
+
+#include "game_logic/block.h"
 #include "game_logic/game.h"
+#include "game_logic/map.h"
 #include "game_logic/world.h"
 #include "types.h"
-#include "Logger.h"
 
 #define CELL_SIZE 32
 
@@ -17,8 +14,8 @@ Map::Map(Game& game, const std::string &map_filepath) : world(game.getWorld()) {
     std::vector<int> map_grid = map_object["grid"].as<std::vector<int>>();
 
     this->name = map_object["name"].as<std::string>();
-    this->width = std::stoi(map_object["width"].as<std::string>());
-    this->height = std::stoi(map_object["height"].as<std::string>());
+    this->width = map_object["width"].as<int>();
+    this->height = map_object["height"].as<int>();
     this->starting_x_terrorists = map_object["starting_x_terrorists"].as<int>();
     this->starting_y_terrorists = map_object["starting_y_terrorists"].as<int>();
     this->starting_x_counterterrorists = map_object["starting_x_counterterrorists"].as<int>();
@@ -29,7 +26,7 @@ Map::Map(Game& game, const std::string &map_filepath) : world(game.getWorld()) {
             BodyType cell_type = BodyType(map_grid[this->height * j + i]);
             float x = i * CELL_SIZE + CELL_SIZE / 2;
             float y = j * CELL_SIZE + CELL_SIZE / 2;
-            this->grid.push_back(Cell(game, cell_type, x, y));
+            this->grid.push_back(std::move(Cell(game, cell_type, x, y)));
         }
     }
 }
@@ -42,13 +39,9 @@ const std::string &Map::getName() const { return this->name; }
 
 Cell &Map::getCellAt(int x, int y) { return this->grid[this->height * y + x]; }
 
-Cell& Map::getCell(float x, float y) {
-    using namespace CPlusPlusLogging;
-    Logger *log = Logger::getInstance();
+Cell& Map::getCellAt(float x, float y) {
     int i = (x - CELL_SIZE / 2) / CELL_SIZE;
     int j = (y - CELL_SIZE / 2) / CELL_SIZE;
-    std::string aux = "getCell => coords = " + std::to_string(i) + ", " + std::to_string(j);
-    log->debug(aux);
     return this->getCellAt(i, j);
 }
 

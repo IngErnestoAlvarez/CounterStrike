@@ -2,7 +2,6 @@
 #include <iostream>
 
 #include "state_queue.h"
-#include "Logger.h"
 #include "peer.h"
 #include "protocolo.h"
 #include "socket.h"
@@ -22,29 +21,11 @@ Sender::~Sender() {
     this->join();
 }
 
-void Sender::stop() {
-    this->state_queue.kill();
-}
-
 void Sender::run() {
-    using namespace CPlusPlusLogging;
-    Logger *log = Logger::getInstance();
     try {
-        while (is_running) {
-            GameState state;
-            log->debug("Esperando un nuevo game_state");
-            if (!this->state_queue.pop(state)) {
-                log->debug("Se envia estado final");
-                this->protocol.send_final(&this->socket);
-                continue;
-            }
-            log->debug("Se obtuvo un nuevo game_state");
-            std::string aux = "game_state.ammo = " + std::to_string(state.ammo);
-            log->debug(aux);
-            aux = "game_state.health = " + std::to_string(state.health);
-            log->debug(aux);
+        GameState state;
 
-
+        while (this->state_queue.pop(state)) {
             this->protocol.send_one_byte(&this->socket, &state.ammo);
             this->protocol.send_one_byte(&this->socket, &state.health);
             this->protocol.send_two_bytes(&this->socket, &state.money);
@@ -69,19 +50,22 @@ void Sender::run() {
                 this->protocol.send_four_bytes(&this->socket, &body.angle);
             }
 
-            if (Phase(state.phase) == FINAL_PHASE) {
-                this->stop();
-            }
+            if (Phase(state.phase) == FINAL_PHASE)
+                this->state_queue.kill();
         }
+
+        this->protocol.send_final(&this->socket);
+    } catch (const socket_t::SocketClosed& e) {
+        if (this->is_running)
+            std::cerr << e.what();
     } catch (const std::exception &e) {
         std::cerr << e.what();
     } catch (...) {
-
+        std::cerr << "Unexpected error in sender thread\n";
     }
-
-    log->debug("termina Sender::run");
 }
 
-void Sender::sendFinal() {
-    this->protocol.send_final(&this->socket);
+void Sender::stop() {
+    this->is_running = false;
+    this->state_queue.kill();
 }

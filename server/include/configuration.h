@@ -11,7 +11,9 @@ private:
     float player_speed;
     float bullet_speed;
     int initial_money;
+    int initial_ammo;
     int kill_reward;
+    std::string map_filepath;
     std::unordered_map<std::string,
     				   std::unordered_map<std::string, float>> weapons;
 
@@ -23,7 +25,9 @@ public:
     float getPlayerSpeed() const;
     float getBulletSpeed() const;
     int getInitialMoney() const;
+    int getInitialAmmo() const;
     int getKillReward() const;
+    std::string getMapFilepath() const;
 };
 
 #endif

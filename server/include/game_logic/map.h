@@ -32,7 +32,7 @@ public:
     std::vector<Cell>::iterator begin();
     std::vector<Cell>::iterator end();
     Cell& getCellAt(int x, int y);
-    Cell& getCell(float x, float y);
+    Cell& getCellAt(float x, float y);
 };
 
 #endif

@@ -2,12 +2,9 @@
 #include <iostream>
 
 #include "command_queue.h"
-#include "Logger.h"
 #include "peer.h"
 #include "protocolo.h"
 #include "socket.h"
-
-#define UNEXPECTED_ERROR_PEER "Se ha producido un error inesperado en peer"
 
 Receiver::Receiver(
       int id,
@@ -24,28 +21,32 @@ Receiver::~Receiver() {
     this->join();
 }
 
-void Receiver::run() {
-    using namespace CPlusPlusLogging;
-    Logger *log = Logger::getInstance();
+void Receiver::stop() {
+    this->is_running = false;
+}
 
+void Receiver::run() {
     try {
         while (true) {
             Comando code = this->protocol.recv_comando(&this->socket);
             Command command(code, this->id);
 
             if (code == AIM) {
-                uint16_t angle = this->protocol.receive_two_bytes(&this->socket);
+                uint16_t angle = this->protocol.receive_two_bytes(
+                    &this->socket);
                 angle = ::ntohs(angle);
                 command.setArg("angle", angle);
             }
 
             this->command_queue.push(command);
         }
+    } catch (const socket_t::SocketClosed& e) {
+        if (this->is_running)
+            std::cerr << e.what();
     } catch (const std::exception &e) {
-        std::cerr << e.what();
+        if (this->is_running)
+            std::cerr << e.what();
     } catch (...) {
-        std::cerr << UNEXPECTED_ERROR_PEER;
+        std::cerr << "Unexpected error in receiver thread\n";
     }
-
-    log->debug("termina Receiver::run");
 }

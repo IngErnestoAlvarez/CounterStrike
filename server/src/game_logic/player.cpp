@@ -12,7 +12,6 @@
 #include "game_logic/weapons/glock.h"
 #include "game_logic/weapon_drop.h"
 #include "types.h"
-#include "Logger.h"
 
 Player::Player(Game& game,
                int player_id,
@@ -26,7 +25,7 @@ Player::Player(Game& game,
       team_id(team_id),
       health(game.getConfig().getPlayerHealth()),
       money(game.getConfig().getInitialMoney()),
-      ammo(30),
+      ammo(game.getConfig().getInitialAmmo()),
       kill_reward(game.getConfig().getKillReward()),
       kills(0),
       deaths(0),
@@ -117,14 +116,9 @@ void Player::receiveBomb() {
 }
 
 void Player::activateBomb() {
-    using namespace CPlusPlusLogging;
-    Logger *log = Logger::getInstance();
-    log->debug("activateBomb: start");
     if (this->has_bomb) {
-        log->debug("activateBomb: has_bomb");
-        Cell& cell = this->game.getMap().getCell(this->getX(), this->getY());
+        Cell& cell = this->game.getMap().getCellAt(this->getX(), this->getY());
         if (cell.isBombZone()) {
-            log->debug("activateBomb: isBombZone");
             this->game.createBomb(this->getX() + 20, this->getY() + 20);
             this->has_bomb = false;
         }

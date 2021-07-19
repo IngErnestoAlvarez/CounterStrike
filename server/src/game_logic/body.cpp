@@ -25,10 +25,7 @@ Body::Body(World& world,
 }
 
 Body::~Body() {
-    if (!this->isDestroyed()) {
-        this->world.bodies[this->id] = nullptr;
-        this->destroy();
-    }
+    this->destroy();
 }
 
 void Body::initializeBody() {
@@ -96,6 +93,7 @@ void Body::stopMoving() {
 void Body::destroy() {
     if (this->isDestroyed())
         return;
+    this->world.bodies[this->id] = nullptr;
     this->world.b2_world->DestroyBody(this->b2_body);
     this->b2_body = nullptr;
     this->to_be_destroyed = false;
