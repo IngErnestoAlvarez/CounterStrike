@@ -1,6 +1,7 @@
 #ifndef __MODELO_PROXY_H__
 #define __MODELO_PROXY_H__
 
+#include <atomic>
 #include <mutex>
 #include <string>
 #include <vector>
@@ -25,6 +26,7 @@ class ModeloProxy {
     socket_t skt;
     std::mutex mutex;
     FinalScores finalScores;
+    std::atomic_bool active;
 
    public:
     ModeloProxy(std::string const &host, std::string const &service,
@@ -32,6 +34,7 @@ class ModeloProxy {
                 const char *teamID);
     ~ModeloProxy();
 
+    bool isActive();
     void movePlayerUp();
     void movePlayerDown();
     void movePlayerLeft();

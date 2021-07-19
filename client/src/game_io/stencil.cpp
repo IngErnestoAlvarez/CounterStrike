@@ -2,8 +2,16 @@
 
 #include "Logger.h"
 
+#ifndef STRINGIZER
+#define STRINGIZER(arg) #arg
+#define STR_VALUE(arg) STRINGIZER(arg)
+#endif
+#ifndef APATH
+#define APATH STR_VALUE(ASSETSPATH)
+#endif
+
 Stencil::Stencil(SdlWindow &window)
-    : SdlObject("assets/sprites/stencil.png", 1, window) {
+    : SdlObject(std::string(APATH) + "/sprites/stencil.png", 1, window) {
     using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();
     log->debug("Comienza constructor Stencil");

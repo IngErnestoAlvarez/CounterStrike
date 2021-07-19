@@ -20,7 +20,7 @@ void FinalMatchScreen::update(std::vector<PlayerScore> teamA,
 
 void FinalMatchScreen::render() {
     TeamID winner = fs->getWinnerTeam();
-    if (winner != myTeam) {
+    if (winner == myTeam) {
         this->winner.render();
     } else {
         this->looser.render();

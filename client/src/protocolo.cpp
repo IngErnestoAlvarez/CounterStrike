@@ -166,46 +166,50 @@ void Protocolo::recv_final(FinalScores &fScores, socket_t *skt) {
     std::cout << "Se recibe el team size: " << teamAsize << std::endl;
     for (size_t i = 0; i < teamAsize; i++) {
         // namesize 1
-        uint8_t nameSize = receive_one_byte(skt);
+        uint8_t nameSize __attribute__((unused)) = receive_one_byte(skt);
 
-        char *name = new char[nameSize];
-        size_t received;
-        skt->receive(name, nameSize, received);
+        std::string name = std::to_string(receive_one_byte(skt));
+        // char *name = new char[nameSize];
+        // size_t received;
+        // skt->receive(name, nameSize, received);
 
-        if (received != nameSize) {
-            delete name;
-            throw std::runtime_error(
-                "No se recibieron la cant de bytes necesarios. recv_final()");
-        }
+        // if (received != nameSize) {
+        //     delete name;
+        //     throw std::runtime_error(
+        //         "No se recibieron la cant de bytes necesarios.
+        //         recv_final()");
+        // }
         uint16_t kills = ::ntohs(receive_two_bytes(skt));
         uint16_t deaths = ::ntohs(receive_two_bytes(skt));
         uint16_t totMoney = ::ntohs(receive_two_bytes(skt));
 
         fScores.addPlayerA(name, kills, deaths, totMoney);
 
-        delete name;
+        // delete name;
     }
 
     size_t teamBsize = size_t(::ntohs(receive_two_bytes(skt)));
     for (size_t i = 0; i < teamBsize; i++) {
-        uint8_t nameSize = receive_one_byte(skt);
+        uint8_t nameSize __attribute__((unused)) = receive_one_byte(skt);
 
-        char *name = new char[nameSize];
-        size_t received;
-        skt->receive(name, nameSize, received);
+        std::string name = std::to_string(receive_one_byte(skt));
+        // char *name = new char[nameSize];
+        // size_t received;
+        // skt->receive(name, nameSize, received);
 
-        if (received != nameSize) {
-            delete name;
-            throw std::runtime_error(
-                "No se recibieron la cant de bytes necesarios. recv_final()");
-        }
+        // if (received != nameSize) {
+        //     delete name;
+        //     throw std::runtime_error(
+        //         "No se recibieron la cant de bytes necesarios.
+        //         recv_final()");
+        // }
         uint16_t kills = ::ntohs(receive_two_bytes(skt));
         uint16_t deaths = ::ntohs(receive_two_bytes(skt));
         uint16_t totMoney = ::ntohs(receive_two_bytes(skt));
 
         fScores.addPlayerB(name, kills, deaths, totMoney);
 
-        delete name;
+        // delete name;
     }
 }
 

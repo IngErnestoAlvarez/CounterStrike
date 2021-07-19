@@ -4,14 +4,22 @@
 
 #include "Logger.h"
 
+#ifndef STRINGIZER
+#define STRINGIZER(arg) #arg
+#define STR_VALUE(arg) STRINGIZER(arg)
+#endif
+#ifndef APATH
+#define APATH STR_VALUE(ASSETSPATH)
+#endif
+
 WeaponView::WeaponView(std::string const &path, int animation_frames,
                        SdlWindow &window, WeaponProxy *weapon)
     : SdlObject(path, 1, window),
       weapon(weapon),
       window(&window),
       prevWeapon(weapon->getBodyType()),
-      shootSound("assets/sounds/SHOT.wav"),
-      noBulletSound("assets/sounds/w_empty.wav"),
+      shootSound(std::string(APATH) + "/sounds/SHOT.wav"),
+      noBulletSound(std::string(APATH) + "/sounds/w_empty.wav"),
       ammo(window, weapon->getAmmo()) {
     center = {16, 32};
     sprite_clips[0].x = 0;
@@ -26,8 +34,8 @@ WeaponView::WeaponView(SdlWindow &window, WeaponProxy *weapon)
       weapon(weapon),
       window(&window),
       prevWeapon(weapon->getBodyType()),
-      shootSound("assets/sounds/SHOT.wav"),
-      noBulletSound("assets/sounds/w_empty.wav"),
+      shootSound(std::string(APATH) + "/sounds/SHOT.wav"),
+      noBulletSound(std::string(APATH) + "/sounds/w_empty.wav"),
       ammo(window, weapon->getAmmo()) {
     using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();

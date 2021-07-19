@@ -40,6 +40,7 @@ void App::main_loop() {
     }
     std::cout << "Llega a proxy.close" << std::endl;
     proxySender.join();
+    std::cout << "Llega a cerrar proxy_sender" << std::endl;
     proxyUpdater.join();
     std::cout << "Llega al finally" << std::endl;
     proxy.finally();
@@ -47,7 +48,7 @@ void App::main_loop() {
     playing = false;
     proxy.close();
     std::cout << "Llega al sleep" << std::endl;
-    sleep(4);
+    sleep(10);
 }
 
 Uint32 App::time_left() {

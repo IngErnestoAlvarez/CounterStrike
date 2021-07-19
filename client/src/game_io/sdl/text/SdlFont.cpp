@@ -4,6 +4,14 @@
 #include <stdexcept>
 #include <string>
 
+#ifndef STRINGIZER
+#define STRINGIZER(arg) #arg
+#define STR_VALUE(arg) STRINGIZER(arg)
+#endif
+#ifndef APATH
+#define APATH STR_VALUE(ASSETSPATH)
+#endif
+
 SdlFont::SdlFont(std::string const &fontname, size_t font_size) {
     this->font = TTF_OpenFont(fontname.c_str(), font_size);
     this->check_if_empty();
@@ -11,7 +19,7 @@ SdlFont::SdlFont(std::string const &fontname, size_t font_size) {
 
 SdlFont::SdlFont(std::string const &fontname) : SdlFont(fontname, 30) {}
 
-SdlFont::SdlFont() : SdlFont("assets/font/cs.ttf") {}
+SdlFont::SdlFont() : SdlFont(std::string(APATH) + "/font/cs.ttf") {}
 
 SdlFont::SdlFont(SdlFont &&other) : font(other.font) { other.font = nullptr; }
 
