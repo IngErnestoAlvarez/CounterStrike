@@ -1,9 +1,11 @@
 port: 8000
 game_settings:
+  map_filepath: assets/maps/map_2.yaml
   player_health: 100
   player_speed: 1000
   bullet_speed: 5000
   initial_money: 100
+  initial_ammo: 30
   kill_reward: 10
   weapons:
     knife:
