@@ -22,7 +22,9 @@ ModeloProxy::ModeloProxy(std::string const &host, std::string const &service,
       roundResult(),
       phase(TEAMS_FORMING_PHASE),
       skt(),
-      mutex() {
+      mutex(),
+      finalScores(),
+      active(true) {
     using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();
     log->info("Conectando con el servidor");
@@ -35,6 +37,8 @@ ModeloProxy::ModeloProxy(std::string const &host, std::string const &service,
 }
 
 ModeloProxy::~ModeloProxy() {}
+
+bool ModeloProxy::isActive() { return this->active.load(); }
 
 void ModeloProxy::movePlayerUp() { protocolo.send_comando(UP, &skt); }
 
@@ -151,8 +155,12 @@ void ModeloProxy::initialize() {
 }
 
 void ModeloProxy::update() {
+    if (!active) return;
     chargePlayer();
     chargeBodies();
+    if (getPhase() == FINAL_PHASE) {
+        active = false;
+    }
 }
 
 void ModeloProxy::close() {

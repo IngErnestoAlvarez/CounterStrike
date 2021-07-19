@@ -1,5 +1,7 @@
 #include "game_io/score.h"
 
+#include <iomanip>
+#include <sstream>
 #include <string>
 
 Score::Score(SdlWindow &window) : window(&window) {}
@@ -18,34 +20,44 @@ Score::~Score() {
 void Score::setTeams(std::vector<PlayerScore> &teamA,
                      std::vector<PlayerScore> &teamB) {
     int pos = 200;
-    std::string aux;
+    std::stringstream aux;
+    aux.str("");
+    aux << std::setw(10) << "PLAYER";
+    aux << std::setw(20) << "KILLS";
+    aux << std::setw(20) << "DEATHS";
+    aux << std::setw(20) << "MONEY";
+    teamAScores.emplace_back(*window, aux.str(), GREEN, 14);
+    teamAScores.back().set_pos(0, pos);
+    pos += 30;
     for (PlayerScore &p : teamA) {
-        aux = "";
-        aux += p.name;
-        aux += "  ";
-        aux += p.kills;
-        aux += "  ";
-        aux += p.deaths;
-        aux += "  ";
-        aux += p.total_money;
+        aux.str("");
+        aux << std::setw(10) << p.name;
+        aux << std::setw(22) << std::to_string(p.kills);
+        aux << std::setw(25) << std::to_string(p.deaths);
+        aux << std::setw(30) << std::to_string(p.total_money);
 
-        teamAScores.emplace_back(*window, aux, BLUE, 15);
-        teamAScores.back().set_pos(50, pos);
+        teamAScores.emplace_back(*window, aux.str(), BLUE, 14);
+        teamAScores.back().set_pos(0, pos);
         pos += 30;
     }
     pos = 200;
+    aux.str("");
+    aux << std::setw(10) << "PLAYER";
+    aux << std::setw(20) << "KILLS";
+    aux << std::setw(20) << "DEATHS";
+    aux << std::setw(20) << "MONEY";
+    teamBScores.emplace_back(*window, aux.str(), GREEN, 14);
+    teamBScores.back().set_pos(400, pos);
+    pos += 30;
     for (PlayerScore &p : teamB) {
-        aux = "";
-        aux += p.name;
-        aux += "  ";
-        aux += p.kills;
-        aux += "  ";
-        aux += p.deaths;
-        aux += "  ";
-        aux += p.total_money;
+        aux.str("");
+        aux << std::setw(10) << p.name;
+        aux << std::setw(22) << std::to_string(p.kills);
+        aux << std::setw(25) << std::to_string(p.deaths);
+        aux << std::setw(30) << std::to_string(p.total_money);
 
-        teamBScores.emplace_back(*window, aux, RED, 15);
-        teamBScores.back().set_pos(650, pos);
+        teamBScores.emplace_back(*window, aux.str(), RED, 14);
+        teamBScores.back().set_pos(400, pos);
         pos += 30;
     }
 }

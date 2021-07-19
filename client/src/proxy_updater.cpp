@@ -7,7 +7,7 @@ ProxyUpdater::~ProxyUpdater() {}
 
 void ProxyUpdater::run() {
     try {
-        while ((*playing).load() == true) {
+        while ((proxy->isActive()) == true) {
             proxy->update();
         }
     } catch (socket_t::SocketClosed &e) {
