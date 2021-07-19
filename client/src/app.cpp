@@ -13,10 +13,10 @@
 
 #define DELAY 14
 
-App::App(std::string const &host, std::string const &service,
+App::App(std::string const &host, std::string const &service, std::string const &game_id,
          const char *teamID)
     : playing(true),
-      proxy(host, service, teamID),
+      proxy(host, service, game_id, teamID),
       view(proxy),
       proxyUpdater(&proxy, &playing),
       proxySender(&view, &playing) {}

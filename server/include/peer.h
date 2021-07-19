@@ -14,6 +14,8 @@ class Protocolo;
 class Peer {
 private:
 	int id;
+	int game_id;
+	bool is_running;
 	socket_t socket;
 	Protocolo& protocol;
 	CommandQueue& command_queue;
@@ -23,6 +25,7 @@ private:
 
 public:
 	Peer(int id,
+		 int game_id,
 		 socket_t& skt,
 		 Protocolo& protocol,
 		 CommandQueue& command_queue);
@@ -31,6 +34,8 @@ public:
 	int getPeerID() const;
 	void start();
 	void pushGameState(Game& game);
+	int getGameID();
+	bool isRunning();
 };
 
 #endif

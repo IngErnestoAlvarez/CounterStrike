@@ -13,6 +13,7 @@ static TeamID strToTeamID(const char *teamId);
 typedef std::lock_guard<std::mutex> guard;
 
 ModeloProxy::ModeloProxy(std::string const &host, std::string const &service,
+                         std::string const &game_id,
                          const char *teamID)
     : myTeam(strToTeamID(teamID)),
       protocolo(),
@@ -28,7 +29,8 @@ ModeloProxy::ModeloProxy(std::string const &host, std::string const &service,
     log->info("Conectando con el servidor");
 
     skt.connect(host.c_str(), service.c_str());
-
+    uint8_t game_id_ = std::stoi(game_id);
+    protocolo.send_one_byte(&skt, &game_id_);
     protocolo.send_login(&skt, strToTeamID(teamID));
 
     log->info("Conexion exitosa");

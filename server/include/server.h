@@ -3,10 +3,14 @@
 
 #include <string>
 
+#include "login_queue.h"
+#include "login_handler.h"
 #include "acceptor.h"
 
 class Server {
 private:
+	LoginQueue login_queue;
+	LoginHandler login_handler;
 	Acceptor acceptor;
 
 public:

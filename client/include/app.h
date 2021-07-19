@@ -20,6 +20,7 @@ class App {
 
    public:
     App(std::string const &host, std::string const &service,
+        std::string const &game_id,
         const char *teamID);
 
     ~App();

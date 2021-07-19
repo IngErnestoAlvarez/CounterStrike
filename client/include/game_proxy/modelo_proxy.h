@@ -28,6 +28,7 @@ class ModeloProxy {
 
    public:
     ModeloProxy(std::string const &host, std::string const &service,
+                std::string const &game_id,
                 const char *teamID);
     ~ModeloProxy();
 

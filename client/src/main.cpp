@@ -17,13 +17,13 @@ int main(int argc, char const *argv[]) {
     log->disableLog();
     log->info("Empieza el programa");
 
-    if (argc != 4) {
+    if (argc != 5) {
         log->info("Error en los parametros");
         return -1;
     }
 
     try {
-        App game(argv[1], argv[2], argv[3]);
+        App game(argv[1], argv[2], argv[3], argv[4]);
 
         log->info("Loading media");
         game.load_media();
