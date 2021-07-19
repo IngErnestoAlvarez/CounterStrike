@@ -17,13 +17,21 @@
 #define WIDTH 800
 #define HEIGHT 600
 
+#ifndef STRINGIZER
+#define STRINGIZER(arg) #arg
+#define STR_VALUE(arg) STRINGIZER(arg)
+#endif
+#ifndef APATH
+#define APATH STR_VALUE(ASSETSPATH)
+#endif
+
 ModeloIO::ModeloIO(ModeloProxy &modelo)
     : init(),
       window(WIDTH, HEIGHT),
       modelo(modelo),
       active(true),
       renderizables(window, modelo.getPlayer()),
-      music("assets/music/menu.wav", 50),
+      music(std::string(APATH) + std::string("/music/menu.wav"), 50),
       shop(window),
       score(window, modelo.getMyTeam()),
       pauser(200),

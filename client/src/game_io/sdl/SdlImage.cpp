@@ -14,6 +14,14 @@ const SDL_Color WHITE = {0xFF, 0xFF, 0xFF};
 const SDL_Color BLACK = {0x00, 0x00, 0x00};
 const SDL_Color PINK = {0xff, 0x00, 0xff};
 
+#ifndef STRINGIZER
+#define STRINGIZER(arg) #arg
+#define STR_VALUE(arg) STRINGIZER(arg)
+#endif
+#ifndef APATH
+#define APATH STR_VALUE(ASSETSPATH)
+#endif
+
 SdlImage::SdlImage(SdlWindow &window) : SdlTexture(window) {
     width = 0;
     height = 0;
@@ -81,63 +89,62 @@ void SdlImage::load_from_file(std::string const &path, SDL_Color color) {
 }
 
 std::string SdlImage::getBodyPath(BodyType type) {
+    std::string path = APATH;
     switch (type) {
         case NO_BODY_TYPE:
-            return std::string("");
             break;
         case CT1_TYPE:
             break;
         case CT2_TYPE:
-            return std::string("assets/sprites/ct2.png");
+            path += std::string("/sprites/ct2.png");
             break;
         case AK47_TYPE:
-            return std::string("assets/sprites/ak47.png");
+            path += std::string("/sprites/ak47.png");
             break;
         case AK47_D_TYPE:
-            return std::string("assets/sprites/ak47_d.png");
+            path += std::string("/sprites/ak47_d.png");
             break;
         case OFFICE_TYPE:
-            return std::string("assets/sprites/office.png");
+            path += std::string("/sprites/office.png");
             break;
         case PLAYER_TYPE:
-            return std::string("assets/sprites/player.png");
+            path += std::string("/sprites/player.png");
             break;
         case WALL_TYPE:
-            return std::string("assets/sprites/wall.png");
+            path += std::string("/sprites/wall.png");
             break;
         case GLOCK_TYPE:
-            return std::string("assets/sprites/glock.png");
+            path += std::string("/sprites/glock.png");
             break;
         case KNIFE_TYPE:
-            return std::string("assets/sprites/knife.png");
+            path += std::string("/sprites/knife.png");
             break;
         case BOMB_D_TYPE:
-            return std::string("assets/sprites/bomb_d.png");
+            path += std::string("/sprites/bomb_d.png");
             break;
         case TT1_TYPE:
-            return std::string("assets/sprites/t1.png");
+            path += std::string("/sprites/t1.png");
             break;
         case AK47_M_TYPE:
-            return std::string("assets/sprites/ak47_m.png");
+            path += std::string("/sprites/ak47_m.png");
             break;
         case AWP_TYPE:
-            return std::string("assets/sprites/awp.png");
+            path += std::string("/sprites/awp.png");
             break;
         case AWP_M_TYPE:
-            return std::string("assets/sprites/awp_m.png");
+            path += std::string("/sprites/awp_m.png");
             break;
         case M3_TYPE:
-            return std::string("assets/sprites/m3.png");
+            path += std::string("/sprites/m3.png");
             break;
         case M3_M_TYPE:
-            return std::string("assets/sprites/m3_m.png");
+            path += std::string("/sprites/m3_m.png");
             break;
         case BOMB_ZONE_TYPE:
-            return std::string("assets/sprites/bomb_zone.png");
+            path += std::string("/sprites/bomb_zone.png");
             break;
     }
-    throw std::logic_error("BodyType erroneo");
-    return std::string("");
+    return path;
 }
 
 SDL_Color SdlImage::getBodyBG(BodyType type) {

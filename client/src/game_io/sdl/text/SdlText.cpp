@@ -9,6 +9,14 @@
 
 #include "game_io/sdl/SdlSurface.h"
 
+#ifndef STRINGIZER
+#define STRINGIZER(arg) #arg
+#define STR_VALUE(arg) STRINGIZER(arg)
+#endif
+#ifndef APATH
+#define APATH STR_VALUE(ASSETSPATH)
+#endif
+
 SdlText::SdlText(SdlWindow &window, std::string const &text,
                  std::string const &fontname, size_t font_size)
     : font(fontname, font_size), texture(window), text(text), window(&window) {
@@ -35,7 +43,7 @@ SdlText::SdlText(SdlWindow &window, std::string const &text)
 }
 SdlText::SdlText(SdlWindow &window, std::string const &text,
                  SDL_Color const &color, size_t font_size)
-    : font("assets/font/cs.ttf", font_size),
+    : font(std::string(APATH) + "/font/cs.ttf", font_size),
       texture(window),
       text(text),
       window(&window) {
