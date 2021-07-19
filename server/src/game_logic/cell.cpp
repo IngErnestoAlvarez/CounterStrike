@@ -2,6 +2,7 @@
 #include "game_logic/body.h"
 #include "game_logic/block.h"
 #include "game_logic/game.h"
+#include "Logger.h"
 
 Cell::Cell(Game& game, BodyType type, float world_x, float world_y)
 	: type(type), world_x(world_x), world_y(world_y), body(nullptr) {
@@ -17,6 +18,14 @@ Cell::~Cell() {
 }
 
 bool Cell::canBeAccesed() { return this->type == OFFICE_TYPE; }
+
+bool Cell::isBombZone() {
+	using namespace CPlusPlusLogging;
+    Logger *log = Logger::getInstance();
+    std::string aux = "activateBomb: cell type = " + std::to_string(uint8_t(this->type));
+    log->debug(aux);
+	return this->type == BOMB_ZONE_TYPE;
+}
 
 float Cell::getWorldX() { return this->world_x; }
 

@@ -20,6 +20,7 @@ public:
     float getWorldX();
     float getWorldY();
     BodyType getBodyType();
+    bool isBombZone();
 };
 
 #endif

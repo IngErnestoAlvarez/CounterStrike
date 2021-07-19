@@ -19,7 +19,6 @@ private:
     int starting_y_terrorists;
     int starting_x_counterterrorists;
     int starting_y_counterterrorists;
-    Cell& getCellAt(int x, int y);
 
 public:
     Map(Game& game, const std::string& map_filepath);
@@ -32,6 +31,8 @@ public:
     Cell& getStartingCellCounterterrorists();
     std::vector<Cell>::iterator begin();
     std::vector<Cell>::iterator end();
+    Cell& getCellAt(int x, int y);
+    Cell& getCell(float x, float y);
 };
 
 #endif

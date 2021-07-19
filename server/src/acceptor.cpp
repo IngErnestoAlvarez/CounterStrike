@@ -28,7 +28,7 @@ inline int timeLeft(int next_time) {
 Acceptor::Acceptor(const std::string &config_filepath)
     : is_running(true),
       config(config_filepath),
-      game(config, "assets/maps/map.yaml"),
+      game(config, "assets/maps/map_2.yaml"),
       protocol(&game) {
     using namespace CPlusPlusLogging;
     Logger *log = Logger::getInstance();
@@ -55,16 +55,8 @@ void Acceptor::run() {
 
             this->gameStep();
 
-            if (this->game.isRunning()) {
-                for (Peer *peer : this->peers) {
-                    peer->pushGameState(this->game);
-                }
-            } else {
-                for (Peer* peer : this->peers) {
-                    peer->stop();
-                    peer->sendFinal();
-                }
-                break;
+            for (Peer *peer : this->peers) {
+                peer->pushGameState(this->game);
             }
 
             this->executePeerCommands();

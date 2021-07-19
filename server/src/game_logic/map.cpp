@@ -8,6 +8,7 @@
 #include "game_logic/game.h"
 #include "game_logic/world.h"
 #include "types.h"
+#include "Logger.h"
 
 #define CELL_SIZE 32
 
@@ -40,6 +41,16 @@ bool Map::canBeAccesed(int x, int y) {
 const std::string &Map::getName() const { return this->name; }
 
 Cell &Map::getCellAt(int x, int y) { return this->grid[this->height * y + x]; }
+
+Cell& Map::getCell(float x, float y) {
+    using namespace CPlusPlusLogging;
+    Logger *log = Logger::getInstance();
+    int i = (x - CELL_SIZE / 2) / CELL_SIZE;
+    int j = (y - CELL_SIZE / 2) / CELL_SIZE;
+    std::string aux = "getCell => coords = " + std::to_string(i) + ", " + std::to_string(j);
+    log->debug(aux);
+    return this->getCellAt(i, j);
+}
 
 int Map::getWeaponAt(int x, int y) { return 1; }
 

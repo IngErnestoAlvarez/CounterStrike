@@ -19,14 +19,11 @@ Sender::Sender(
       state_queue(state_queue) {}
 
 Sender::~Sender() {
-    if (this->is_running)
-        this->stop();
+    this->join();
 }
 
 void Sender::stop() {
-    this->is_running = false;
     this->state_queue.kill();
-    this->join();
 }
 
 void Sender::run() {
@@ -36,7 +33,11 @@ void Sender::run() {
         while (is_running) {
             GameState state;
             log->debug("Esperando un nuevo game_state");
-            this->state_queue.pop(state); // bloqueante
+            if (!this->state_queue.pop(state)) {
+                log->debug("Se envia estado final");
+                this->protocol.send_final(&this->socket);
+                continue;
+            }
             log->debug("Se obtuvo un nuevo game_state");
             std::string aux = "game_state.ammo = " + std::to_string(state.ammo);
             log->debug(aux);
@@ -66,6 +67,10 @@ void Sender::run() {
                 this->protocol.send_two_bytes(&this->socket, &body.x);
                 this->protocol.send_two_bytes(&this->socket, &body.y);
                 this->protocol.send_four_bytes(&this->socket, &body.angle);
+            }
+
+            if (Phase(state.phase) == FINAL_PHASE) {
+                this->stop();
             }
         }
     } catch (const std::exception &e) {

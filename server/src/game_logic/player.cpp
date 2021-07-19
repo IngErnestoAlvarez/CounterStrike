@@ -4,6 +4,7 @@
 #include "game_logic/bomb_drop.h"
 #include "game_logic/game.h"
 #include "game_logic/map.h"
+#include "game_logic/cell.h"
 #include "game_logic/player.h"
 #include "game_logic/team.h"
 #include "game_logic/weapons/weapon_factory.h"
@@ -116,9 +117,17 @@ void Player::receiveBomb() {
 }
 
 void Player::activateBomb() {
+    using namespace CPlusPlusLogging;
+    Logger *log = Logger::getInstance();
+    log->debug("activateBomb: start");
     if (this->has_bomb) {
-        this->game.createBomb(this->getX() + 20, this->getY() + 20);
-        this->has_bomb = false;
+        log->debug("activateBomb: has_bomb");
+        Cell& cell = this->game.getMap().getCell(this->getX(), this->getY());
+        if (cell.isBombZone()) {
+            log->debug("activateBomb: isBombZone");
+            this->game.createBomb(this->getX() + 20, this->getY() + 20);
+            this->has_bomb = false;
+        }
     }
 }
 

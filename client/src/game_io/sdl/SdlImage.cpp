@@ -132,6 +132,9 @@ std::string SdlImage::getBodyPath(BodyType type) {
         case M3_M_TYPE:
             return std::string("assets/sprites/m3_m.png");
             break;
+        case BOMB_ZONE_TYPE:
+            return std::string("assets/sprites/bomb_zone.png");
+            break;
     }
     throw std::logic_error("BodyType erroneo");
     return std::string("");
@@ -187,6 +190,9 @@ SDL_Color SdlImage::getBodyBG(BodyType type) {
             break;
         case M3_M_TYPE:
             return PINK;
+            break;
+        case BOMB_ZONE_TYPE:
+            return BLACK;
             break;
     }
     return WHITE;

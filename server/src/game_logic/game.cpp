@@ -310,7 +310,7 @@ void Game::step() {
     switch (this->phase) {
         case PREPARATION_PHASE:
             this->preparation_steps++;
-            if (this->preparation_steps == 10) {
+            if (this->preparation_steps == 50) {
                 this->preparation_steps = 0;
                 this->phase = MAIN_PHASE;
             }
