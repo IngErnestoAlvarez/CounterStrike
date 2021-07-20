@@ -13,19 +13,22 @@ dependencies (){
 }
 
 start (){
-    echo "Where do you want to install the bins?\n If you dont pass anything it will install it on /usr/bin"
+    echo "Where do you want to install the bins? ";
+    echo "If you dont pass anything it will install it on /usr/bin";
     read BIN
     if [ -z "$BIN" ]
     then
         BIN="/usr/bin"
     fi
-    echo "Where do you want to install the configuration files?\n If you dont pass anything it will install it on /etc"
+    echo "Where do you want to install the configuration files?"
+    echo "If you dont pass anything it will install it on /etc"
     read CONFIG
     if [ -z "$CONFIG" ]
     then
         CONFIG="/etc"
     fi
-    echo "Where do you want to install the assets?\n If you dont pass anything it will install it on /var"
+    echo "Where do you want to install the assets? "
+    echo "If you dont pass anything it will install it on /var"
     read ASSETS
     if [ -z "$ASSETS" ]
     then
