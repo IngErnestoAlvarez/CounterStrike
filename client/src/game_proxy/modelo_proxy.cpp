@@ -4,8 +4,6 @@
 #include <stdexcept>
 #include <string>
 
-#include "Logger.h"
-
 static BodyType teamIDtoBodyType(const char *teamID);
 static BodyType teamIDtoBodyType(TeamID id);
 static TeamID strToTeamID(const char *teamId);
@@ -13,8 +11,7 @@ static TeamID strToTeamID(const char *teamId);
 typedef std::lock_guard<std::mutex> guard;
 
 ModeloProxy::ModeloProxy(std::string const &host, std::string const &service,
-                         std::string const &game_id,
-                         const char *teamID)
+                         std::string const &game_id, const char *teamID)
     : myTeam(strToTeamID(teamID)),
       protocolo(),
       bodyProxy(),
@@ -26,16 +23,10 @@ ModeloProxy::ModeloProxy(std::string const &host, std::string const &service,
       mutex(),
       finalScores(),
       active(true) {
-    
-    
-    log->info("Conectando con el servidor");
-
     skt.connect(host.c_str(), service.c_str());
     uint8_t game_id_ = std::stoi(game_id);
     protocolo.send_one_byte(&skt, &game_id_);
     protocolo.send_login(&skt, strToTeamID(teamID));
-
-    log->info("Conexion exitosa");
 }
 
 ModeloProxy::~ModeloProxy() {}
@@ -126,14 +117,10 @@ void ModeloProxy::chargePlayer() {
 }
 
 void ModeloProxy::chargeStatics() {
-    
-    
     char *result;
     size_t size;
 
     protocolo.recv_config(&result, &size, &skt);
-    log->debug("Se recibio lo siguiente del recv_config del protocolo: ");
-    log->debug(result);
 
     staticsProxy.setStatics(result, size);
 
@@ -148,13 +135,7 @@ float ModeloProxy::getPlayerAngle() { return player.getAngle(); }
 
 PlayerProxy *ModeloProxy::getPlayer() { return &this->player; }
 
-void ModeloProxy::initialize() {
-    
-    
-    log->info("Cargando objetos estaticos");
-    chargeStatics();
-    log->info("Terminados de cargar objetos estaticos");
-}
+void ModeloProxy::initialize() { chargeStatics(); }
 
 void ModeloProxy::update() {
     if (!active) return;
@@ -200,10 +181,6 @@ inline BodyType teamIDtoBodyType(const char *teamID) {
 }
 
 inline BodyType teamIDtoBodyType(TeamID id) {
-    
-    
-    log->debug("Este es el id que toco: ");
-    log->debug(std::to_string(id).c_str());
     if (id == TEAM_A) {
         return CT2_TYPE;
     }

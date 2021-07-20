@@ -7,11 +7,13 @@ ProxySender::~ProxySender() {}
 
 void ProxySender::run() {
     try {
-        while (playing->load() == true) {
+        while (playing->load() && modelo->isActive()) {
             modelo->check_actions();
         }
     } catch (socket_t::SocketClosed &e) {
+        *playing = false;
     } catch (std::exception &e) {
         std::cout << e.what() << std::endl;
     }
+    *playing = false;
 }

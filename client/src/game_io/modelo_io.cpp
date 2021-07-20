@@ -220,6 +220,8 @@ void ModeloIO::renderPlaying() {
     score.render(modelo.getTeamARounds(), modelo.getTeamBRounds());
 }
 
+bool ModeloIO::isActive() { return this->active; }
+
 void ModeloIO::renderFinal() {
     this->window.clear_renderer();
     this->window.fill();

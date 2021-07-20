@@ -40,9 +40,10 @@ void App::main_loop() {
     }
     proxySender.join();
     proxyUpdater.join();
-    proxy.finally();
-    view.renderFinal();
-    playing = false;
+    if (proxy.getPhase() == FINAL_PHASE) {
+        proxy.finally();
+        view.renderFinal();
+    }
     proxy.close();
     sleep(10);
 }

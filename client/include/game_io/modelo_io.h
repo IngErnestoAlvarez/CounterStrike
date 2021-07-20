@@ -56,6 +56,8 @@ class ModeloIO {
 
     void renderFinal();
 
+    bool isActive();
+
    private:
     void check_events();
     void check_keyboard();

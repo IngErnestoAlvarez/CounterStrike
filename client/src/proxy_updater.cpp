@@ -7,10 +7,11 @@ ProxyUpdater::~ProxyUpdater() {}
 
 void ProxyUpdater::run() {
     try {
-        while ((proxy->isActive()) == true) {
+        while ((proxy->isActive()) && playing->load()) {
             proxy->update();
         }
     } catch (socket_t::SocketClosed &e) {
+        *playing = false;
     } catch (std::exception &e) {
         std::cout << e.what() << std::endl;
     }
