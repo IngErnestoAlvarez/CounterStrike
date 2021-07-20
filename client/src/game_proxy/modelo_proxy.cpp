@@ -138,7 +138,7 @@ PlayerProxy *ModeloProxy::getPlayer() { return &this->player; }
 void ModeloProxy::initialize() { chargeStatics(); }
 
 void ModeloProxy::update() {
-    if (!active) return;
+    if (!active.load()) return;
     chargePlayer();
     chargeBodies();
     if (getPhase() == FINAL_PHASE) {

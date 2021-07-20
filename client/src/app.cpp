@@ -31,7 +31,7 @@ void App::main_loop() {
     proxyUpdater.start();
     proxySender.start();
     while (playing) {
-        playing = view.update();
+        playing = playing && view.update();
 
         Uint32 time_left = this->time_left();
         SDL_Delay(time_left);
