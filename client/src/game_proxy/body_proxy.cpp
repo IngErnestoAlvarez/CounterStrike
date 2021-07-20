@@ -40,8 +40,8 @@ void BodyProxy::setStatics(char *data, size_t n) {
 }
 
 void BodyProxy::setWithBiggerData(char *data, size_t n) {
-    using namespace CPlusPlusLogging;
-    Logger *log = Logger::getInstance();
+    
+    
 
     log->debug("Empezando set with biggerdata");
     log->debug(std::to_string(n).c_str());

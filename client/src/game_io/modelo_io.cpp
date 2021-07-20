@@ -8,7 +8,6 @@
 #include <stdexcept>
 #include <utility>
 
-#include "Logger.h"
 #include "game_io/sdl/SdlImage.h"
 #include "game_io/sdl/text/SdlText.h"
 #include "math.h"
@@ -56,19 +55,13 @@ bool ModeloIO::update() {
 
 void ModeloIO::check_actions() {
     if (pauser.load() || !this->active) return;
-    using namespace CPlusPlusLogging;
-    Logger *log = Logger::getInstance();
-    log->debug("Comienza check_actions");
+
     this->check_events();
     this->check_keyboard();
     this->check_mouse();
-    log->debug("Finaliza check_actions");
 }
 
 void ModeloIO::check_events() {
-    using namespace CPlusPlusLogging;
-    Logger *log = Logger::getInstance();
-    log->debug("Chequeando eventos");
     SDL_Event e;
     while (SDL_PollEvent(&e) != 0) {
         switch (e.type) {
@@ -84,19 +77,15 @@ void ModeloIO::check_events() {
             case SDL_KEYDOWN:
                 switch (e.key.keysym.sym) {
                     case SDLK_1:
-                        log->debug("Change to weapon 1");
                         this->modelo.changeToW1();
                         break;
                     case SDLK_2:
-                        log->debug("Change to weapon 2");
                         this->modelo.changeToW2();
                         break;
                     case SDLK_3:
-                        log->debug("Change to weapon 3");
                         this->modelo.changeToW3();
                         break;
                     case SDLK_4:
-                        log->debug("Change to bomb");
                         this->modelo.changeToBomb();
                         break;
 
@@ -109,35 +98,28 @@ void ModeloIO::check_events() {
                 break;
         }
     }
-    log->debug("Terminaron los eventos");
 }
 
 void ModeloIO::check_keyboard() {
-    using namespace CPlusPlusLogging;
-    Logger *log = Logger::getInstance();
     const Uint8 *state = SDL_GetKeyboardState(NULL);
     bool any_key_pressed = false;
     if (state[SDL_SCANCODE_A]) {
         any_key_pressed = true;
-        log->debug("Move Left");
         this->modelo.movePlayerLeft();
     }
 
     if (state[SDL_SCANCODE_W]) {
         any_key_pressed = true;
-        log->debug("Move Up");
         this->modelo.movePlayerUp();
     }
 
     if (state[SDL_SCANCODE_D]) {
         any_key_pressed = true;
-        log->debug("Move Right");
         this->modelo.movePlayerRight();
     }
 
     if (state[SDL_SCANCODE_S]) {
         any_key_pressed = true;
-        log->debug("Move Down");
         this->modelo.movePlayerDown();
     }
 
@@ -215,16 +197,9 @@ void ModeloIO::renderPreparing() {
 }
 
 void ModeloIO::renderPlaying() {
-    using namespace CPlusPlusLogging;
-    Logger *log = Logger::getInstance();
-    log->debug("Comienza el seteo de la camara");
-
     this->window.set_camera_pos(modelo.getPlayerX(), modelo.getPlayerY(),
                                 modelo.getWidth() * 32,
                                 modelo.getHeight() * 32);
-
-    log->debug("Finaliza el seteo de la camara");
-    log->debug("Comienza el render del floor");
 
     this->renderizables.modifyTextures(modelo.getRoundState());
     modelo.lockStatics();
@@ -236,7 +211,6 @@ void ModeloIO::renderPlaying() {
                                       modelo.getBodyEnd());
     modelo.unlockBodies();
     if (modelo.getRoundState() == 0) {
-        log->debug("Entra a renderizar el player");
         this->renderizables.renderPlayer();
     } else if (modelo.getRoundState() == modelo.getMyTeam()) {
         renderizables.renderWin();
@@ -244,11 +218,6 @@ void ModeloIO::renderPlaying() {
         renderizables.renderLose();
     }
     score.render(modelo.getTeamARounds(), modelo.getTeamBRounds());
-
-    log->debug("Finaliza el render del floor");
-    log->debug("Comienza el render del window");
-
-    log->debug("Finaliza el render del window");
 }
 
 void ModeloIO::renderFinal() {

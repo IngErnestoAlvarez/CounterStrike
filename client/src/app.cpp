@@ -13,8 +13,8 @@
 
 #define DELAY 14
 
-App::App(std::string const &host, std::string const &service, std::string const &game_id,
-         const char *teamID)
+App::App(std::string const &host, std::string const &service,
+         std::string const &game_id, const char *teamID)
     : playing(true),
       proxy(host, service, game_id, teamID),
       view(proxy),
@@ -38,16 +38,12 @@ void App::main_loop() {
         SDL_Delay(time_left);
         this->next_time += DELAY;
     }
-    std::cout << "Llega a proxy.close" << std::endl;
     proxySender.join();
-    std::cout << "Llega a cerrar proxy_sender" << std::endl;
     proxyUpdater.join();
-    std::cout << "Llega al finally" << std::endl;
     proxy.finally();
     view.renderFinal();
     playing = false;
     proxy.close();
-    std::cout << "Llega al sleep" << std::endl;
     sleep(10);
 }
 

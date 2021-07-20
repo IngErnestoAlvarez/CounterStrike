@@ -26,8 +26,8 @@ ModeloProxy::ModeloProxy(std::string const &host, std::string const &service,
       mutex(),
       finalScores(),
       active(true) {
-    using namespace CPlusPlusLogging;
-    Logger *log = Logger::getInstance();
+    
+    
     log->info("Conectando con el servidor");
 
     skt.connect(host.c_str(), service.c_str());
@@ -126,8 +126,8 @@ void ModeloProxy::chargePlayer() {
 }
 
 void ModeloProxy::chargeStatics() {
-    using namespace CPlusPlusLogging;
-    Logger *log = Logger::getInstance();
+    
+    
     char *result;
     size_t size;
 
@@ -149,8 +149,8 @@ float ModeloProxy::getPlayerAngle() { return player.getAngle(); }
 PlayerProxy *ModeloProxy::getPlayer() { return &this->player; }
 
 void ModeloProxy::initialize() {
-    using namespace CPlusPlusLogging;
-    Logger *log = Logger::getInstance();
+    
+    
     log->info("Cargando objetos estaticos");
     chargeStatics();
     log->info("Terminados de cargar objetos estaticos");
@@ -200,8 +200,8 @@ inline BodyType teamIDtoBodyType(const char *teamID) {
 }
 
 inline BodyType teamIDtoBodyType(TeamID id) {
-    using namespace CPlusPlusLogging;
-    Logger *log = Logger::getInstance();
+    
+    
     log->debug("Este es el id que toco: ");
     log->debug(std::to_string(id).c_str());
     if (id == TEAM_A) {

@@ -8,8 +8,6 @@
 #include <string>
 #include <vector>
 
-#include "Logger.h"
-
 #define BodyWithNOAngleSize 5
 #define BodyWithAngleSize 9
 
@@ -51,9 +49,6 @@ uint32_t Protocolo::receive_four_bytes(socket_t *skt) {
 }
 
 void Protocolo::recv_config(char **result, size_t *size, socket_t *skt) {
-    using namespace CPlusPlusLogging;
-    Logger *log = Logger::getInstance();
-
     uint16_t stencil_angle __attribute__((unused)) =
         this->receive_two_bytes(skt);
     uint16_t stencil_radius __attribute__((unused)) =
@@ -61,7 +56,6 @@ void Protocolo::recv_config(char **result, size_t *size, socket_t *skt) {
     uint16_t cell_count = this->receive_two_bytes(skt);
     cell_count = ::ntohs(cell_count);
     *size = cell_count;
-    log->debug(std::to_string(cell_count).c_str());
     (*result) = new char[cell_count * BodyWithNOAngleSize];
     for (uint16_t i = 0; i < cell_count; i++) {
         int pos = i * BodyWithNOAngleSize;
@@ -72,15 +66,12 @@ void Protocolo::recv_config(char **result, size_t *size, socket_t *skt) {
         uint16_t y = this->receive_two_bytes(skt);
         memcpy(&((*result)[pos + 3]), &y, 2);
     }
-    log->debug("Finalizado el recv_config");
 }
 
 void Protocolo::recv_state(char **bodiesInStream, size_t *size,
                            uint8_t *roundResult, Phase *gamePhase,
                            uint8_t *teamAWins, uint8_t *teamBWins,
                            socket_t *skt) {
-    using namespace CPlusPlusLogging;
-    Logger *log = Logger::getInstance();
     size_t rllyReceived;
     uint16_t aux;
     uint8_t phaseAux;
@@ -102,8 +93,6 @@ void Protocolo::recv_state(char **bodiesInStream, size_t *size,
 
     (*size) = aux;
     (*bodiesInStream) = new char[(*size) * BodyWithAngleSize];
-    log->debug("Se recibio como size en el recv_state: ");
-    log->debug(std::to_string(*size).c_str());
 
     skt->receive(*bodiesInStream, (*size) * BodyWithAngleSize, rllyReceived);
 
@@ -118,9 +107,6 @@ void Protocolo::send_comando(Comando comando, socket_t *skt) {
 }
 
 void Protocolo::send_mouse(int x, int y, socket_t *skt) {
-    using namespace CPlusPlusLogging;
-    Logger *log = Logger::getInstance();
-    log->debug("Se enviara lo siguiente a traves del send mouse: ");
     assert(x < 65536);
     assert(y < 65536);
     uint16_t xaux = x;
@@ -133,8 +119,6 @@ void Protocolo::send_mouse(int x, int y, socket_t *skt) {
 }
 
 void Protocolo::recv_player(char **result, size_t *size, socket_t *skt) {
-    using namespace CPlusPlusLogging;
-    Logger *log = Logger::getInstance();
     size_t rllyReceived;
     *size = 15;
 
@@ -147,9 +131,6 @@ void Protocolo::recv_player(char **result, size_t *size, socket_t *skt) {
         throw std::runtime_error(
             "Problemas al recibir el stream entero en recv_player");
     }
-
-    log->debug("Se recibio como mensaje en el recv_player: ");
-    log->debug(*result);
 }
 
 void Protocolo::send_login(socket_t *skt, TeamID team_id) {
@@ -163,7 +144,6 @@ void Protocolo::recv_final(FinalScores &fScores, socket_t *skt) {
 
     // teamAsize 2
     size_t teamAsize = size_t(::ntohs(receive_two_bytes(skt)));
-    std::cout << "Se recibe el team size: " << teamAsize << std::endl;
     for (size_t i = 0; i < teamAsize; i++) {
         // namesize 1
         uint8_t nameSize __attribute__((unused)) = receive_one_byte(skt);
@@ -214,7 +194,6 @@ void Protocolo::recv_final(FinalScores &fScores, socket_t *skt) {
 }
 
 void Protocolo::send_angle(float angle, socket_t *skt) {
-    std::cout << "Protocolo::send_angle(" << angle << ")" << std::endl;
     this->send_comando(AIM, skt);
     uint16_t aux = angle - 90;
     aux = aux % 360;

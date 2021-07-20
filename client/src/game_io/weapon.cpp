@@ -2,8 +2,6 @@
 
 #include <math.h>
 
-#include "Logger.h"
-
 #ifndef STRINGIZER
 #define STRINGIZER(arg) #arg
 #define STR_VALUE(arg) STRINGIZER(arg)
@@ -37,16 +35,12 @@ WeaponView::WeaponView(SdlWindow &window, WeaponProxy *weapon)
       shootSound(std::string(APATH) + "/sounds/SHOT.wav"),
       noBulletSound(std::string(APATH) + "/sounds/w_empty.wav"),
       ammo(window, weapon->getAmmo()) {
-    using namespace CPlusPlusLogging;
-    Logger *log = Logger::getInstance();
-    log->debug("Comienza WeaponView constructor");
     center = {16, 32};
     sprite_clips[0].x = 0;
     sprite_clips[0].y = 0;
     sprite_clips[0].w = 32;
     sprite_clips[0].h = 32;
     ammo.set_pos(550, 500);
-    log->debug("Finaliza WeaponView constructor");
 }
 WeaponView::~WeaponView() {}
 

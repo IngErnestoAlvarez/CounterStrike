@@ -3,8 +3,6 @@
 #include <iostream>
 #include <string>
 
-#include "Logger.h"
-
 PlayerView::PlayerView(SdlWindow &window, PlayerProxy *player)
     : SdlObject(player->getType(), window),
       player(player),
@@ -15,8 +13,7 @@ PlayerView::PlayerView(SdlWindow &window, PlayerProxy *player)
       money(window, player->getMoney()),
       killNotice(window, "Fuiste asesinado", RED, 50) {
     this->center = {16, 16};
-    using namespace CPlusPlusLogging;
-    Logger *log = Logger::getInstance();
+
     log->debug("Comienza constructor PlayerView");
     life.set_pos(0, 500);
     killNotice.set_pos(350, 100);
