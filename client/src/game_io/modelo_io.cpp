@@ -136,8 +136,7 @@ void ModeloIO::check_mouse() {
     assert(mouseY >= 0);
     float angle =
         atan2(300 - mouseY, 400 - mouseX) + 4.71239;  // le sumo 270 grados
-    std::cout << "angle in radians: " << angle << std::endl;
-    angle = angle * 180 / 3.1416;  // se convierte a grados
+    angle = angle * 180 / 3.1416;                     // se convierte a grados
     this->modelo.setPlayerAngle(angle);
 }
 

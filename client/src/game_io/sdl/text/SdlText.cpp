@@ -99,6 +99,4 @@ void SdlText::setTexture(std::string const &text) {
 
 SdlText::~SdlText() {}
 
-void SdlText::update(std::string const &text) {
-    std::cout << "Entra a este update" << std::endl;
-}
+void SdlText::update(std::string const &text) {}

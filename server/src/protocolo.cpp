@@ -234,7 +234,6 @@ void Protocolo::send_final(socket_t *skt) {
     this->send_one_byte(skt, &winner_team_id);
 
     uint16_t team_a_size = ::htons(uint16_t(this->game->getTeamASize()));
-    std::cout << "Se envia el team size: " << this->game->getTeamASize() << std::endl;
     this->send_two_bytes(skt, &team_a_size);
 
     for (Player *player : this->game->getTeamAPlayers()) {

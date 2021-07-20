@@ -47,12 +47,8 @@ void PlayerProxy::setPlayer(char *data, size_t n) {
     posy = int(::ntohs(*(uint16_t *)&data[6]));
     uint32_t angleAux = ::ntohl(*(uint32_t *)&data[8]);
 
-    std::cout << "angleAux: " << angleAux << std::endl;
-
     angle = *(float *)&angleAux;
     angle = angle * 180 / 3.141592 + 90;
-
-    std::cout << "angle: " << angle << std::endl;
 
     equipped_weapon.setWeapon(int(*(uint8_t *)&data[12]));
     time = int(*(uint8_t *)&data[13]);
