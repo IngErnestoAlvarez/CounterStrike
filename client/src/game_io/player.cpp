@@ -14,11 +14,9 @@ PlayerView::PlayerView(SdlWindow &window, PlayerProxy *player)
       killNotice(window, "Fuiste asesinado", RED, 50) {
     this->center = {16, 16};
 
-    log->debug("Comienza constructor PlayerView");
     life.set_pos(0, 500);
     killNotice.set_pos(350, 100);
     money.set_pos(550, 30);
-    log->debug("Finaliza constructor PlayerView");
 }
 
 PlayerView::~PlayerView() {}

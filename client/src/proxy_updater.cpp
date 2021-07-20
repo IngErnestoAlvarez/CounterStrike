@@ -15,4 +15,5 @@ void ProxyUpdater::run() {
     } catch (std::exception &e) {
         std::cout << e.what() << std::endl;
     }
+    *playing = false;
 }
