@@ -12,6 +12,7 @@ void Pauser::update() {
     stepCount++;
     if (stepCount == maxSteps) {
         onPause = false;
+        stepCount = 0;
     }
 }
 
