@@ -47,7 +47,7 @@ bool ModeloIO::update() {
     this->window.clear_renderer();
     this->window.fill();
     this->renderPhase(modelo.getPhase());
-    if (modelo.getRoundState() != NONE) {
+    if (modelo.getRoundState() != NONE && !pauser.load()) {
         pauser.pause();
     }
     return this->active;
