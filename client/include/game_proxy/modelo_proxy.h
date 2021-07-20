@@ -30,8 +30,7 @@ class ModeloProxy {
 
    public:
     ModeloProxy(std::string const &host, std::string const &service,
-                std::string const &game_id,
-                const char *teamID);
+                std::string const &game_id, const char *teamID);
     ~ModeloProxy();
 
     bool isActive();
@@ -82,6 +81,8 @@ class ModeloProxy {
     FinalScores *getFinalScores();
 
     Phase getPhase();
+
+    void deactivate();
 
    private:
     void chargeBodies();

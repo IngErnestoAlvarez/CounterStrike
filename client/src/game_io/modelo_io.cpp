@@ -223,6 +223,8 @@ void ModeloIO::renderPlaying() {
 
 bool ModeloIO::isActive() { return this->active; }
 
+void ModeloIO::deactivate() { active = false; }
+
 void ModeloIO::renderFinal() {
     this->window.clear_renderer();
     this->window.fill();

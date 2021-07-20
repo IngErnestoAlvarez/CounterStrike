@@ -12,8 +12,10 @@ void ProxyUpdater::run() {
         }
     } catch (socket_t::SocketClosed &e) {
         *playing = false;
+        proxy->deactivate();
     } catch (std::exception &e) {
         std::cout << e.what() << std::endl;
     }
     *playing = false;
+    proxy->deactivate();
 }

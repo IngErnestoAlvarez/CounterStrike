@@ -1,4 +1,5 @@
 #include "proxy_sender.h"
+
 #include <unistd.h>
 
 ProxySender::ProxySender(ModeloIO *modelo, std::atomic_bool *playing)
@@ -14,6 +15,7 @@ void ProxySender::run() {
         }
     } catch (socket_t::SocketClosed &e) {
         *playing = false;
+        modelo->deactivate();
     } catch (std::exception &e) {
         std::cout << e.what() << std::endl;
     }

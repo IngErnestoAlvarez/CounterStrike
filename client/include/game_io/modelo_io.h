@@ -58,6 +58,8 @@ class ModeloIO {
 
     bool isActive();
 
+    void deactivate();
+
    private:
     void check_events();
     void check_keyboard();

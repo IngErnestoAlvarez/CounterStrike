@@ -42,9 +42,11 @@ void App::main_loop() {
     if (proxy.getPhase() == FINAL_PHASE) {
         proxy.finally();
         view.renderFinal();
+        proxy.close();
+        sleep(10);
+    } else {
+        proxy.close();
     }
-    proxy.close();
-    sleep(10);
 }
 
 Uint32 App::time_left() {

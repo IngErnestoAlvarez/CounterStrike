@@ -175,6 +175,8 @@ Phase ModeloProxy::getPhase() {
     return phase;
 }
 
+void ModeloProxy::deactivate() { active = false; }
+
 inline BodyType teamIDtoBodyType(const char *teamID) {
     int idAux = strToTeamID(teamID);
     return teamIDtoBodyType((TeamID)idAux);
