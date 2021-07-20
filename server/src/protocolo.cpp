@@ -7,7 +7,6 @@
 #include <string>
 #include <vector>
 
-#include "Logger.h"
 #include "game_logic/body.h"
 #include "game_logic/cell.h"
 #include "game_logic/game.h"
@@ -96,17 +95,10 @@ void Protocolo::recv_config(socket_t *skt) {
 }
 
 void Protocolo::send_state(socket_t *skt, int peer_id) {
-    using namespace CPlusPlusLogging;
-    Logger *log = Logger::getInstance();
-    log->debug("Se envia estado");
-
     uint8_t winner_team_id = this->game->getWinnerTeam();
     this->send_one_byte(skt, &winner_team_id);
     std::vector<Body *> bodies = this->game->getBodies(peer_id);
     uint16_t body_count = bodies.size();
-
-    log->debug("Se enviaran esta cantidad de bodies: ");
-    log->debug(std::to_string(bodies.size()).c_str());
 
     body_count = ::htons(body_count);
     this->send_two_bytes(skt, &body_count);
@@ -126,8 +118,6 @@ void Protocolo::send_state(socket_t *skt, int peer_id) {
 }
 
 void Protocolo::recv_state(char **result, size_t *size, socket_t *skt) {
-    using namespace CPlusPlusLogging;
-    Logger *log = Logger::getInstance();
     size_t rllyReceived;
     uint16_t aux;
 
@@ -139,8 +129,6 @@ void Protocolo::recv_state(char **result, size_t *size, socket_t *skt) {
     }
     aux = ::ntohs(aux);
     (*size) = aux;
-    log->debug("Se recibio como size en el recv_state: ");
-    log->debug(std::to_string(*size).c_str());
 
     skt->receive(*result, *size, rllyReceived);
 
@@ -149,8 +137,6 @@ void Protocolo::recv_state(char **result, size_t *size, socket_t *skt) {
             "Problemas al recibir el stream entero en recv_state");
     }
 
-    log->debug("Se recibio como mensaje en el recv_state: ");
-    log->debug(*result);
 }
 
 void Protocolo::send_comando(Comando comando, socket_t *skt) {
@@ -165,9 +151,6 @@ Comando Protocolo::recv_comando(socket_t *skt) {
 }
 
 void Protocolo::send_mouse(int x, int y, socket_t *skt) {
-    using namespace CPlusPlusLogging;
-    Logger *log = Logger::getInstance();
-    log->debug("Se enviara lo siguiente a traves del send mouse: ");
     char message[4];
     uint16_t xaux = x;
     uint16_t yaux = y;
@@ -176,13 +159,10 @@ void Protocolo::send_mouse(int x, int y, socket_t *skt) {
     memcpy(message, &xaux, 2);
     memcpy(&message[2], &yaux, 2);
 
-    log->debug(message);
     skt->send(message, 4);
 }
 
 void Protocolo::recv_player(char **result, size_t *size, socket_t *skt) {
-    using namespace CPlusPlusLogging;
-    Logger *log = Logger::getInstance();
     size_t rllyReceived;
     *size = 15;
 
@@ -193,14 +173,9 @@ void Protocolo::recv_player(char **result, size_t *size, socket_t *skt) {
             "Problemas al recibir el stream entero en recv_player");
     }
 
-    log->debug("Se recibio como mensaje en el recv_player: ");
-    log->debug(*result);
 }
 
 void Protocolo::send_player(socket_t *skt, int peer_id) {
-    using namespace CPlusPlusLogging;
-    Logger *log = Logger::getInstance();
-    log->debug("Comienza send player");
     Player &player = *this->game->getPlayer(peer_id);
     uint8_t ammo = player.getAmmo();
     uint8_t life = player.getHealth();
@@ -212,7 +187,6 @@ void Protocolo::send_player(socket_t *skt, int peer_id) {
     uint8_t actualWeapon = player.getEquippedWeaponType();
     uint8_t time = 60;
     uint8_t gotBomb = uint8_t(player.hasBomb());
-    log->debug("Comienza el envio de datos en send_player");
 
     send_one_byte(skt, &ammo);
     send_one_byte(skt, &life);

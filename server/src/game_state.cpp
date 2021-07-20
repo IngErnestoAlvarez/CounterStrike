@@ -11,7 +11,7 @@ GameState::GameState(Game& game, int player_id) {
 
 	this->ammo = uint8_t(player->getAmmo());
 	this->health = uint8_t(player->getHealth());
-	this->money = ::htons(1000);
+	this->money = ::htons(uint16_t(player->getMoney()));
 	this->x = ::htons(uint16_t(player->getX()));
 	this->y = ::htons(uint16_t(player->getY()));
 	float angleAux = player->getAngle();

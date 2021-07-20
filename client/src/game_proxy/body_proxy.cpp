@@ -4,8 +4,6 @@
 
 #include <mutex>
 
-#include "Logger.h"
-
 typedef std::lock_guard<std::mutex> guard;
 
 BodyProxy::BodyProxy() : bodies() {}
@@ -40,12 +38,6 @@ void BodyProxy::setStatics(char *data, size_t n) {
 }
 
 void BodyProxy::setWithBiggerData(char *data, size_t n) {
-    
-    
-
-    log->debug("Empezando set with biggerdata");
-    log->debug(std::to_string(n).c_str());
-    log->debug(std::to_string(bodies.size()).c_str());
     for (size_t i = 0; i < bodies.size(); i++) {
         size_t pos = i * 9;
         bodies[i].tipo = BodyType(uint8_t(data[pos]));

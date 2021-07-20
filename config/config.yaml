@@ -1,6 +1,6 @@
 port: 8000
 game_settings:
-  map_filepath: assets/maps/map_2.yaml
+  map_filepath: /maps/map_2.yaml
   player_health: 100
   player_speed: 1000
   bullet_speed: 5000

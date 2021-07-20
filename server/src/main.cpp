@@ -6,16 +6,24 @@
 #define USAGE "Uso: ./<executable-filepath> <config-filepath>"
 #define UNEXPECTED_ERROR "Se ha producido un error inesperado"
 
+#ifndef STRINGIZER
+#define STRINGIZER(arg) #arg
+#define STR_VALUE(arg) STRINGIZER(arg)
+#endif
+#ifndef CONFIG_PATH
+#define CONFIG_PATH STR_VALUE(CONFIGPATH)
+#endif
+
 int main(int argc, char *argv[]) {
     if (argc > 3) {
         std::cout << USAGE << std::endl;
         return 1;
     }
 
-    std::string config_filepath = argv[1];
+    std::string config_filepath = std::string(CONFIG_PATH) + "/config.yaml";
 
     try {
-        Server server(argv[1]);
+        Server server(config_filepath);
         server.run();
     } catch (const std::exception &e) {
         std::cerr << e.what() << std::endl;

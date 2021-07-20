@@ -26,7 +26,7 @@ class Game {
     World world;
     Map map;
 
-    int final_round = 1;
+    int final_round = 10;
     int round;
     Phase phase;
     TeamID winner_team;

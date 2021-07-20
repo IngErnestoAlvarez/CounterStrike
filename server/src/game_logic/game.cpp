@@ -14,10 +14,18 @@
 #include "game_logic/player.h"
 #include "game_logic/weapon_drop.h"
 
+#ifndef STRINGIZER
+#define STRINGIZER(arg) #arg
+#define STR_VALUE(arg) STRINGIZER(arg)
+#endif
+#ifndef APATH
+#define APATH STR_VALUE(ASSETSPATH)
+#endif
+
 Game::Game(Configuration &config, const std::string &map_filepath)
     : config(config),
       world(*this),
-      map(*this, map_filepath),
+      map(*this, std::string(APATH) + map_filepath),
       round(0),
       phase(TEAMS_FORMING_PHASE),
       winner_team(NONE),

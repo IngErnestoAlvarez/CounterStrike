@@ -103,6 +103,10 @@ void Player::useAmmo() {
     this->ammo--;
 }
 
+int Player::getMoney() const {
+    return this->money;
+}
+
 void Player::useWeapon() {
     return this->equipped_weapon->use();
 }

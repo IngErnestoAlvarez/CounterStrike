@@ -1,7 +1,6 @@
 #include "game_logic/bomb.h"
 #include "game_logic/game.h"
 #include "types.h"
-#include "Logger.h"
 
 Bomb::Bomb(Game& game, float x, float y)
 	: Body(game.getWorld(), BOMB_D_TYPE, x, y, 0, 0),
@@ -9,9 +8,6 @@ Bomb::Bomb(Game& game, float x, float y)
 	  has_exploded(false),
 	  max_steps(1000), // obtener de configuracion
 	  steps(0) {
-	using namespace CPlusPlusLogging;
-    Logger *log = Logger::getInstance();
-    log->debug("Se planta la bomba");
 }
 
 void Bomb::update() {
@@ -20,14 +16,7 @@ void Bomb::update() {
 
 	this->steps++;
 
-	using namespace CPlusPlusLogging;
-    Logger *log = Logger::getInstance();
-    log->debug("Se actualiza la bomba");
-    std::string steps_str = "Steps: " + std::to_string(this->steps);
-    log->debug(steps_str);
-
 	if (this->steps == max_steps) {
-		log->debug("Explota la bomba");
 		this->explode();
 	}
 }

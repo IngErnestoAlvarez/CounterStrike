@@ -52,6 +52,7 @@ public:
     bool isTerrorist() const;
     int getKills() const;
     int getDeaths() const;
+    int getMoney() const;
     int getEarnedMoney() const;
 
     void useWeapon();
