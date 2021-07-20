@@ -23,6 +23,8 @@ Sender::~Sender() {
 
 void Sender::run() {
     try {
+        this->protocol.send_config(&this->socket);
+
         GameState state;
 
         while (this->state_queue.pop(state)) {

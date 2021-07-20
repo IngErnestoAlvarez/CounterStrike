@@ -20,7 +20,6 @@ Acceptor::Acceptor(const std::string &config_filepath, LoginQueue& login_queue)
       game(config, config.getMapFilepath()),
       protocol(&game),
       login_queue(login_queue) {
-    // this->socket.bind_and_listen(nullptr, config.getPort().c_str(), 20);
 }
 
 Acceptor::~Acceptor() {
@@ -30,9 +29,6 @@ Acceptor::~Acceptor() {
 
 void Acceptor::run() {
     try {
-        // this->acceptPeers();
-        // this->gameStart();
-
         while (this->is_running) {
             int next_time = getTime() + LOOP_TIME;
 
@@ -105,7 +101,9 @@ void Acceptor::gameStep() {
 void Acceptor::executePeerCommands() {
     while (true) {
         Command command = this->command_queue.pop();
-        if (command.getCode() == NO_COMMAND) break;
+        if (command.getCode() == NO_COMMAND) {
+            break;
+        }
         Peer* peer = this->peers[command.getPeerID()];
         this->games[peer->getGameID()]->executeCommand(command);
     }
@@ -114,7 +112,9 @@ void Acceptor::executePeerCommands() {
 void Acceptor::acceptNewPeers() {
     while (true) {
         Login login(std::move(this->login_queue.pop()));
-        if (login.empty) break;
+        if (login.empty) {
+            break;
+        }
 
         int peer_id = this->peers.size();
         if (this->games.find(login.game_id) == this->games.end()) {

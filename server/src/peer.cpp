@@ -17,7 +17,7 @@ Peer::Peer(int id, int game_id, socket_t &skt, Protocolo &protocol,
       state_queue(),
       sender(socket, protocol, state_queue),
       receiver(id, socket, protocol, command_queue) {
-    this->protocol.send_config(&this->socket);
+    // this->protocol.send_config(&this->socket);
 }
 
 Peer::~Peer() {
