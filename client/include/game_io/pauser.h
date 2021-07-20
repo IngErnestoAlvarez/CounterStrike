@@ -1,11 +1,13 @@
 #ifndef __PAUSER_H__
 #define __PAUSER_H__
 
+#include <atomic>
+
 class Pauser {
    private:
     int stepCount;
     int maxSteps;
-    bool onPause;
+    std::atomic_bool onPause;
 
    public:
     Pauser(int maxSteps);

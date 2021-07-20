@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "body_proxy.h"
+#include "game_io/pauser.h"
 #include "game_proxy/final_scores.h"
 #include "player_proxy.h"
 #include "protocolo.h"
@@ -27,6 +28,7 @@ class ModeloProxy {
     std::mutex mutex;
     FinalScores finalScores;
     std::atomic_bool active;
+    Pauser pauser;
 
    public:
     ModeloProxy(std::string const &host, std::string const &service,
@@ -83,6 +85,8 @@ class ModeloProxy {
     Phase getPhase();
 
     void deactivate();
+
+    bool isPaused();
 
    private:
     void chargeBodies();

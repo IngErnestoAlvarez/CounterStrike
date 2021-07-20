@@ -27,7 +27,6 @@ class ModeloIO {
     Music music;
     Shopping shop;
     RoundScore score;
-    Pauser pauser;
     FinalMatchScreen fms;
 
    public:

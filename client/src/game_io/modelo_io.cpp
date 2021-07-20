@@ -33,7 +33,6 @@ ModeloIO::ModeloIO(ModeloProxy &modelo)
       music(std::string(APATH) + std::string("/music/menu.wav"), 50),
       shop(window),
       score(window, modelo.getMyTeam()),
-      pauser(200),
       fms(window, modelo.getFinalScores(), modelo.getMyTeam()) {
     SDL_SetRenderDrawColor(window.getRendered(), 0xFF, 0xFF, 0xFF, 0xFF);
     music.play();
@@ -42,19 +41,15 @@ ModeloIO::ModeloIO(ModeloProxy &modelo)
 ModeloIO::~ModeloIO() {}
 
 bool ModeloIO::update() {
-    pauser.update();
-    if (pauser.load()) return this->active;
+    if (modelo.isPaused()) return;
     this->window.clear_renderer();
     this->window.fill();
     this->renderPhase(modelo.getPhase());
-    if (modelo.getRoundState() != NONE && !pauser.load()) {
-        pauser.pause();
-    }
     return this->active;
 }
 
 void ModeloIO::check_actions() {
-    if (pauser.load() || !this->active) return;
+    if (modelo.isPaused()) return;
 
     this->check_events();
     this->check_keyboard();

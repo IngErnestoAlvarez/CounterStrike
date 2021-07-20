@@ -22,7 +22,8 @@ ModeloProxy::ModeloProxy(std::string const &host, std::string const &service,
       skt(),
       mutex(),
       finalScores(),
-      active(true) {
+      active(true),
+      pauser(200) {
     skt.connect(host.c_str(), service.c_str());
     uint8_t game_id_ = std::stoi(game_id);
     protocolo.send_one_byte(&skt, &game_id_);
@@ -144,6 +145,10 @@ void ModeloProxy::update() {
     if (getPhase() == FINAL_PHASE) {
         active = false;
     }
+    if (getRoundState() != NONE && !pauser.load()) {
+        pauser.pause();
+    }
+    pauser.update();
 }
 
 void ModeloProxy::close() {
@@ -176,6 +181,8 @@ Phase ModeloProxy::getPhase() {
 }
 
 void ModeloProxy::deactivate() { active = false; }
+
+bool ModeloProxy::isPaused() { return pauser.load(); }
 
 inline BodyType teamIDtoBodyType(const char *teamID) {
     int idAux = strToTeamID(teamID);

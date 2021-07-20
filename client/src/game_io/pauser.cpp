@@ -5,7 +5,7 @@ Pauser::Pauser(int maxSteps)
 
 Pauser::~Pauser() {}
 
-bool Pauser::load() { return onPause; }
+bool Pauser::load() { return onPause.load(); }
 
 void Pauser::update() {
     if (!onPause) return;
