@@ -173,10 +173,12 @@ void ModeloIO::renderPhase(Phase phase) {
 }
 
 void ModeloIO::renderWaiting() {
-    SdlText informativeText(this->window, "ESPERANDO A LOS \nDEMAS JUGADORES",
-                            WHITE, 50);
+    SdlText informativeText(this->window, "ESPERANDO A LOS DEMAS", WHITE, 50);
+    SdlText informativeText2(this->window, "JUGADORES", WHITE, 50);
     informativeText.set_pos(50, 300);
     informativeText.render();
+    informativeText2.set_pos(100, 380);
+    informativeText2.render();
 }
 
 void ModeloIO::renderPreparing() {
